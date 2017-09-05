@@ -22,9 +22,9 @@
         <dependency>
             <groupId>org.spigot</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.12</version>
+            <version>1.12.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/spigot-1.12.jar</systemPath>
+            <systemPath>${project.basedir}/lib/spigot-1.12.1.jar</systemPath>
         </dependency>
 
         <!-- AdvancementAPI -->
