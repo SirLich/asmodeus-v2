@@ -5,7 +5,9 @@ import me.sirlich.AsmodeusRpg.customMobs.ShopKeeper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
@@ -38,7 +40,10 @@ public class AsmodeusRpg extends JavaPlugin {
                 List<String> arr = Arrays.asList(line.split(","));
                 World world = Bukkit.getServer().getWorld("world");
                 Location loc = new Location(world,Double.parseDouble(arr.get(0)),Double.parseDouble(arr.get(1)),Double.parseDouble(arr.get(2)));
-                world.spawnEntity(loc, EntityType.VILLAGER);
+                ShopKeeper keeper = new ShopKeeper(((CraftWorld) world).getHandle());
+                keeper.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
+                ((CraftWorld) world).addEntity(keeper, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                System.out.println("Added entity!");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
