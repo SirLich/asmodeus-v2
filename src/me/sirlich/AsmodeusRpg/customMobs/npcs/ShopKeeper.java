@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.customMobs;
+package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
 import net.minecraft.server.v1_12_R1.*;
 
