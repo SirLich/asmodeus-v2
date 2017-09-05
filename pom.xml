@@ -35,6 +35,16 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/AdvancementAPI.jar</systemPath>
         </dependency>
+
+        <!-- Item-NBT-API -->
+        <dependency>
+            <groupId>org.itemNBT</groupId>
+            <artifactId>itemNBT-API</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Item-NBT-API.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>
