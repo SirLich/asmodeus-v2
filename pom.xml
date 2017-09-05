@@ -39,12 +39,12 @@
 
     <build>
         <finalName>Asmodeus</finalName>
-        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+        <sourceDirectory>${project.basedir}</sourceDirectory>
 
         <resources>
             <resource>
                 <targetPath>.</targetPath>
-                <directory>${project.basedir}/src/main/resources</directory>
+                <directory>${project.basedir}/resources</directory>
             </resource>
         </resources>
 
