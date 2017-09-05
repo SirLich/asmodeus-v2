@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.sirlich.AsmodeusRPG</groupId>
+    <artifactId>AsmodeusRPG</artifactId>
+    <version>1.0.0</version>
+    <name>Asmodeus</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot -->
+        <dependency>
+            <groupId>org.spigot</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.12</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-1.12.jar</systemPath>
+        </dependency>
+
+        <!-- AdvancementAPI -->
+        <dependency>
+            <groupId>org.advancement</groupId>
+            <artifactId>AdvancementAPI</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/AdvancementAPI.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>Asmodeus</finalName>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+
+        <resources>
+            <resource>
+                <targetPath>.</targetPath>
+                <directory>${project.basedir}/src/main/resources</directory>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <finalName>Asmodeus-shaded</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
