@@ -47,6 +47,8 @@ public class AsmodeusRpg extends JavaPlugin {
                 ArmourSmith keeper = new ArmourSmith(((CraftWorld) world).getHandle());
                 keeper.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
                 ((CraftWorld) world).addEntity(keeper, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                keeper.setProfession(3);
+                keeper.setInvulnerable(true);
                 System.out.println("Added entity!");
             }
         } catch (FileNotFoundException e) {

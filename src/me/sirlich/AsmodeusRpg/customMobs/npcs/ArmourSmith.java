@@ -10,7 +10,6 @@ public class ArmourSmith extends EntityVillager {
     private static ArmourSmith instance;
     public ArmourSmith(World world) {
         super(world);
-        setProfession(3);
         this.addScoreboardTag("armour_smith");
     }
     @Override
