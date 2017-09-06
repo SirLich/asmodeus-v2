@@ -11,6 +11,8 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -26,7 +28,7 @@ public class AsmodeusRpg extends JavaPlugin {
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
         NMSUtils.registerEntity("armour_smith", NMSUtils.Type.VILLAGER, ArmourSmith.class, false);
         listener(new ArmourSmithListener());
-        initiateShopKeeper();
+        initStationaryMobs();
         System.out.println("Its working better!");
     }
 
@@ -35,8 +37,17 @@ public class AsmodeusRpg extends JavaPlugin {
         System.out.println("Asmodeus disabled");
     }
 
-    private void initiateShopKeeper(){
-        System.out.println("Inside!");
+
+    private void removeCollision(){
+        ScoreboardManager m = Bukkit.getScoreboardManager();
+        org.bukkit.scoreboard.Scoreboard b = m.getNewScoreboard();
+        Team t = b.registerNewTeam("noClip");
+        t.setOption(Team.Option.COLLISION_RULE,Team.OptionStatus.NEVER);
+    }
+    private void initStationaryMobs(){
+        System.out.println("Begin mob spawning...");
+
+        //Spawn Armour Smiths
         try {
             BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/ArmourSmith.txt"));
             String line;
@@ -47,9 +58,7 @@ public class AsmodeusRpg extends JavaPlugin {
                 ArmourSmith keeper = new ArmourSmith(((CraftWorld) world).getHandle());
                 keeper.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
                 ((CraftWorld) world).addEntity(keeper, CreatureSpawnEvent.SpawnReason.CUSTOM);
-                keeper.setProfession(3);
-                keeper.setInvulnerable(true);
-                System.out.println("Added entity!");
+                System.out.println("Armour Smith successfully added.");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
