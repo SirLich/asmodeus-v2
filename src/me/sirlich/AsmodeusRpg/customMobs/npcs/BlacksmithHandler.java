@@ -122,7 +122,8 @@ public class BlacksmithHandler implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getClickedInventory() != null) {
-            if(ChatColor.stripColor(event.getView().getTopInventory().getName()).equalsIgnoreCase("Equip your gear:")){
+            if(ChatColor.stripColor(event.getView().getTopInventory().getName()).equalsIgnoreCase("Equip your gear:") &&
+                    !ChatColor.stripColor(event.getClickedInventory().getName()).equalsIgnoreCase("Equip your gear:")){
                 if(event.isShiftClick()){
                     //vars
                     ItemStack item = new ItemStack(Material.AIR);
