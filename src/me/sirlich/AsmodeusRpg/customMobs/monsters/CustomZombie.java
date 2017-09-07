@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.customMobs;
+package me.sirlich.AsmodeusRpg.customMobs.monsters;
 
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;

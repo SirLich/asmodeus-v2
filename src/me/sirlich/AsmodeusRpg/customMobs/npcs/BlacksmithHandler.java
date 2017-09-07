@@ -2,6 +2,7 @@ package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
+import me.sirlich.AsmodeusRpg.utilities.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -53,6 +54,7 @@ public class BlacksmithHandler implements Listener {
      */
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
+        boolean success = true;
         if (ChatColor.stripColor(event.getInventory().getName()).equalsIgnoreCase("Equip your gear:")) {
             Inventory inv = event.getInventory();
             Player p = (Player) event.getPlayer();
@@ -62,7 +64,7 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setHelmet(inv.getItem(0));
                 } else{
                     p.getInventory().addItem(inv.getItem(0));
-                    p.sendMessage("Warning: That is not a helmet. Your item has been returned.");
+                    success = false;
                 }
             } else{
                 p.getInventory().setHelmet(new ItemStack(Material.AIR));
@@ -73,7 +75,7 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setChestplate(inv.getItem(1));
                 } else{
                     p.getInventory().addItem(inv.getItem(1));
-                    p.sendMessage("Warning: That is not a chestplate. Your item has been returned.");
+                    success = false;
                 }
             }else{
                 p.getInventory().setChestplate(new ItemStack(Material.AIR));
@@ -82,7 +84,6 @@ public class BlacksmithHandler implements Listener {
             if(inv.getItem(2)!=null){
                 if(!isAir(inv.getItem(2))){
                     p.getInventory().addItem(inv.getItem(2));
-                    p.sendMessage("Why did you put stuff in that slot!?? Items returned...");
                 }
             }
 
@@ -91,8 +92,7 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setLeggings(inv.getItem(3));
                 } else{
                     p.getInventory().addItem(inv.getItem(3));
-                    p.sendMessage("Warning: Those are not legging. Your item has been returned.");
-                }
+                    success = false;                }
             }else{
                 p.getInventory().setLeggings(new ItemStack(Material.AIR));
             }
@@ -102,12 +102,11 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setBoots(inv.getItem(4));
                 } else{
                     p.getInventory().addItem(inv.getItem(4));
-                    p.sendMessage("Warning: Those are not boots. Your item has been returned.");
-                }
+                    success = false;                }
             }else{
                 p.getInventory().setBoots(new ItemStack(Material.AIR));
             }
-
+            if(!success){ChatUtils.chatError(p,"Bogus items detected. Please only equip armor.");}
         }
     }
 
@@ -123,7 +122,6 @@ public class BlacksmithHandler implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getClickedInventory() != null) {
-            event.getWhoClicked().sendMessage(event.getView().getTopInventory().getName());
             if(ChatColor.stripColor(event.getView().getTopInventory().getName()).equalsIgnoreCase("Equip your gear:")){
                 if(event.isShiftClick()){
                     //vars

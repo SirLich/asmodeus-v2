@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.inventoryUtils;
+package me.sirlich.AsmodeusRpg.utilities;
 
 import org.bukkit.entity.Player;
 import org.bukkit.Material;

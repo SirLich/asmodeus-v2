@@ -1,7 +1,7 @@
 package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.customMobs.npcs.Blacksmith;
-import me.sirlich.AsmodeusRpg.customMobs.CustomZombie;
+import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.ShopKeeper;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.BlacksmithHandler;
 import org.bukkit.Bukkit;
