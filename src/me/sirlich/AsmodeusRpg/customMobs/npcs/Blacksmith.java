@@ -1,16 +1,16 @@
 package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
-import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftVillager;
 
-public class ArmourSmith extends EntityVillager {
+public class Blacksmith extends EntityVillager {
 
-    public ArmourSmith(World world) {
+    public Blacksmith(World world) {
         super(world);
         this.bukkitEntity = new CraftCustomVillager(this.world.getServer(), this);
-        this.addScoreboardTag("armour_smith");
+        this.addScoreboardTag("blacksmith");
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ArmourSmith extends EntityVillager {
         this.setProfession(3);
         this.setInvulnerable(true);
         this.setCustomNameVisible(true);
-        this.setCustomName(ChatColor.DARK_GRAY + "Armour Smith");
+        this.setCustomName(ChatColor.GOLD + ">>>" +ChatColor.GRAY + " Blacksmith");
         return entity;
     }
 

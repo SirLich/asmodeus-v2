@@ -1,9 +1,9 @@
 package me.sirlich.AsmodeusRpg;
 
-import me.sirlich.AsmodeusRpg.customMobs.npcs.ArmourSmith;
+import me.sirlich.AsmodeusRpg.customMobs.npcs.Blacksmith;
 import me.sirlich.AsmodeusRpg.customMobs.CustomZombie;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.ShopKeeper;
-import me.sirlich.AsmodeusRpg.customMobs.npcs.listeners.ArmourSmithListener;
+import me.sirlich.AsmodeusRpg.customMobs.npcs.BlacksmithHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,8 +26,8 @@ public class AsmodeusRpg extends JavaPlugin {
     public void onEnable() {
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
-        NMSUtils.registerEntity("armour_smith", NMSUtils.Type.VILLAGER, ArmourSmith.class, false);
-        listener(new ArmourSmithListener());
+        NMSUtils.registerEntity("armour_smith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
+        listener(new BlacksmithHandler());
         initStationaryMobs();
         System.out.println("Its working better!");
     }
@@ -49,13 +49,13 @@ public class AsmodeusRpg extends JavaPlugin {
 
         //Spawn Armour Smiths
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/ArmourSmith.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/Blacksmith.txt"));
             String line;
             while ((line = br.readLine()) != null) {
                 List<String> arr = Arrays.asList(line.split(","));
                 World world = Bukkit.getServer().getWorld("world");
                 Location loc = new Location(world,Double.parseDouble(arr.get(0)),Double.parseDouble(arr.get(1)),Double.parseDouble(arr.get(2)));
-                ArmourSmith keeper = new ArmourSmith(((CraftWorld) world).getHandle());
+                Blacksmith keeper = new Blacksmith(((CraftWorld) world).getHandle());
                 keeper.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
                 ((CraftWorld) world).addEntity(keeper, CreatureSpawnEvent.SpawnReason.CUSTOM);
                 System.out.println("Armour Smith successfully added.");

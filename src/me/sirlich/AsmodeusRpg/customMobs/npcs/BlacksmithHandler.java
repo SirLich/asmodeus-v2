@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.customMobs.npcs.listeners;
+package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
@@ -18,19 +18,23 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ArmourSmithListener implements Listener {
+public class BlacksmithHandler implements Listener {
 
+    /*
+    Handles
+     */
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
-        if (event.getRightClicked().getScoreboardTags().contains("armour_smith")) {
-
-            openArmourSmith(event.getPlayer());
-
+        if (event.getRightClicked().getScoreboardTags().contains("blacksmith")) {
+            openBlacksmith(event.getPlayer());
             event.setCancelled(true);
         }
     }
 
-    public void openArmourSmith(Player p) {
+    /*
+    Handles opening the GUI
+     */
+    public void openBlacksmith(Player p) {
         Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, ChatColor.translateAlternateColorCodes('&',
                 "&6&lArmour Smith"));
         if (p.getInventory().getHelmet() == null) {
