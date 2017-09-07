@@ -2,14 +2,19 @@ package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.customMobs.npcs.Blacksmith;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
+import me.sirlich.AsmodeusRpg.customMobs.npcs.Civilian;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.ShopKeeper;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.BlacksmithHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
@@ -25,8 +30,9 @@ public class AsmodeusRpg extends JavaPlugin {
     @Override
     public void onEnable() {
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
+        NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
-        NMSUtils.registerEntity("armour_smith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
+        NMSUtils.registerEntity("blacksmith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
         listener(new BlacksmithHandler());
         initStationaryMobs();
         System.out.println("Its working better!");
@@ -49,7 +55,7 @@ public class AsmodeusRpg extends JavaPlugin {
 
         //Spawn Armour Smiths
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/Blacksmith.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/blacksmith.txt"));
             String line;
             while ((line = br.readLine()) != null) {
                 List<String> arr = Arrays.asList(line.split(","));

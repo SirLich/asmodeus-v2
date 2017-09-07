@@ -64,6 +64,7 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setHelmet(inv.getItem(0));
                 } else{
                     p.getInventory().addItem(inv.getItem(0));
+                    p.getInventory().setHelmet(new ItemStack(Material.AIR));
                     success = false;
                 }
             } else{
@@ -75,6 +76,7 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setChestplate(inv.getItem(1));
                 } else{
                     p.getInventory().addItem(inv.getItem(1));
+                    p.getInventory().setChestplate(new ItemStack(Material.AIR));
                     success = false;
                 }
             }else{
@@ -84,6 +86,7 @@ public class BlacksmithHandler implements Listener {
             if(inv.getItem(2)!=null){
                 if(!isAir(inv.getItem(2))){
                     p.getInventory().addItem(inv.getItem(2));
+                    success = false;
                 }
             }
 
@@ -92,6 +95,7 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setLeggings(inv.getItem(3));
                 } else{
                     p.getInventory().addItem(inv.getItem(3));
+                    p.getInventory().setLeggings(new ItemStack(Material.AIR));
                     success = false;                }
             }else{
                 p.getInventory().setLeggings(new ItemStack(Material.AIR));
@@ -102,6 +106,7 @@ public class BlacksmithHandler implements Listener {
                     p.getInventory().setBoots(inv.getItem(4));
                 } else{
                     p.getInventory().addItem(inv.getItem(4));
+                    p.getInventory().setBoots(new ItemStack(Material.AIR));
                     success = false;                }
             }else{
                 p.getInventory().setBoots(new ItemStack(Material.AIR));
