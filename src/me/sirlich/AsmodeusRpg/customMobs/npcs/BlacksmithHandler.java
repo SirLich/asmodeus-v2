@@ -9,19 +9,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.processing.SupportedSourceVersion;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BlacksmithHandler implements Listener {
 
+
     /*
-    Handles
+    Handles the Villlager interaction
      */
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
@@ -35,212 +39,200 @@ public class BlacksmithHandler implements Listener {
     Handles opening the GUI
      */
     public void openBlacksmith(Player p) {
-        Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, ChatColor.translateAlternateColorCodes('&',
-                "&6&lArmour Smith"));
-        if (p.getInventory().getHelmet() == null) {
-            ItemStack helm = new ItemStack(Material.STONE_SPADE, 1, (short) 1);
-            ItemMeta meta = helm.getItemMeta();
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                    "&7Helmet"));
-            meta.setUnbreakable(true);
-            helm.setItemMeta(meta);
-            NBTItem nbti = new NBTItem(helm);
-            nbti.setByte("asmodeus.blank_helmet", (byte) 1);
-            inv.setItem(0, nbti.getItem());
-        } else {
-            inv.setItem(0, p.getInventory().getHelmet());
-        }
-
-        if (p.getInventory().getChestplate() == null) {
-            ItemStack chestplate = new ItemStack(Material.STONE_SPADE, 1, (short) 2);
-            ItemMeta meta = chestplate.getItemMeta();
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                    "&7Chestplate"));
-            meta.setUnbreakable(true);
-            chestplate.setItemMeta(meta);
-            NBTItem nbti = new NBTItem(chestplate);
-            nbti.setByte("asmodeus.blank_chestplate", (byte) 1);
-            inv.setItem(1, nbti.getItem());
-        } else {
-            inv.setItem(1, p.getInventory().getChestplate());
-        }
-
-        ItemStack border = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
-        ItemMeta borderMeta = border.getItemMeta();
-        borderMeta.setDisplayName(ChatColor.GRAY + "");
-        border.setItemMeta(borderMeta);
-        inv.setItem(2, border);
-
-        if (p.getInventory().getLeggings() == null) {
-            ItemStack leggings = new ItemStack(Material.STONE_SPADE, 1, (short) 3);
-            ItemMeta meta = leggings.getItemMeta();
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                    "&7Leggings"));
-            meta.setUnbreakable(true);
-            leggings.setItemMeta(meta);
-            NBTItem nbti = new NBTItem(leggings);
-            nbti.setByte("asmodeus.blank_leggings", (byte) 1);
-            inv.setItem(3, nbti.getItem());
-        } else {
-            inv.setItem(3, p.getInventory().getLeggings());
-        }
-
-        if (p.getInventory().getBoots() == null) {
-            ItemStack boots = new ItemStack(Material.STONE_SPADE, 1, (short) 4);
-            ItemMeta meta = boots.getItemMeta();
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                    "&7Boots"));
-            meta.setUnbreakable(true);
-            boots.setItemMeta(meta);
-            NBTItem nbti = new NBTItem(boots);
-            nbti.setByte("asmodeus.blank_boots", (byte) 1);
-            inv.setItem(4, nbti.getItem());
-        } else {
-            inv.setItem(4, p.getInventory().getBoots());
-        }
-
+        Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, ChatColor.GRAY + "Equip your gear:");
+        if(p.getInventory().getHelmet() != null){inv.setItem(0, p.getInventory().getHelmet());}
+        if(p.getInventory().getChestplate() != null){inv.setItem(1, p.getInventory().getChestplate());}
+        if(p.getInventory().getLeggings() != null){inv.setItem(3, p.getInventory().getLeggings());}
+        if(p.getInventory().getBoots() != null){inv.setItem(4, p.getInventory().getBoots());}
         p.openInventory(inv);
     }
 
+
+    /*
+    On close, all items stored in the GUI are equipped. This includes air. Bogus items are returned to player inventory
+     */
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event){
+        if (ChatColor.stripColor(event.getInventory().getName()).equalsIgnoreCase("Equip your gear:")) {
+            Inventory inv = event.getInventory();
+            Player p = (Player) event.getPlayer();
+
+            if(inv.getItem(0) != null){
+                if(isHelmet(inv.getItem(0))){
+                    p.getInventory().setHelmet(inv.getItem(0));
+                } else{
+                    p.getInventory().addItem(inv.getItem(0));
+                    p.sendMessage("Warning: That is not a helmet. Your item has been returned.");
+                }
+            } else{
+                p.getInventory().setHelmet(new ItemStack(Material.AIR));
+            }
+
+            if(inv.getItem(1)!=null){
+                if(isChestplate(inv.getItem(1))){
+                    p.getInventory().setChestplate(inv.getItem(1));
+                } else{
+                    p.getInventory().addItem(inv.getItem(1));
+                    p.sendMessage("Warning: That is not a chestplate. Your item has been returned.");
+                }
+            }else{
+                p.getInventory().setChestplate(new ItemStack(Material.AIR));
+            }
+
+            if(inv.getItem(2)!=null){
+                if(!isAir(inv.getItem(2))){
+                    p.getInventory().addItem(inv.getItem(2));
+                    p.sendMessage("Why did you put stuff in that slot!?? Items returned...");
+                }
+            }
+
+            if(inv.getItem(3)!=null){
+                if(isLeggings(inv.getItem(3))){
+                    p.getInventory().setLeggings(inv.getItem(3));
+                } else{
+                    p.getInventory().addItem(inv.getItem(3));
+                    p.sendMessage("Warning: Those are not legging. Your item has been returned.");
+                }
+            }else{
+                p.getInventory().setLeggings(new ItemStack(Material.AIR));
+            }
+
+            if(inv.getItem(4)!=null){
+                if(isBoots(inv.getItem(4))){
+                    p.getInventory().setBoots(inv.getItem(4));
+                } else{
+                    p.getInventory().addItem(inv.getItem(4));
+                    p.sendMessage("Warning: Those are not boots. Your item has been returned.");
+                }
+            }else{
+                p.getInventory().setBoots(new ItemStack(Material.AIR));
+            }
+
+        }
+    }
+
+    /*
+    Sort of crappy code that TRIES to stop bad items from going into the GUI.
+    If a bogus item gets inside: The player can always just take it out again.
+    If the bogus item is left inside, it will be returned when he closes the inv.
+
+    BONUS:
+    Custom Shift Clicking! If you shift click and the GUI on-top is our Blacksmith GUI,
+    the piece of armour will be placed in the correct slot.
+     */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getClickedInventory().getName() != null) {
-            if (ChatColor.stripColor(event.getClickedInventory().getName()).equalsIgnoreCase("Armour Smith")) {
+        if (event.getClickedInventory() != null) {
+            event.getWhoClicked().sendMessage(event.getView().getTopInventory().getName());
+            if(ChatColor.stripColor(event.getView().getTopInventory().getName()).equalsIgnoreCase("Equip your gear:")){
+                if(event.isShiftClick()){
+                    //vars
+                    ItemStack item = new ItemStack(Material.AIR);
+                    int slot = event.getSlot();
+                    Player p = (Player) event.getWhoClicked();
+                    Inventory inv = event.getView().getTopInventory();
 
-                Material[] helms = new Material[]{Material.DIAMOND_HELMET, Material.LEATHER_HELMET, Material.CHAINMAIL_HELMET, Material.IRON_HELMET, Material.GOLD_HELMET};
-                Material[] chests = new Material[]{Material.DIAMOND_CHESTPLATE, Material.LEATHER_CHESTPLATE, Material.CHAINMAIL_CHESTPLATE, Material.IRON_CHESTPLATE, Material.GOLD_CHESTPLATE};
-                Material[] legs = new Material[]{Material.DIAMOND_LEGGINGS, Material.LEATHER_LEGGINGS, Material.CHAINMAIL_LEGGINGS, Material.IRON_LEGGINGS, Material.GOLD_LEGGINGS};
-                Material[] boots = new Material[]{Material.DIAMOND_BOOTS, Material.LEATHER_BOOTS, Material.CHAINMAIL_BOOTS, Material.IRON_BOOTS, Material.GOLD_BOOTS};
-                ArrayList<Material> armour = new ArrayList<>();
-                armour.addAll(Arrays.asList(helms));
-                armour.addAll(Arrays.asList(chests));
-                armour.addAll(Arrays.asList(legs));
-                armour.addAll(Arrays.asList(boots));
-
-                if (event.getCursor().getType().equals(Material.AIR)) {
-                    for (Material m : armour) {
-                        if (event.getCurrentItem().getType().equals(m)) {
-                            int i = Bukkit.getScheduler().scheduleSyncDelayedTask(AsmodeusRpg.getPlugin(AsmodeusRpg.class), new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (event.getSlot() == 0) {
-                                        ItemStack helm = new ItemStack(Material.STONE_SPADE, 1, (short) 1);
-                                        ItemMeta meta = helm.getItemMeta();
-                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                                                "&7Helmet"));
-                                        meta.setUnbreakable(true);
-                                        helm.setItemMeta(meta);
-                                        NBTItem nbti = new NBTItem(helm);
-                                        nbti.setByte("asmodeus.blank_helmet", (byte) 1);
-                                        event.getInventory().setItem(1, nbti.getItem());
-                                        event.getWhoClicked().getInventory().setHelmet(null);
-                                    } else if (event.getSlot() == 1) {
-                                        ItemStack chestplate = new ItemStack(Material.STONE_SPADE, 1, (short) 2);
-                                        ItemMeta meta = chestplate.getItemMeta();
-                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                                                "&7Chestplate"));
-                                        meta.setUnbreakable(true);
-                                        chestplate.setItemMeta(meta);
-                                        NBTItem nbti = new NBTItem(chestplate);
-                                        nbti.setByte("asmodeus.blank_chestplate", (byte) 1);
-                                        event.getInventory().setItem(1, nbti.getItem());
-                                        event.getWhoClicked().getInventory().setChestplate(null);
-                                    } else if (event.getSlot() == 3) {
-                                        ItemStack leggings = new ItemStack(Material.STONE_SPADE, 1, (short) 3);
-                                        ItemMeta meta = leggings.getItemMeta();
-                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                                                "&7Leggings"));
-                                        meta.setUnbreakable(true);
-                                        leggings.setItemMeta(meta);
-                                        NBTItem nbti = new NBTItem(leggings);
-                                        nbti.setByte("asmodeus.blank_leggings", (byte) 1);
-                                        event.getInventory().setItem(3, nbti.getItem());
-                                        event.getWhoClicked().getInventory().setLeggings(null);
-                                    } else if (event.getSlot() == 4) {
-                                        ItemStack boots = new ItemStack(Material.STONE_SPADE, 1, (short) 4);
-                                        ItemMeta meta = boots.getItemMeta();
-                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                                                "&7Boots"));
-                                        meta.setUnbreakable(true);
-                                        boots.setItemMeta(meta);
-                                        NBTItem nbti = new NBTItem(boots);
-                                        nbti.setByte("asmodeus.blank_boots", (byte) 1);
-                                        event.getInventory().setItem(4, nbti.getItem());
-                                        event.getWhoClicked().getInventory().setBoots(null);
-                                    }
-                                }
-                            }, 1L);
-                            return;
-                        }
+                    if(event.getCurrentItem() != null){
+                        item = event.getCurrentItem();
                     }
-                    event.setCancelled(true);
-                } else {
-                    if (event.getSlot() == 0) {
-                        for (Material m : helms) {
-                            if (event.getCursor().getType().equals(m)) {
-                                NBTItem nbti = new NBTItem(event.getCurrentItem());
-                                if (nbti.getByte("asmodeus.blank_helmet") == 1) {
-                                    event.setCancelled(true);
-                                    event.getClickedInventory().setItem(event.getSlot(), event.getCursor());
-                                    removeCursor((Player) event.getWhoClicked());
-                                }
-                                event.getWhoClicked().getInventory().setHelmet(event.getCursor());
-                                return;
-                            }
-                        }
+
+                    if(inv.getItem(0)==null && isHelmet(item)){
+                        p.getInventory().setItem(slot, new ItemStack(Material.AIR));
+                        inv.setItem(0,item);
+                    } else{
                         event.setCancelled(true);
-                    } else if (event.getSlot() == 1) {
-                        for (Material m : chests) {
-                            if (event.getCursor().getType().equals(m)) {
-                                NBTItem nbti = new NBTItem(event.getCurrentItem());
-                                if (nbti.getByte("asmodeus.blank_chestplate") == 1) {
-                                    event.setCancelled(true);
-                                    event.getClickedInventory().setItem(event.getSlot(), event.getCursor());
-                                    removeCursor((Player) event.getWhoClicked());
-                                }
-                                event.getWhoClicked().getInventory().setChestplate(event.getCursor());
-                                return;
-                            }
-                        }
+                    }
+
+                    if(inv.getItem(1)==null && isChestplate(item)){
+                        p.getInventory().setItem(slot, new ItemStack(Material.AIR));
+                        inv.setItem(1,item);
+                    } else{
                         event.setCancelled(true);
-                    } else if (event.getSlot() == 3) {
-                        for (Material m : legs) {
-                            if (event.getCursor().getType().equals(m)) {
-                                NBTItem nbti = new NBTItem(event.getCurrentItem());
-                                if (nbti.getByte("asmodeus.blank_leggings") == 1) {
-                                    event.setCancelled(true);
-                                    event.getClickedInventory().setItem(event.getSlot(), event.getCursor());
-                                    removeCursor((Player) event.getWhoClicked());
-                                }
-                                event.getWhoClicked().getInventory().setLeggings(event.getCursor());
-                                return;
-                            }
-                        }
+                    }
+
+                    if(inv.getItem(3)==null && isLeggings(item)){
+                        p.getInventory().setItem(slot, new ItemStack(Material.AIR));
+                        inv.setItem(3,item);
+                    } else{
                         event.setCancelled(true);
-                    } else if (event.getSlot() == 4) {
-                        for (Material m : boots) {
-                            if (event.getCursor().getType().equals(m)) {
-                                NBTItem nbti = new NBTItem(event.getCurrentItem());
-                                if (nbti.getByte("asmodeus.blank_boots") == 1) {
-                                    event.setCancelled(true);
-                                    event.getClickedInventory().setItem(event.getSlot(), event.getCursor());
-                                    removeCursor((Player) event.getWhoClicked());
-                                }
-                                event.getWhoClicked().getInventory().setBoots(event.getCursor());
-                                return;
-                            }
-                        }
-                        event.setCancelled(true);
-                    } else {
+                    }
+
+                    if(inv.getItem(4)==null && isBoots(item)){
+                        p.getInventory().setItem(slot, new ItemStack(Material.AIR));
+                        inv.setItem(4,item);
+                    } else{
                         event.setCancelled(true);
                     }
 
                 }
             }
+            if (ChatColor.stripColor(event.getClickedInventory().getName()).equalsIgnoreCase("Equip your gear:")) {
+
+                //vars
+                ItemStack heldItem = new ItemStack(Material.AIR);
+                int slot = event.getSlot();
+                Player p = (Player) event.getWhoClicked();
+
+                if(p.getItemOnCursor() != null){
+                    heldItem = event.getWhoClicked().getItemOnCursor();
+                }
+
+                //Helm slot
+                if(slot == 0){
+                    if(!isHelmet(heldItem)){
+                        if(isAir(heldItem)){
+                            event.setCancelled(false);
+                        } else{
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+
+                //Chest slot
+                if(slot == 1){
+                    if(!isChestplate(heldItem)){
+                        if(isAir(heldItem)){
+                            event.setCancelled(false);
+                        } else{
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+
+                //center
+                if(slot == 2){
+                    if(!isAir(heldItem)){
+                        event.setCancelled(true);
+                    }
+                }
+                //Pant slot
+                if(slot == 3){
+                    if(!isLeggings(heldItem)){
+                        if(isAir(heldItem)){
+                            event.setCancelled(false);
+                        } else{
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+                //Boots slot
+                if(slot == 4){
+                    if(!isBoots(heldItem)){
+                        if(isAir(heldItem)){
+                            event.setCancelled(false);
+                        } else{
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+            }
         }
     }
 
-    public void removeCursor(Player p) {
+    /*
+    Removes cursor (Put in Utils method somewhere?)
+     */
+    private void removeCursor(Player p) {
         int i = Bukkit.getScheduler().scheduleSyncDelayedTask(AsmodeusRpg.getPlugin(AsmodeusRpg.class), new Runnable() {
             @Override
             public void run() {
@@ -249,6 +241,64 @@ public class BlacksmithHandler implements Listener {
 
             }
         }, 1L);
+    }
+
+    /*
+    Checks if item is armor or not. I love return(foo) methods.
+     */
+    private boolean isArmor(ItemStack item){
+        return(isBoots(item)||isLeggings(item)||isChestplate(item)||isHelmet(item));
+    }
+
+    /*
+    Checks if ItemStack is boots
+     */
+    private boolean isBoots(ItemStack item){
+        return(item.getType().equals(Material.GOLD_BOOTS)||
+                item.getType().equals(Material.IRON_BOOTS)||
+                item.getType().equals(Material.DIAMOND_BOOTS)||
+                item.getType().equals(Material.CHAINMAIL_BOOTS)||
+                item.getType().equals(Material.LEATHER_BOOTS));
+    }
+
+    /*
+    Checks if ItemStack is pants
+     */
+    private boolean isLeggings(ItemStack item){
+        return(item.getType().equals(Material.GOLD_LEGGINGS)||
+                item.getType().equals(Material.IRON_LEGGINGS)||
+                item.getType().equals(Material.DIAMOND_LEGGINGS)||
+                item.getType().equals(Material.CHAINMAIL_LEGGINGS)||
+                item.getType().equals(Material.LEATHER_LEGGINGS));
+    }
+
+    /*
+    Checks if ItemStack is chestplate
+     */
+    private boolean isChestplate(ItemStack item){
+        return(item.getType().equals(Material.GOLD_CHESTPLATE)||
+                item.getType().equals(Material.IRON_CHESTPLATE)||
+                item.getType().equals(Material.DIAMOND_CHESTPLATE)||
+                item.getType().equals(Material.CHAINMAIL_CHESTPLATE)||
+                item.getType().equals(Material.LEATHER_CHESTPLATE));
+    }
+
+    /*
+    Checks if ItemStack is helmet
+     */
+    private boolean isHelmet(ItemStack item){
+        return(item.getType().equals(Material.GOLD_HELMET)||
+                item.getType().equals(Material.IRON_HELMET)||
+                item.getType().equals(Material.DIAMOND_HELMET)||
+                item.getType().equals(Material.CHAINMAIL_HELMET)||
+                item.getType().equals(Material.LEATHER_HELMET));
+    }
+
+    /*
+    Checks if ItemStack is air
+     */
+    private boolean isAir(ItemStack item){
+        return(item.getType().equals(Material.AIR));
     }
 
 }
