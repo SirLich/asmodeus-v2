@@ -14,4 +14,7 @@ public class ChatUtils {
     public static void chatError(Player p, String m){
         p.sendMessage(ChatColor.RED + m);
     }
+    public static void civilianChat(Player p,String m){
+        p.sendMessage(ChatColor.AQUA+ "<>" + ChatColor.WHITE + m);
+    }
 }
