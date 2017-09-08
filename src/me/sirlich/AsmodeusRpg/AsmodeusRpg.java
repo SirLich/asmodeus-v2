@@ -3,6 +3,7 @@ package me.sirlich.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 import me.sirlich.AsmodeusRpg.regions.Region;
+import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,6 +23,7 @@ import java.util.List;
 public class AsmodeusRpg extends JavaPlugin {
     @Override
     public void onEnable() {
+        RegionUtils.loadFiles();
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
