@@ -1,12 +1,12 @@
 package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
+import me.sirlich.AsmodeusRpg.customMobs.pathfinders.PathFinderGoalRandomStrollWithinRegion;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftVillager;
 
 public class Civilian extends EntityVillager {
-
     public Civilian(World world) {
         super(world);
         this.bukkitEntity = new CraftCustomVillager(this.world.getServer(), this);
@@ -16,9 +16,10 @@ public class Civilian extends EntityVillager {
     @Override
     protected void r()
     {
-        this.goalSelector.a(5, new PathfinderGoalRandomStroll(this, 1.0D));
-        this.goalSelector.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
-        this.goalSelector.a(6, new PathfinderGoalRandomLookaround(this));
+        //this.goalSelector.a(5, new PathfinderGoalRandomStroll(this, 0.6D));
+        //this.goalSelector.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
+        //this.goalSelector.a(6, new PathfinderGoalRandomLookaround(this));
+        this.goalSelector.a(6,new PathFinderGoalRandomStrollWithinRegion(this,0.5,4));
     }
 
     @Override

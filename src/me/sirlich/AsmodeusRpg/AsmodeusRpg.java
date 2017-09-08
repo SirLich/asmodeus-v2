@@ -5,19 +5,14 @@ import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.Civilian;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.ShopKeeper;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.BlacksmithHandler;
+import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -43,13 +38,6 @@ public class AsmodeusRpg extends JavaPlugin {
         System.out.println("Asmodeus disabled");
     }
 
-
-    private void removeCollision(){
-        ScoreboardManager m = Bukkit.getScoreboardManager();
-        org.bukkit.scoreboard.Scoreboard b = m.getNewScoreboard();
-        Team t = b.registerNewTeam("noClip");
-        t.setOption(Team.Option.COLLISION_RULE,Team.OptionStatus.NEVER);
-    }
     private void initStationaryMobs(){
         System.out.println("Begin mob spawning...");
 
@@ -73,7 +61,7 @@ public class AsmodeusRpg extends JavaPlugin {
         }
     }
 
-    public void listener(Listener... listeners) {
+    private void listener(Listener... listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
         }

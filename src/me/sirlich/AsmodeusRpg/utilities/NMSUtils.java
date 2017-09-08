@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg;
+package me.sirlich.AsmodeusRpg.utilities;
 
 
 import net.minecraft.server.v1_12_R1.EntityInsentient;
@@ -45,7 +45,6 @@ import net.minecraft.server.v1_12_R1.EntityHorseMule;
 import net.minecraft.server.v1_12_R1.EntityHorseSkeleton;
 import net.minecraft.server.v1_12_R1.EntityHorseZombie;
 import net.minecraft.server.v1_12_R1.EntityIllagerIllusioner;
-import net.minecraft.server.v1_12_R1.EntityInsentient;
 import net.minecraft.server.v1_12_R1.EntityIronGolem;
 import net.minecraft.server.v1_12_R1.EntityItem;
 import net.minecraft.server.v1_12_R1.EntityItemFrame;
