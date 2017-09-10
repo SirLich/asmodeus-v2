@@ -2,7 +2,6 @@ package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
-import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
@@ -64,9 +63,10 @@ public class AsmodeusRpg extends JavaPlugin {
 
         //Spawn Civilians
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "civilians/civilian.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/civilians/civilians.txt"));
             String line;
             while ((line = br.readLine()) != null) {
+                System.out.println("Attempting to load: " + line);
                 civilianLoader(line);
             }
         } catch (FileNotFoundException e) {
@@ -78,17 +78,19 @@ public class AsmodeusRpg extends JavaPlugin {
 
     private void civilianLoader(String s){
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/civilians/" + s));
-            World world = Bukkit.getWorld("world");
-            String line;
-            String name = br.readLine();
-            int proffesion = Integer.parseInt(br.readLine());
-            String region = br.readLine();
-            List<String> locs = Arrays.asList(br.readLine().split(","));
-            Location loc = new Location(world,Double.parseDouble(locs.get(0)),Double.parseDouble(locs.get(1)),Double.parseDouble(locs.get(3)));
-            List<String> sayings = Arrays.asList(br.readLine().split(","));
+            System.out.println("Attempting to load a Civilian...");
+            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/civilians/" + s + ".txt"));
 
-            Civilian civilian = new Civilian(((CraftWorld) world).getHandle());
+            World world = Bukkit.getWorld("world");
+            String name = br.readLine();
+            int profession = Integer.parseInt(br.readLine());
+
+            List<String> locs = Arrays.asList(br.readLine().split(","));
+            Location loc = new Location(world,Double.parseDouble(locs.get(0)),Double.parseDouble(locs.get(1)),Double.parseDouble(locs.get(2)));
+            List<String> quotes = Arrays.asList(br.readLine().split(">"));
+
+            Civilian civilian = new Civilian(((CraftWorld) world).getHandle(),name,profession);
+            CivilianList.addEntity(civilian.getBukkitEntity(),quotes,loc);
             civilian.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
             ((CraftWorld) world).addEntity(civilian, CreatureSpawnEvent.SpawnReason.CUSTOM);
             System.out.println("Civilian successfully added.");

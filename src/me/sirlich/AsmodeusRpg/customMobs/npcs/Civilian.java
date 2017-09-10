@@ -7,8 +7,13 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftVillager;
 
 public class Civilian extends EntityVillager {
-    public Civilian(World world) {
+    private String name;
+    private int proffession;
+
+    public Civilian(World world, String name, int proffession) {
         super(world);
+        this.name = name;
+        this.proffession = proffession;
         this.bukkitEntity = new CraftCustomVillager(this.world.getServer(), this);
         this.addScoreboardTag("civilian");
     }
@@ -25,9 +30,9 @@ public class Civilian extends EntityVillager {
     @Override
     public GroupDataEntity a(DifficultyDamageScaler scaler, GroupDataEntity entity, boolean flag) {
         entity = super.a(scaler, entity, flag);
-        this.setProfession(3);
+        this.setProfession(proffession);
         this.setInvulnerable(true);
-        this.setCustomName(ChatColor.GOLD + ">>>" +ChatColor.GRAY + " Civilian");
+        this.setCustomName(ChatColor.GRAY + name);
         return entity;
     }
 
