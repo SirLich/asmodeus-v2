@@ -20,6 +20,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AsmodeusRpg extends JavaPlugin {
+    private static AsmodeusRpg instance;
+
+    public AsmodeusRpg(){
+        instance = this;
+    }
+    public static AsmodeusRpg getInstance()
+    {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
         RegionUtils.loadFiles();
@@ -87,10 +97,12 @@ public class AsmodeusRpg extends JavaPlugin {
 
             List<String> locs = Arrays.asList(br.readLine().split(","));
             Location loc = new Location(world,Double.parseDouble(locs.get(0)),Double.parseDouble(locs.get(1)),Double.parseDouble(locs.get(2)));
+            String regionID = br.readLine();
             List<String> quotes = Arrays.asList(br.readLine().split(">"));
 
             Civilian civilian = new Civilian(((CraftWorld) world).getHandle(),name,profession);
-            CivilianList.addEntity(civilian.getBukkitEntity(),quotes,loc);
+            CivilianList.addEntity(civilian.getBukkitEntity(),quotes,loc,regionID);
+            System.out.println("Region name: " + CivilianList.getRegion(civilian.getBukkitEntity()).getName());
             civilian.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
             ((CraftWorld) world).addEntity(civilian, CreatureSpawnEvent.SpawnReason.CUSTOM);
             System.out.println("Civilian successfully added.");

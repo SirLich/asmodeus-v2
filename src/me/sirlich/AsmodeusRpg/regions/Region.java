@@ -15,6 +15,8 @@ import org.bukkit.util.Vector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class Region implements Cloneable {
 
@@ -116,6 +118,13 @@ public class Region implements Cloneable {
 
     public double getUpperZ() {
         return this.maximumPoint.getZ();
+    }
+
+    public Location getRandomLoc(){
+        System.out.println("getRandomLoc");
+        return new Location(Bukkit.getWorld("world"),ThreadLocalRandom.current().nextDouble(this.getLowerX(),this.getUpperX()),
+                ThreadLocalRandom.current().nextDouble(this.getLowerY(),this.getUpperY()),
+                ThreadLocalRandom.current().nextDouble(this.getLowerZ(),this.getUpperZ()));
     }
 
     public String getName() {

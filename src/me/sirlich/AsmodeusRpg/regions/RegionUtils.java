@@ -35,6 +35,7 @@ public class RegionUtils {
 
             next = scan.nextLine().trim();
             String name = next;
+            System.out.println("Region loaded with name: " +  name);
             //World
             next = scan.nextLine().trim();
             String world = next;
@@ -78,7 +79,9 @@ public class RegionUtils {
     }
 
     public static Region getRegion(String id) {
+        System.out.println("getRegion (Region list)");
         for (Region r : Region.regions) {
+            System.out.println("Trying: " + r.getName() + " and " + id);
             if (r.getName().equalsIgnoreCase(id)) {
                 return r;
             }
@@ -95,6 +98,7 @@ public class RegionUtils {
         }
         return regions;
     }
+
 
     public static ArrayList<Region> getFromLocation(Location l) {
         ArrayList<Region> regions = new ArrayList<>();
