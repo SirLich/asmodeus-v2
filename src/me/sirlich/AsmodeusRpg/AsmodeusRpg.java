@@ -2,6 +2,7 @@ package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
+import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
@@ -41,7 +42,6 @@ public class AsmodeusRpg extends JavaPlugin {
         listener(new CivilianHandler());
 
         initStationaryMobs();
-        System.out.println("Its working better!");
     }
 
     @Override
@@ -76,7 +76,6 @@ public class AsmodeusRpg extends JavaPlugin {
             BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/civilians/civilians.txt"));
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println("Attempting to load: " + line);
                 civilianLoader(line);
             }
         } catch (FileNotFoundException e) {
@@ -88,23 +87,27 @@ public class AsmodeusRpg extends JavaPlugin {
 
     private void civilianLoader(String s){
         try {
-            System.out.println("Attempting to load a Civilian...");
             BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/civilians/" + s + ".txt"));
 
             World world = Bukkit.getWorld("world");
             String name = br.readLine();
             int profession = Integer.parseInt(br.readLine());
-
             List<String> locs = Arrays.asList(br.readLine().split(","));
             Location loc = new Location(world,Double.parseDouble(locs.get(0)),Double.parseDouble(locs.get(1)),Double.parseDouble(locs.get(2)));
             String regionID = br.readLine();
+            Region region = RegionUtils.getRegion(regionID);
+            System.out.println("Region name: " + region.getName());
             List<String> quotes = Arrays.asList(br.readLine().split(">"));
-
-            Civilian civilian = new Civilian(((CraftWorld) world).getHandle(),name,profession);
+            System.out.println("1");
+            System.out.println("Region name: " + region.getName());
+            Civilian civilian = new Civilian(((CraftWorld) world).getHandle(),name,profession,region);
+            System.out.println("2");
             CivilianList.addEntity(civilian.getBukkitEntity(),quotes,loc,regionID);
-            System.out.println("Region name: " + CivilianList.getRegion(civilian.getBukkitEntity()).getName());
+            System.out.println("3");
             civilian.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
+            System.out.println("4");
             ((CraftWorld) world).addEntity(civilian, CreatureSpawnEvent.SpawnReason.CUSTOM);
+            System.out.println("5");
             System.out.println("Civilian successfully added.");
 
         } catch (FileNotFoundException e) {
