@@ -2,7 +2,6 @@ package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
 import me.sirlich.AsmodeusRpg.customMobs.pathfinders.PathFinderGoalRandomStrollWithinRegion;
 import me.sirlich.AsmodeusRpg.regions.Region;
-import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
@@ -10,13 +9,13 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftVillager;
 
 public class Civilian extends EntityVillager {
     private String name;
-    private int proffession;
+    private int profession;
     private Region region;
 
-    public Civilian(World world, String name, int proffession, Region region) {
+    public Civilian(World world, String name, int profession, Region region) {
         super(world);
         this.name = name;
-        this.proffession = proffession;
+        this.profession = profession;
         this.region = region;
         this.bukkitEntity = new CraftCustomVillager(this.world.getServer(), this);
         this.addScoreboardTag("civilian");
@@ -35,7 +34,7 @@ public class Civilian extends EntityVillager {
     @Override
     public GroupDataEntity a(DifficultyDamageScaler scaler, GroupDataEntity entity, boolean flag) {
         entity = super.a(scaler, entity, flag);
-        this.setProfession(proffession);
+        this.setProfession(profession);
         this.setInvulnerable(true);
         this.setCustomName(ChatColor.GRAY + name);
         return entity;
