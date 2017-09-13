@@ -17,4 +17,8 @@ public class ChatUtils {
     public static void civilianChat(Player p,String m){
         p.sendMessage(ChatColor.AQUA+ "<>" + ChatColor.WHITE + m);
     }
+
+    public static void abilitiesChat(Player p,String m){
+        p.sendMessage(ChatColor.AQUA + m);
+    }
 }

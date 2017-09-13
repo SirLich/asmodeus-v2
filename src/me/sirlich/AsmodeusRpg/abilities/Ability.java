@@ -1,13 +1,16 @@
 package me.sirlich.AsmodeusRpg.abilities;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Ability {
     protected Player player;
-    protected double energyCost;
+    protected int rechargeRate;
     protected String name;
-
+    public Ability(Player player, int rechargeRate, String name){
+        this.player = player;
+        this.rechargeRate = rechargeRate;
+        this.name = name;
+    }
     public Player getPlayer(){
         return player;
     }
@@ -17,13 +20,11 @@ public class Ability {
     public Ability(Player p){
         player = p;
     }
-    public double getEnergyCost() {
-        return energyCost;
-    }
-    public void setEnergyCost(double energyCost) {
-        this.energyCost = energyCost;
+    public int getRechargeRate(int level)
+    {
+        return rechargeRate;
     }
     public void run(){
-        player.sendMessage(ChatColor.AQUA + "The ability " + name + " was run.");//Test just to see if event fires.
+        System.out.println(name + "was run by player " + player);
     }
 }
