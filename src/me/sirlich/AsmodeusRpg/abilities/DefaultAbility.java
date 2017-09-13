@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 
 public class DefaultAbility extends Ability
 {
+    private Player player;
     public DefaultAbility(Player p) {
         super(p);
-        player = super.getPlayer();
-        name = "Default Ability";
+        this.player = super.getPlayer();
     }
     @Override
     public void run(){

@@ -26,7 +26,7 @@ public class AbilitiesHandler implements Listener
                     @Override
                     public void run() {
                         rpgPlayer.setCanUseSwitchHandAbility(true);
-                        ChatUtils.abilitiesChat(player,"You can now use that Ability again.");
+                        ChatUtils.abilitiesChat(player,ability.getRechargeMessage());
                     }
 
                 }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwitchHandAbility().getRechargeRate(rpgPlayer.getSwitchHandAbilityLevel()));
