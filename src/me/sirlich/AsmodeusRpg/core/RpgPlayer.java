@@ -1,113 +1,145 @@
 package me.sirlich.AsmodeusRpg.core;
 import me.sirlich.AsmodeusRpg.abilities.Ability;
+import org.bukkit.entity.Player;
 
 public class RpgPlayer
 {
-    private Ability toggleFlyAbility;
-    private boolean canUseToggleFlyAbility;
-    private int toggleFlyAbilityLevel;
+    /*
+    These vars are all about player abilities.
+     */
+    private Ability flyAbility;
+    private boolean canUseFlyAbility;
+    private int flyAbilityLevel;
 
-    private Ability switchHandAbility;
-    private boolean canUseSwitchHandAbility;
-    private int switchHandAbilityLevel;
+    private Ability swapAbility;
+    private boolean canUseSwapAbility;
+    private int swapAbilityLevel;
 
-    private Ability	dropWeaponAbility;
-    private boolean canUseDropWeaponAbility;
-    private int dropWeaponAbilityLevel;
+    private Ability dropAbility;
+    private boolean canUseDropAbility;
+    private int dropAbilityLevel;
+
+    /*
+    These vars are all about passive things that effect the player.
+    Things that might influence these values:
+     - Armour
+     - Weapons
+     - Classes
+     - Abilities
+     - Artifacts
+     - Mob hits (say, that cause slowness)
+     */
+    private float speedModifier;
+    private double staminaDrainOnRunModifier;
+    private double stamineRegenRateModifier;
+    private int maxStamina;
+    private double staminaDrainOnSwordUseModifier;
+    private double stamineDrainOnAxeUseModifier;
+    private double stamineDrainOnMagicUseModifier;
+    private double staminaDrainOnBowUseModifier;
+    private double healthRegenPerSecond;
+    private double armorValue;
+    private double experienceGainedModifier;
+
+    /*
+    This method is used to edit a players passive walking/running speed.
+     */
+    public void editSpeedModifier(Float v){
+        speedModifier += v;
+        getPlayer().setWalkSpeed(speedModifier);
+    }
 
 
-    private boolean canLoseEnergy;
+    /*
+    This method is used to get a Player from an RpgPlayer.
+    Uses the PLayerList to do so.
+     */
+    public Player getPlayer(){
+        return PlayerList.getPlayer(this);
+    }
 
-    public boolean isCanUseToggleFlyAbility()
+
+    public boolean isCanUseFlyAbility()
     {
-        return canUseToggleFlyAbility;
+        return canUseFlyAbility;
     }
 
-    public void setCanUseToggleFlyAbility(boolean canUseToggleFlyAbility)
+    public void setCanUseFlyAbility(boolean canUseFlyAbility)
     {
-        this.canUseToggleFlyAbility = canUseToggleFlyAbility;
+        this.canUseFlyAbility = canUseFlyAbility;
     }
 
-    public int getToggleFlyAbilityLevel()
+    public int getFlyAbilityLevel()
     {
-        return toggleFlyAbilityLevel;
+        return flyAbilityLevel;
     }
 
-    public void setToggleFlyAbilityLevel(int toggleFlyAbilityLevel)
+    public void setFlyAbilityLevel(int flyAbilityLevel)
     {
-        this.toggleFlyAbilityLevel = toggleFlyAbilityLevel;
+        this.flyAbilityLevel = flyAbilityLevel;
     }
 
-    public boolean isCanUseSwitchHandAbility()
+    public boolean isCanUseSwapAbility()
     {
-        return canUseSwitchHandAbility;
+        return canUseSwapAbility;
     }
 
-    public void setCanUseSwitchHandAbility(boolean canUseSwitchHandAbility)
+    public void setCanUseSwapAbility(boolean canUseSwapAbility)
     {
-        this.canUseSwitchHandAbility = canUseSwitchHandAbility;
+        this.canUseSwapAbility = canUseSwapAbility;
     }
 
-    public int getSwitchHandAbilityLevel()
+    public int getSwapAbilityLevel()
     {
-        return switchHandAbilityLevel;
+        return swapAbilityLevel;
     }
 
-    public void setSwitchHandAbilityLevel(int switchHandAbilityLevel)
+    public void setSwapAbilityLevel(int swapAbilityLevel)
     {
-        this.switchHandAbilityLevel = switchHandAbilityLevel;
+        this.swapAbilityLevel = swapAbilityLevel;
     }
 
-    public boolean isCanUseDropWeaponAbility()
+    public boolean isCanUseDropAbility()
     {
-        return canUseDropWeaponAbility;
+        return canUseDropAbility;
     }
 
-    public void setCanUseDropWeaponAbility(boolean canUseDropWeaponAbility)
+    public void setCanUseDropAbility(boolean canUseDropAbility)
     {
-        this.canUseDropWeaponAbility = canUseDropWeaponAbility;
+        this.canUseDropAbility = canUseDropAbility;
     }
 
-    public int getDropWeaponAbilityLevel()
+    public int getDropAbilityLevel()
     {
-        return dropWeaponAbilityLevel;
+        return dropAbilityLevel;
     }
 
-    public void setDropWeaponAbilityLevel(int dropWeaponAbilityLevel)
+    public void setDropAbilityLevel(int dropAbilityLevel)
     {
-        this.dropWeaponAbilityLevel = dropWeaponAbilityLevel;
+        this.dropAbilityLevel = dropAbilityLevel;
     }
 
-    public Ability getToggleFlyAbility() {
-        return toggleFlyAbility;
+    public Ability getFlyAbility() {
+        return flyAbility;
     }
 
-    public void setToggleFlyAbility(Ability doubleJumpAbility) {
-        this.toggleFlyAbility = doubleJumpAbility;
+    public void setFlyAbility(Ability doubleJumpAbility) {
+        this.flyAbility = doubleJumpAbility;
     }
 
-    public Ability getSwitchHandAbility() {
-        return switchHandAbility;
+    public Ability getSwapAbility() {
+        return swapAbility;
     }
 
-    public void setSwitchHandAbility(Ability switchHandAbility) {
-        this.switchHandAbility = switchHandAbility;
+    public void setSwapAbility(Ability swapAbility) {
+        this.swapAbility = swapAbility;
     }
 
-    public Ability getDropWeaponAbility() {
-        return dropWeaponAbility;
+    public Ability getDropAbility() {
+        return dropAbility;
     }
 
-    public void setDropWeaponAbility(Ability dropWeaponAbility) {
-        this.dropWeaponAbility = dropWeaponAbility;
+    public void setDropAbility(Ability dropAbility) {
+        this.dropAbility = dropAbility;
     }
-
-    public boolean isCanLoseEnergy() {
-        return canLoseEnergy;
-    }
-
-    public void setCanLoseEnergy(boolean canLoseEnergy) {
-        this.canLoseEnergy = canLoseEnergy;
-    }
-
 }

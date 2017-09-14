@@ -1,6 +1,5 @@
 package me.sirlich.AsmodeusRpg;
 
-import me.sirlich.AsmodeusRpg.abilities.DefaultAbility;
 import me.sirlich.AsmodeusRpg.abilities.EscapeAbility;
 import me.sirlich.AsmodeusRpg.core.PlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
@@ -15,10 +14,10 @@ public class PlayerJoinHandler implements Listener{
 
         //THIS STUFF WILL EVENTUALY BE READ IN FROM THE DATABASE
         PlayerList.addPlayer(event.getPlayer());
-        RpgPlayer rpgPlayer = PlayerList.getPlayer(event.getPlayer());
-        rpgPlayer.setCanUseSwitchHandAbility(true);
-        rpgPlayer.setSwitchHandAbility(new EscapeAbility(event.getPlayer()));
-        rpgPlayer.setSwitchHandAbilityLevel(1);
+        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(event.getPlayer());
+        rpgPlayer.setCanUseSwapAbility(true);
+        rpgPlayer.setSwapAbility(new EscapeAbility(event.getPlayer()));
+        rpgPlayer.setSwapAbilityLevel(1);
 
         //Other shit that needs to get set.
         event.getPlayer().setExp(1.0f);

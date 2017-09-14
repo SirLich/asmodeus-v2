@@ -17,19 +17,19 @@ public class AbilitiesHandler implements Listener
         event.setCancelled(true);
         if(event.getPlayer() != null){
             Player player = (Player) event.getPlayer();
-            RpgPlayer rpgPlayer = PlayerList.getPlayer(player);
-            Ability ability = rpgPlayer.getSwitchHandAbility();
-            if(rpgPlayer.isCanUseSwitchHandAbility()){
+            RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+            Ability ability = rpgPlayer.getSwapAbility();
+            if(rpgPlayer.isCanUseSwapAbility()){
                 ability.run();
-                rpgPlayer.setCanUseSwitchHandAbility(false);
+                rpgPlayer.setCanUseSwapAbility(false);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        rpgPlayer.setCanUseSwitchHandAbility(true);
+                        rpgPlayer.setCanUseSwapAbility(true);
                         ChatUtils.abilitiesChat(player,ability.getRechargeMessage());
                     }
 
-                }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwitchHandAbility().getRechargeRate(rpgPlayer.getSwitchHandAbilityLevel()));
+                }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate(rpgPlayer.getSwapAbilityLevel()));
             } else{
                 ChatUtils.chatWarning(player,"That ability has not recharged yet.");
             }
