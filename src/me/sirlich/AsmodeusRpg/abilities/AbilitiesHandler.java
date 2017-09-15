@@ -70,6 +70,8 @@ public class AbilitiesHandler implements Listener
                     }
                 }
             }
+        } else{
+            System.out.println("Stop fucking around with packets");
         }
     }
 }
