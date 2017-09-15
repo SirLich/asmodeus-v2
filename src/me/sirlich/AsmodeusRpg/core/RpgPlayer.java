@@ -43,15 +43,16 @@ public class RpgPlayer
 
     /*
     This method is used to add or subtract speed from a players passive walking/running speed.
-    The speed modifier should be kept between the values of -10,10.
+    The speed modifier should be kept between the values of 0,1. (negative nums do weird things..)
      */
-    public void IncreaseSpeedModifier(Float f){
+    public void increaseSpeedModifier(Float f){
         speedModifier += f;
         Player player = getPlayer();
-        if(speedModifier != 0){
-            player.setWalkSpeed(speedModifier/10);
+        if(speedModifier != 0 && speedModifier <= 1){
+            player.setWalkSpeed(speedModifier);
         } else{
-            player.setWalkSpeed(0f);
+            speedModifier = 0;
+            player.setWalkSpeed(speedModifier);
         }
     }
 
@@ -59,13 +60,14 @@ public class RpgPlayer
     This method is used to SET player speed.
     Please use IncreaseSpeedMofifier for everything: This is just for initialization.
      */
-    public void SetSpeedModifier(Float f){
+    public void setSpeedModifier(Float f){
         speedModifier = f;
         Player player = getPlayer();
-        if(speedModifier != 0){
+        if(speedModifier != 0 && speedModifier <= 1){
             player.setWalkSpeed(speedModifier/10);
         } else{
-            player.setWalkSpeed(0f);
+            speedModifier = 0;
+            player.setWalkSpeed(speedModifier);
         }
     }
 

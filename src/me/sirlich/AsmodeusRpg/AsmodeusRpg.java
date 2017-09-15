@@ -9,7 +9,8 @@ import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 import me.sirlich.AsmodeusRpg.testing.TestPlayerList;
-import me.sirlich.AsmodeusRpg.testing.TestSpeedModifierCommand;
+import me.sirlich.AsmodeusRpg.testing.TestIncreaseSpeedModifier;
+import me.sirlich.AsmodeusRpg.testing.TestSetSpeedModifier;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -132,8 +133,9 @@ public class AsmodeusRpg extends JavaPlugin {
     }
 
     private void registerCommands(){
-        this.getCommand("setSpeed").setExecutor(new TestSpeedModifierCommand());
+        this.getCommand("increaseSpeed").setExecutor(new TestIncreaseSpeedModifier());
         this.getCommand("playerList").setExecutor(new TestPlayerList());
+        this.getCommand("setSpeed").setExecutor(new TestSetSpeedModifier());
     }
     private void listener(Listener... listeners) {
         for (Listener listener : listeners) {
