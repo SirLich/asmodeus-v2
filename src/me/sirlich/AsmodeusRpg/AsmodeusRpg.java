@@ -1,11 +1,15 @@
 package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
+import me.sirlich.AsmodeusRpg.core.CancelPassiveRegeneration;
+import me.sirlich.AsmodeusRpg.core.PlayerJoinHandler;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
+import me.sirlich.AsmodeusRpg.testing.TestPlayerList;
+import me.sirlich.AsmodeusRpg.testing.TestSpeedModifierCommand;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,6 +40,9 @@ public class AsmodeusRpg extends JavaPlugin {
     @Override
     public void onEnable() {
         RegionUtils.loadFiles();
+
+        registerCommands();
+
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
@@ -46,6 +53,7 @@ public class AsmodeusRpg extends JavaPlugin {
         listener(new CivilianHandler());
         listener(new AbilitiesHandler());
         listener(new PlayerJoinHandler());
+        listener(new CancelPassiveRegeneration());
 
         initStationaryMobs();
     }
@@ -123,6 +131,10 @@ public class AsmodeusRpg extends JavaPlugin {
         }
     }
 
+    private void registerCommands(){
+        this.getCommand("setSpeed").setExecutor(new TestSpeedModifierCommand());
+        this.getCommand("playerList").setExecutor(new TestPlayerList());
+    }
     private void listener(Listener... listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);

@@ -42,22 +42,42 @@ public class RpgPlayer
     private double experienceGainedModifier;
 
     /*
-    This method is used to edit a players passive walking/running speed.
+    This method is used to add or subtract speed from a players passive walking/running speed.
+    The speed modifier should be kept between the values of -10,10.
      */
-    public void editSpeedModifier(Float v){
-        speedModifier += v;
-        getPlayer().setWalkSpeed(speedModifier);
+    public void IncreaseSpeedModifier(Float f){
+        speedModifier += f;
+        Player player = getPlayer();
+        if(speedModifier != 0){
+            player.setWalkSpeed(speedModifier/10);
+        } else{
+            player.setWalkSpeed(0f);
+        }
+    }
+
+    /*
+    This method is used to SET player speed.
+    Please use IncreaseSpeedMofifier for everything: This is just for initialization.
+     */
+    public void SetSpeedModifier(Float f){
+        speedModifier = f;
+        Player player = getPlayer();
+        if(speedModifier != 0){
+            player.setWalkSpeed(speedModifier/10);
+        } else{
+            player.setWalkSpeed(0f);
+        }
     }
 
 
     /*
     This method is used to get a Player from an RpgPlayer.
-    Uses the PLayerList to do so.
+    I make use of the PlayerList to do so.
      */
     public Player getPlayer(){
+        System.out.println("Into getPlayer inside RpgPlayer!");
         return PlayerList.getPlayer(this);
     }
-
 
     public boolean isCanUseFlyAbility()
     {
