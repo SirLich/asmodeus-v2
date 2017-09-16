@@ -11,38 +11,39 @@ import sun.misc.UUDecoder;
 
 public class PlayerList {
 
-    private static HashSet<UUID> uuidHashSet = new HashSet<>();
     public static HashMap <Player,RpgPlayer> rpgPlayerHashMap = new HashMap<>();
     public static HashMap <RpgPlayer,Player> playerHashMap = new HashMap<>();
 
-    public static void addPlayer(Player p){
-        RpgPlayer p2 = new RpgPlayer();
-        Ability toggleFlyAbility = new Ability(p);
-        Ability switchHandAbility = new DoubleJumpAbility(p);
-        Ability dropWeaponAbility = new Ability(p);
+    public static void addPlayer(Player player){
+        RpgPlayer rpgPlayer = new RpgPlayer();
+        Ability toggleFlyAbility = new Ability(player);
+        Ability switchHandAbility = new DoubleJumpAbility(player);
+        Ability dropWeaponAbility = new Ability(player);
 
-        p2.setFlyAbility(toggleFlyAbility);
-        p2.setSwapAbility(switchHandAbility);
-        p2.setDropAbility(dropWeaponAbility);
+        rpgPlayer.setFlyAbility(toggleFlyAbility);
+        rpgPlayer.setSwapAbility(switchHandAbility);
+        rpgPlayer.setDropAbility(dropWeaponAbility);
 
-        rpgPlayerHashMap.put(p,p2);
-        playerHashMap.put(p2,p);
-        uuidHashSet.add(p.getUniqueId());
+        rpgPlayerHashMap.put(player,rpgPlayer);
+        playerHashMap.put(rpgPlayer,player);
     }
 
+    public static void removePlayer(Player player){
+        RpgPlayer rpgPlayer = rpgPlayerHashMap.get(player);
+        playerHashMap.remove(rpgPlayer);
+        rpgPlayerHashMap.remove(player);
+    }
     public static RpgPlayer getRpgPlayer(Player player){
         return rpgPlayerHashMap.get(player);
     }
 
     public static Player getPlayer(RpgPlayer rpgPlayer){
-        System.out.println("Inside get player! inside playerLiast");
         Player player = playerHashMap.get(rpgPlayer);
         System.out.println(player.getName());
         return player;
     }
 
-    public static boolean isPlayerOnline(UUID uuid){
-        System.out.println("Querrying for online player");
-        return !uuidHashSet.contains(uuid);
+    public static boolean isPlayerOnline(Player player){
+        return rpgPlayerHashMap.containsKey(player);
     }
 }

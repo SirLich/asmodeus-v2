@@ -9,7 +9,6 @@ public class RpgPlayer
      */
     private Ability flyAbility;
     private boolean canUseFlyAbility;
-    private int flyAbilityLevel;
 
     private Ability swapAbility;
     private boolean canUseSwapAbility;
@@ -17,7 +16,6 @@ public class RpgPlayer
 
     private Ability dropAbility;
     private boolean canUseDropAbility;
-    private int dropAbilityLevel;
 
     /*
     These vars are all about passive things that effect the player.
@@ -43,14 +41,18 @@ public class RpgPlayer
 
     /*
     This method is used to add or subtract speed from a players passive walking/running speed.
-    The speed modifier should be kept between the values of 0,1. (negative nums do weird things..)
+    The value range is between 0 (no walk) and 1 (speed 10 in essentials)
+    Vanilla walking speed: 0.2
+    Sneaking walking speed: 0.1
+    So boots that add 5% walking speed should add 0.01 speed (and you should add -0.01 when you take them off)
      */
-    public void increaseSpeedModifier(Float f){
+    public void editSpeedModifier(Float f){
         speedModifier += f;
         Player player = getPlayer();
         if(speedModifier != 0 && speedModifier <= 1){
             player.setWalkSpeed(speedModifier);
         } else{
+            System.out.println("A player exceeded their max speed.");
             speedModifier = 0;
             player.setWalkSpeed(speedModifier);
         }
@@ -58,14 +60,16 @@ public class RpgPlayer
 
     /*
     This method is used to SET player speed.
-    Please use IncreaseSpeedMofifier for everything: This is just for initialization.
+    This should only be used in rare cases, such as for initialization.
+    Please see editSpeedModifier for a more general case method.
      */
     public void setSpeedModifier(Float f){
         speedModifier = f;
         Player player = getPlayer();
-        if(speedModifier != 0 && speedModifier <= 1){
-            player.setWalkSpeed(speedModifier/10);
+        if(speedModifier != 0 && speedModifier <= 1 && speedModifier >= 0){
+            player.setWalkSpeed(speedModifier);
         } else{
+            System.out.println("A player exceeded their max speed.");
             speedModifier = 0;
             player.setWalkSpeed(speedModifier);
         }
@@ -89,16 +93,6 @@ public class RpgPlayer
     public void setCanUseFlyAbility(boolean canUseFlyAbility)
     {
         this.canUseFlyAbility = canUseFlyAbility;
-    }
-
-    public int getFlyAbilityLevel()
-    {
-        return flyAbilityLevel;
-    }
-
-    public void setFlyAbilityLevel(int flyAbilityLevel)
-    {
-        this.flyAbilityLevel = flyAbilityLevel;
     }
 
     public boolean isCanUseSwapAbility()
@@ -131,15 +125,6 @@ public class RpgPlayer
         this.canUseDropAbility = canUseDropAbility;
     }
 
-    public int getDropAbilityLevel()
-    {
-        return dropAbilityLevel;
-    }
-
-    public void setDropAbilityLevel(int dropAbilityLevel)
-    {
-        this.dropAbilityLevel = dropAbilityLevel;
-    }
 
     public Ability getFlyAbility() {
         return flyAbility;

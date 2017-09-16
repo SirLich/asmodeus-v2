@@ -3,6 +3,7 @@ package me.sirlich.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
 import me.sirlich.AsmodeusRpg.core.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.PlayerJoinHandler;
+import me.sirlich.AsmodeusRpg.core.PlayerLeaveHandler;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
@@ -55,6 +56,7 @@ public class AsmodeusRpg extends JavaPlugin {
         listener(new AbilitiesHandler());
         listener(new PlayerJoinHandler());
         listener(new CancelPassiveRegeneration());
+        listener(new PlayerLeaveHandler());
 
         initStationaryMobs();
     }

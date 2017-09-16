@@ -14,7 +14,7 @@ public class TestIncreaseSpeedModifier implements CommandExecutor
     {
         if(sender instanceof Player){
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer((Player) sender);
-            rpgPlayer.increaseSpeedModifier(Float.parseFloat(argv[0]));
+            rpgPlayer.editSpeedModifier(Float.parseFloat(argv[0]));
         } else{
             System.out.println("Please only use this command in-game!");
             return false;

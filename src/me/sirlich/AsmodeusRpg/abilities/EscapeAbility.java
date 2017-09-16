@@ -13,7 +13,7 @@ public class EscapeAbility extends Ability
     @Override
     public void run(){
         System.out.println("Event run!");
-        player.setVelocity(player.getLocation().getDirection().multiply(new Vector(-2,0,-2)).add(new Vector(0,2,0)));
+        player.setVelocity(player.getLocation().getDirection().multiply(new Vector(-3,0,-3)).add(new Vector(0,0.5,0)));
         player.sendMessage("hello!");
     }
 

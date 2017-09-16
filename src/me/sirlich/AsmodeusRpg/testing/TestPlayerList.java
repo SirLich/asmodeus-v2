@@ -11,6 +11,6 @@ public class TestPlayerList implements CommandExecutor
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] argv)
     {
         System.out.println(PlayerList.playerHashMap.toString());
-        return false;
+        return true;
     }
 }
