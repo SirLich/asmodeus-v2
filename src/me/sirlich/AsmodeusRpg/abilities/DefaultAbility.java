@@ -16,7 +16,7 @@ public class DefaultAbility extends Ability
     }
 
     @Override
-    public int getRechargeRate(int level)
+    public int getRechargeRate()
     {
         return 100;
     }

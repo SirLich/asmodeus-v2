@@ -25,11 +25,11 @@ public class HyperspeedAbility extends Ability
                 ChatUtils.abilitiesChat(player,"Hyperspeed has expired.");
             }
 
-        }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate(rpgPlayer.getSwapAbilityLevel()));
+        }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
     }
 
     @Override
-    public int getRechargeRate(int level)
+    public int getRechargeRate()
     {
         return 50;
     }

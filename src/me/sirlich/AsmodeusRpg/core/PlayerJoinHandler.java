@@ -16,8 +16,7 @@ public class PlayerJoinHandler implements Listener{
     public void playerJoinEvent(PlayerJoinEvent event){
         Player player = event.getPlayer();
         if(!PlayerList.isPlayerOnline(player)){
-            System.out.println("New player joining... adding to RpgPlayer");
-            //THIS STUFF WILL EVENTUALY BE READ IN FROM THE DATABASE
+            //All of this shit will be read in from the DB eventually.
             PlayerList.addPlayer(player);
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
 

@@ -33,7 +33,7 @@ public class AbilitiesHandler implements Listener
                         ChatUtils.abilitiesChat(player,ability.getRechargeMessage());
                     }
 
-                }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate(rpgPlayer.getSwapAbilityLevel()));
+                }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
             } else{
                 ChatUtils.chatWarning(player,"That ability has not recharged yet.");
             }
@@ -64,7 +64,7 @@ public class AbilitiesHandler implements Listener
                                 ChatUtils.abilitiesChat(player,ability.getRechargeMessage());
                             }
 
-                        }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate(rpgPlayer.getSwapAbilityLevel()));
+                        }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
                     } else{
                         ChatUtils.chatWarning(player,"That ability has not recharged yet.");
                     }

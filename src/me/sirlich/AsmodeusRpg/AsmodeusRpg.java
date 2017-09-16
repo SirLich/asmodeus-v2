@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg;
 
+import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
 import me.sirlich.AsmodeusRpg.core.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.PlayerJoinHandler;
@@ -57,6 +58,7 @@ public class AsmodeusRpg extends JavaPlugin {
         listener(new PlayerJoinHandler());
         listener(new CancelPassiveRegeneration());
         listener(new PlayerLeaveHandler());
+        listener(new AbilitiesEditor());
 
         initStationaryMobs();
     }

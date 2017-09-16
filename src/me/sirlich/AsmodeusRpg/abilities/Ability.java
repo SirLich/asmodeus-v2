@@ -7,12 +7,15 @@ public class Ability {
     private int rechargeRate;
     private String name;
     private String rechargeMessage;
+    private String useMessage;
 
-    public Ability(Player player, int rechargeRate, String name, String rechargeMessage){
+    public Ability(Player player, int rechargeRate, String name, String rechargeMessage, String useMessage){
         this.player = player;
         this.rechargeRate = rechargeRate;
         this.rechargeMessage = rechargeMessage;
         this.name = name;
+        this.useMessage = useMessage;
+
     }
     public Ability(Player p){
         player = p;
@@ -30,9 +33,13 @@ public class Ability {
         return rechargeMessage;
     }
 
-    public int getRechargeRate(int level)
+    public int getRechargeRate()
     {
         return rechargeRate;
+    }
+
+    public String getUseMessage(){
+        return useMessage;
     }
 
     public void run(){

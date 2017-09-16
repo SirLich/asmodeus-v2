@@ -18,7 +18,7 @@ public class EscapeAbility extends Ability
     }
 
     @Override
-    public int getRechargeRate(int level)
+    public int getRechargeRate()
     {
         return 50;
     }
