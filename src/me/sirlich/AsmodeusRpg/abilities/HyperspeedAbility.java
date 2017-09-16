@@ -9,28 +9,22 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class HyperspeedAbility extends Ability
 {
-    private Player player;
     public HyperspeedAbility(Player p) {
         super(p);
-        this.player = super.getPlayer();
+        setName("Hyperspeed");
+        setRechargeRate(300);
     }
     @Override
     public void run(){
-        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(getPlayer());
         rpgPlayer.editSpeedModifier(0.5f);
         new BukkitRunnable() {
             @Override
             public void run() {
                 rpgPlayer.editSpeedModifier(-0.5f);
-                ChatUtils.abilitiesChat(player,"Hyperspeed has expired.");
+                ChatUtils.abilitiesChat(getPlayer(),"Hyperspeed has expired.");
             }
 
-        }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
-    }
-
-    @Override
-    public int getRechargeRate()
-    {
-        return 50;
+        }.runTaskLater(AsmodeusRpg.getInstance(), 30);
     }
 }
