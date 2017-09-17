@@ -52,9 +52,7 @@ public class RpgPlayer
         if(speedModifier != 0 && speedModifier <= 1){
             player.setWalkSpeed(speedModifier);
         } else{
-            System.out.println("A player exceeded their max speed.");
-            speedModifier = 0;
-            player.setWalkSpeed(speedModifier);
+            player.setWalkSpeed(1);
         }
     }
 
@@ -69,9 +67,7 @@ public class RpgPlayer
         if(speedModifier != 0 && speedModifier <= 1 && speedModifier >= 0){
             player.setWalkSpeed(speedModifier);
         } else{
-            System.out.println("A player exceeded their max speed.");
-            speedModifier = 0;
-            player.setWalkSpeed(speedModifier);
+            player.setWalkSpeed(1);
         }
     }
 

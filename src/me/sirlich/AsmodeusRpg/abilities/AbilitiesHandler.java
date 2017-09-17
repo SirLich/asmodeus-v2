@@ -5,6 +5,7 @@ import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.core.PlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import me.sirlich.AsmodeusRpg.utilities.ChatUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,22 +21,23 @@ public class AbilitiesHandler implements Listener
     public void switchHandsEvent(PlayerSwapHandItemsEvent event){
         event.setCancelled(true);
         if(event.getPlayer() != null){
-            Player player = (Player) event.getPlayer();
+            Player player = event.getPlayer();
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
             Ability ability = rpgPlayer.getSwapAbility();
             if(rpgPlayer.isCanUseSwapAbility()){
+                player.sendMessage(ChatColor.WHITE + "You used the " + ChatColor.AQUA + ability.getName() + ChatColor.WHITE + " ability.");
                 ability.run();
                 rpgPlayer.setCanUseSwapAbility(false);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         rpgPlayer.setCanUseSwapAbility(true);
-                        ChatUtils.abilitiesChat(player,ability.getRechargeMessage());
+                        player.sendMessage("You can now use " + ChatColor.AQUA + ability.getName() + ChatColor.WHITE + " ability");
                     }
 
                 }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
             } else{
-                ChatUtils.chatWarning(player,"That ability has not recharged yet.");
+                ChatUtils.chatWarning(player, ability.getName() + " ability has not recharged yet.");
             }
         } else{
             System.out.println("Stop fucking around with packets.");
@@ -45,7 +47,7 @@ public class AbilitiesHandler implements Listener
     @EventHandler
     public void dropItemEvent(PlayerDropItemEvent event){
         if(event.getPlayer() instanceof Player){
-            Player player = (Player) event.getPlayer();
+            Player player = event.getPlayer();
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
             if(event.getItemDrop() != null){
                 Item item = event.getItemDrop();
@@ -61,7 +63,6 @@ public class AbilitiesHandler implements Listener
                             @Override
                             public void run() {
                                 rpgPlayer.setCanUseDropAbility(true);
-                                ChatUtils.abilitiesChat(player,ability.getRechargeMessage());
                             }
 
                         }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
