@@ -48,6 +48,7 @@ public class RpgPlayer
      */
     public void editSpeedModifier(Float f){
         speedModifier += f;
+        System.out.println("Speed mod is " + speedModifier);
         Player player = getPlayer();
         if(speedModifier != 0 && speedModifier <= 1){
             player.setWalkSpeed(speedModifier);

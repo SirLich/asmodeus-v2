@@ -13,6 +13,7 @@ import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 import me.sirlich.AsmodeusRpg.testing.TestPlayerList;
 import me.sirlich.AsmodeusRpg.testing.TestIncreaseSpeedModifier;
 import me.sirlich.AsmodeusRpg.testing.TestSetSpeedModifier;
+import me.sirlich.AsmodeusRpg.utilities.DebugUtilities;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -140,6 +141,7 @@ public class AsmodeusRpg extends JavaPlugin {
         this.getCommand("increaseSpeed").setExecutor(new TestIncreaseSpeedModifier());
         this.getCommand("playerList").setExecutor(new TestPlayerList());
         this.getCommand("setSpeed").setExecutor(new TestSetSpeedModifier());
+        this.getCommand("debug").setExecutor(new DebugUtilities());
     }
     private void listener(Listener... listeners) {
         for (Listener listener : listeners) {

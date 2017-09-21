@@ -32,6 +32,9 @@ public class PlayerJoinHandler implements Listener{
             //Other shit that needs to get set.
             player.setGameMode(GameMode.SURVIVAL);
             player.setAllowFlight(true);
+
+            //set Rpgplayer shit.
+            rpgPlayer.setSpeedModifier(0.2f); //NOTE: This should eventualy loop over armour etc to figure out speed. 0,2 is just base.
         } else{
             System.out.println("Something went wrong! Please see the player list.");
             PlayerList.removePlayer(player);

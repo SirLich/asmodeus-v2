@@ -1,12 +1,18 @@
 package me.sirlich.AsmodeusRpg.abilities;
 
 import de.tr7zw.itemnbtapi.NBTItem;
+import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayer;
+import me.sirlich.AsmodeusRpg.utilities.DebugUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -17,22 +23,137 @@ import java.util.ArrayList;
 
 public class AbilitiesEditor implements Listener
 {
+    private final int MOBILITY_PREDICATE = 1;
+    private final int CARNAGE_PREDICATE = 2;
+    private final int MYTHICAL_PREDICATE = 3;
+
+    private final short HYPERSPEED_PREDICATE = 4;
+    private final short LEAP_PREDICATE = 5;
+    private final String ABILITY_TYPE_INV_NAME = "Select an ability type to edit";
+    private final String MOBILITY_INV_NAME = "";
+    private final String CARNAGE_INV_NAME = "";
+    private final String MYTHICAL_INV_NAME = "";
+
+
     @EventHandler
-    public void playerInteractEvent (PlayerInteractEvent event)
+    public void openInventory (PlayerInteractEvent event)
     {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
         {
             if(event.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE)
             {
                 event.setCancelled(true);
-                Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.GRAY + "Edit your abilities.");
-                inventory.setItem(1,getMenuItem("Escape Ability",10,"Leap high into the air!",0.03));
+                Inventory inventory = Bukkit.createInventory(null, 27, ChatColor.GRAY + "Select an ability type to edit");
+                inventory.setItem(11,getMobilityItem());
+                inventory.setItem(13,getCarnageItem());
+                inventory.setItem(15,getMythicalItem());
+                //inventory.setItem(1, getAbilityItem("Escape Ability",10,"Leap high into the air!",0.03));
                 event.getPlayer().openInventory(inventory);
             }
         }
     }
 
-    public ItemStack getMenuItem(String name, int damagePredicate, String effect, double rechargeRate){
+    @EventHandler
+    public void abilityTypeInventoryClick (InventoryClickEvent event){
+        if(event.getWhoClicked() != null){
+            Player player = (Player) event.getWhoClicked();
+            if(event.getClickedInventory()!=null && event.getCurrentItem() != null){
+                if(event.getClickedInventory().getName().contains(ABILITY_TYPE_INV_NAME)){
+                    int dmg = event.getCurrentItem().getDurability();
+                    if(dmg == MOBILITY_PREDICATE){
+                        openMobilityInventory(player);
+                    } else if(dmg == CARNAGE_PREDICATE){
+                        //more
+                    } else if(dmg == MYTHICAL_PREDICATE){
+                        //more
+                    }
+                }
+            }
+        } else{
+            System.out.println("Please only use this event from in-game!");
+        }
+    }
+
+    @EventHandler
+    public void mobilityInventoryClick(InventoryClickEvent event){
+        if(event.getWhoClicked() != null){
+            Player player = (Player) event.getWhoClicked();
+            if(event.getClickedInventory()!=null && event.getCurrentItem() != null){
+                if(event.getClickedInventory().getName().contains(MOBILITY_INV_NAME)){
+                    event.setCancelled(true);
+                    int dmg = event.getCurrentItem().getDurability();
+                    if(dmg == HYPERSPEED_PREDICATE){
+                        setPlayerAbility(player,new HyperspeedAbility(player));
+                    } else if(dmg == LEAP_PREDICATE){
+                        setPlayerAbility(player,new EscapeAbility(player));
+                    } else if(dmg == MYTHICAL_PREDICATE){
+                        //more
+                    }
+                }
+            }
+        } else{
+            System.out.println("Please only use this event from in-game!");
+        }
+    }
+
+    private void setPlayerAbility(Player player, Ability ability){
+        DebugUtilities.debug("Set " + player.getName() + "'s SwapAbility to " + ability.getName());
+        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+        rpgPlayer.setSwapAbility(ability);
+        rpgPlayer.setCanUseSwapAbility(true);
+        rpgPlayer.setSwapAbilityLevel(1);
+    }
+    private void openMobilityInventory(Player player){
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.GRAY + MOBILITY_INV_NAME);
+        inventory.setItem(1, getAbilityItem("Leap",LEAP_PREDICATE,"Leap high into the air!",10));
+        inventory.setItem(2, getAbilityItem("Hyperspeed",HYPERSPEED_PREDICATE,"Run forest, run!",15));
+        player.openInventory(inventory);
+    }
+
+    //Simeple method to make the GUI code itself cleaner
+    private ItemStack getMobilityItem(){
+        ItemStack itemStack = new ItemStack(Material.STONE_SPADE);
+        itemStack.setDurability((short) MOBILITY_PREDICATE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,ItemFlag.HIDE_UNBREAKABLE);
+        itemMeta.setDisplayName(ChatColor.AQUA + "Mobility");
+        itemStack.setItemMeta(itemMeta);
+        NBTItem nbtItem = new NBTItem(itemStack);
+        nbtItem.setShort("Unbreakable",(short)1);
+        itemStack = nbtItem.getItem();
+        return itemStack;
+    }
+
+    //Simeple method to make the GUI code itself cleaner
+    private ItemStack getCarnageItem(){
+        ItemStack itemStack = new ItemStack(Material.STONE_SPADE);
+        itemStack.setDurability((short) CARNAGE_PREDICATE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,ItemFlag.HIDE_UNBREAKABLE);
+        itemMeta.setDisplayName(ChatColor.RED + "Carnage");
+        itemStack.setItemMeta(itemMeta);
+        NBTItem nbtItem = new NBTItem(itemStack);
+        nbtItem.setShort("Unbreakable",(short)1);
+        itemStack = nbtItem.getItem();
+        return itemStack;
+    }
+
+    //Simeple method to make the GUI code itself cleaner
+    private ItemStack getMythicalItem(){
+        ItemStack itemStack = new ItemStack(Material.STONE_SPADE);
+        itemStack.setDurability((short) MYTHICAL_PREDICATE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,ItemFlag.HIDE_UNBREAKABLE);
+        itemMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Mythical");
+        itemStack.setItemMeta(itemMeta);
+        NBTItem nbtItem = new NBTItem(itemStack);
+        nbtItem.setShort("Unbreakable",(short)1);
+        itemStack = nbtItem.getItem();
+        return itemStack;
+    }
+
+    //Simeple method to make the GUI code itself cleaner
+    private ItemStack getAbilityItem(String name, int damagePredicate, String effect, double rechargeRate){
         ItemStack itemStack = new ItemStack(Material.STONE_SPADE);
         itemStack.setDurability((short)damagePredicate);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -45,6 +166,7 @@ public class AbilitiesEditor implements Listener
         itemStack.setItemMeta(itemMeta);
         NBTItem nbtItem = new NBTItem(itemStack);
         nbtItem.setShort("Unbreakable",(short)1);
+        itemStack = nbtItem.getItem();
         return itemStack;
     }
 }
