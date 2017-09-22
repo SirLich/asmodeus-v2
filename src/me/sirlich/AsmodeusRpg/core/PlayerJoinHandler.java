@@ -1,10 +1,7 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.abilities.DefaultAbility;
-import me.sirlich.AsmodeusRpg.abilities.EscapeAbility;
 import me.sirlich.AsmodeusRpg.abilities.HyperspeedAbility;
-import me.sirlich.AsmodeusRpg.core.PlayerList;
-import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,14 +17,14 @@ public class PlayerJoinHandler implements Listener{
             PlayerList.addPlayer(player);
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
 
-            rpgPlayer.setCanUseSwapAbility(true);
-            rpgPlayer.setSwapAbility(new HyperspeedAbility(player));
+            rpgPlayer.setCanUseCarnageAbility(true);
+            rpgPlayer.setCarnageAbility(new HyperspeedAbility(player));
 
-            rpgPlayer.setDropAbility(new DefaultAbility(player));
-            rpgPlayer.setCanUseDropAbility(true);
+            rpgPlayer.setMythicalAbility(new DefaultAbility(player));
+            rpgPlayer.setCanUseMythicalAbility(true);
 
-            rpgPlayer.setFlyAbility(new DefaultAbility(player));
-            rpgPlayer.setCanUseFlyAbility(true);
+            rpgPlayer.setMobilityAbility(new DefaultAbility(player));
+            rpgPlayer.setCanUseMobilityAbility(true);
 
             //Other shit that needs to get set.
             player.setGameMode(GameMode.SURVIVAL);

@@ -6,10 +6,32 @@ public class Ability {
     private Player player;
     private int rechargeRate;
     private String name;
+    private int duration;
+    private int range;
 
     public Ability(Player p){
         player = p;
     }
+
+
+    public int getRange()
+    {
+        return range;
+    }
+    public void setRange(int range)
+    {
+        this.range = range;
+    }
+
+    public int getDuration()
+    {
+        return duration;
+    }
+    public void setDuration(int duration)
+    {
+        this.duration = duration;
+    }
+
 
     public Player getPlayer()
     {

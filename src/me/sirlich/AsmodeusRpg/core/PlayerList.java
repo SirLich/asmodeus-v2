@@ -1,13 +1,9 @@
 package me.sirlich.AsmodeusRpg.core;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 import me.sirlich.AsmodeusRpg.abilities.Ability;
 import me.sirlich.AsmodeusRpg.abilities.DoubleJumpAbility;
 import org.bukkit.entity.Player;
-import sun.misc.UUDecoder;
 
 public class PlayerList {
 
@@ -20,9 +16,9 @@ public class PlayerList {
         Ability switchHandAbility = new DoubleJumpAbility(player);
         Ability dropWeaponAbility = new Ability(player);
 
-        rpgPlayer.setFlyAbility(toggleFlyAbility);
-        rpgPlayer.setSwapAbility(switchHandAbility);
-        rpgPlayer.setDropAbility(dropWeaponAbility);
+        rpgPlayer.setMobilityAbility(toggleFlyAbility);
+        rpgPlayer.setCarnageAbility(switchHandAbility);
+        rpgPlayer.setMythicalAbility(dropWeaponAbility);
 
         rpgPlayerHashMap.put(player,rpgPlayer);
         playerHashMap.put(rpgPlayer,player);

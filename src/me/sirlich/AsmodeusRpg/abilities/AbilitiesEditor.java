@@ -7,7 +7,6 @@ import me.sirlich.AsmodeusRpg.utilities.DebugUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,20 +22,30 @@ import java.util.ArrayList;
 
 public class AbilitiesEditor implements Listener
 {
+    //Ability type predicates
     private final int MOBILITY_PREDICATE = 1;
     private final int CARNAGE_PREDICATE = 2;
     private final int MYTHICAL_PREDICATE = 3;
 
+    //Mobility type predicates
     private final short HYPERSPEED_PREDICATE = 4;
     private final short LEAP_PREDICATE = 5;
-    private final String ABILITY_TYPE_INV_NAME = "Select an ability type to edit";
-    private final String MOBILITY_INV_NAME = "";
-    private final String CARNAGE_INV_NAME = "";
-    private final String MYTHICAL_INV_NAME = "";
+    private final short HOLY_ORDER_PREDICATE = 6;
+    private final short LIGHTNING_STRIKE_PREDICATE = 7;
+
+    //
+    private final String ABILITY_TYPE_INVENTORY_NAME = "Select an ability type to edit";
+    private final String MOBILITY_INVENTORY_NAME = "Select an ability for your Mobility slot";
+    private final String CARNAGE_INVENTORY_NAME = "Select an ability for your Carnage slot";
+    private final String MYTHICAL_INVENTORY_NAME = "Select an ability for your Mythical slot";
 
 
+    /*
+    This event is used to handle players clicks on an enchant table.
+    This event will handle that click and open the Ability Type GUI.
+     */
     @EventHandler
-    public void openInventory (PlayerInteractEvent event)
+    public void clickEnchantTable(PlayerInteractEvent event)
     {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
         {
@@ -53,12 +62,15 @@ public class AbilitiesEditor implements Listener
         }
     }
 
+    /*
+    This event handles all clicks that occurs inside the AbilityType GUI.
+     */
     @EventHandler
-    public void abilityTypeInventoryClick (InventoryClickEvent event){
+    public void abilityTypeInventoryHandler (InventoryClickEvent event){
         if(event.getWhoClicked() != null){
             Player player = (Player) event.getWhoClicked();
             if(event.getClickedInventory()!=null && event.getCurrentItem() != null){
-                if(event.getClickedInventory().getName().contains(ABILITY_TYPE_INV_NAME)){
+                if(event.getClickedInventory().getName().contains(ABILITY_TYPE_INVENTORY_NAME)){
                     int dmg = event.getCurrentItem().getDurability();
                     if(dmg == MOBILITY_PREDICATE){
                         openMobilityInventory(player);
@@ -74,20 +86,25 @@ public class AbilitiesEditor implements Listener
         }
     }
 
+    /*
+    This event handles all clicks that occurs inside the Mobility GUI.
+     */
     @EventHandler
-    public void mobilityInventoryClick(InventoryClickEvent event){
+    public void mobilityAbilityInventoryHandler(InventoryClickEvent event){
         if(event.getWhoClicked() != null){
             Player player = (Player) event.getWhoClicked();
             if(event.getClickedInventory()!=null && event.getCurrentItem() != null){
-                if(event.getClickedInventory().getName().contains(MOBILITY_INV_NAME)){
+                if(event.getClickedInventory().getName().contains(MOBILITY_INVENTORY_NAME)){
                     event.setCancelled(true);
                     int dmg = event.getCurrentItem().getDurability();
                     if(dmg == HYPERSPEED_PREDICATE){
-                        setPlayerAbility(player,new HyperspeedAbility(player));
+                        setMobilityAbility(player,new HyperspeedAbility(player));
                     } else if(dmg == LEAP_PREDICATE){
-                        setPlayerAbility(player,new EscapeAbility(player));
-                    } else if(dmg == MYTHICAL_PREDICATE){
-                        //more
+                        setMobilityAbility(player,new EscapeAbility(player));
+                    } else if(dmg == HOLY_ORDER_PREDICATE){
+                        setMobilityAbility(player,new HolyOrderAbility(player));
+                    } else if(dmg == LIGHTNING_STRIKE_PREDICATE){
+                    setMobilityAbility(player,new LightningAbility(player));
                     }
                 }
             }
@@ -96,17 +113,35 @@ public class AbilitiesEditor implements Listener
         }
     }
 
-    private void setPlayerAbility(Player player, Ability ability){
-        DebugUtilities.debug("Set " + player.getName() + "'s SwapAbility to " + ability.getName());
+    /*
+    This method is used to set the players Mobility Ability.
+     */
+    private void setMobilityAbility(Player player, Ability ability){
+        DebugUtilities.debug("Set " + player.getName() + "'s mobility ability to " + ability.getName());
         RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
-        rpgPlayer.setSwapAbility(ability);
-        rpgPlayer.setCanUseSwapAbility(true);
-        rpgPlayer.setSwapAbilityLevel(1);
+        rpgPlayer.setCarnageAbility(ability);
+        rpgPlayer.setCanUseCarnageAbility(true);
+        rpgPlayer.setCarnageAbilityLevel(1);
     }
+
+    /*
+    This method is used to set the players swap Carnage Ability/
+     */
+    private void setCarnageAbility(Player player, Ability ability){
+        DebugUtilities.debug("Set " + player.getName() + "'s carnage ability to " + ability.getName());
+        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+        rpgPlayer.setCarnageAbility(ability);
+        rpgPlayer.setCanUseCarnageAbility(true);
+        rpgPlayer.setCarnageAbilityLevel(1);
+    }
+
     private void openMobilityInventory(Player player){
-        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.GRAY + MOBILITY_INV_NAME);
+        Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.GRAY + MOBILITY_INVENTORY_NAME);
         inventory.setItem(1, getAbilityItem("Leap",LEAP_PREDICATE,"Leap high into the air!",10));
         inventory.setItem(2, getAbilityItem("Hyperspeed",HYPERSPEED_PREDICATE,"Run forest, run!",15));
+        inventory.setItem(0, getAbilityItem("Holy Order",HOLY_ORDER_PREDICATE,"Run forest, run!",15));
+        inventory.setItem(3, getAbilityItem("Lightning Strike",LIGHTNING_STRIKE_PREDICATE,"Run forest, run!",15));
+
         player.openInventory(inventory);
     }
 

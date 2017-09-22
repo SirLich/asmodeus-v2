@@ -9,17 +9,11 @@ public class EscapeAbility extends Ability
     public EscapeAbility(Player p) {
         super(p);
         this.player = super.getPlayer();
+        setName("Escape");
+        setRechargeRate(150);
     }
     @Override
     public void run(){
-        System.out.println("Event run!");
         player.setVelocity(player.getLocation().getDirection().multiply(new Vector(-3,0,-3)).add(new Vector(0,0.5,0)));
-        player.sendMessage("hello!");
-    }
-
-    @Override
-    public int getRechargeRate()
-    {
-        return 50;
     }
 }

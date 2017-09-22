@@ -7,15 +7,16 @@ public class RpgPlayer
     /*
     These vars are all about player abilities.
      */
-    private Ability flyAbility;
-    private boolean canUseFlyAbility;
+    private Ability mobilityAbility;
+    private boolean canUseMobilityAbility;
 
-    private Ability swapAbility;
-    private boolean canUseSwapAbility;
-    private int swapAbilityLevel;
+    private Ability carnageAbility;
+    private boolean canUseCarnageAbility;
 
-    private Ability dropAbility;
-    private boolean canUseDropAbility;
+    private int carnageAbilityLevel;
+
+    private Ability mythicalAbility;
+    private boolean canUseMythicalAbility;
 
     /*
     These vars are all about passive things that effect the player.
@@ -82,68 +83,68 @@ public class RpgPlayer
         return PlayerList.getPlayer(this);
     }
 
-    public boolean isCanUseFlyAbility()
+    public boolean isCanUseMobilityAbility()
     {
-        return canUseFlyAbility;
+        return canUseMobilityAbility;
     }
 
-    public void setCanUseFlyAbility(boolean canUseFlyAbility)
+    public void setCanUseMobilityAbility(boolean canUseMobilityAbility)
     {
-        this.canUseFlyAbility = canUseFlyAbility;
+        this.canUseMobilityAbility = canUseMobilityAbility;
     }
 
-    public boolean isCanUseSwapAbility()
+    public boolean isCanUseCarnageAbility()
     {
-        return canUseSwapAbility;
+        return canUseCarnageAbility;
     }
 
-    public void setCanUseSwapAbility(boolean canUseSwapAbility)
+    public void setCanUseCarnageAbility(boolean canUseCarnageAbility)
     {
-        this.canUseSwapAbility = canUseSwapAbility;
+        this.canUseCarnageAbility = canUseCarnageAbility;
     }
 
-    public int getSwapAbilityLevel()
+    public int getCarnageAbilityLevel()
     {
-        return swapAbilityLevel;
+        return carnageAbilityLevel;
     }
 
-    public void setSwapAbilityLevel(int swapAbilityLevel)
+    public void setCarnageAbilityLevel(int carnageAbilityLevel)
     {
-        this.swapAbilityLevel = swapAbilityLevel;
+        this.carnageAbilityLevel = carnageAbilityLevel;
     }
 
-    public boolean isCanUseDropAbility()
+    public boolean isCanUseMythicalAbility()
     {
-        return canUseDropAbility;
+        return canUseMythicalAbility;
     }
 
-    public void setCanUseDropAbility(boolean canUseDropAbility)
+    public void setCanUseMythicalAbility(boolean canUseMythicalAbility)
     {
-        this.canUseDropAbility = canUseDropAbility;
+        this.canUseMythicalAbility = canUseMythicalAbility;
     }
 
 
-    public Ability getFlyAbility() {
-        return flyAbility;
+    public Ability getMobilityAbility() {
+        return mobilityAbility;
     }
 
-    public void setFlyAbility(Ability doubleJumpAbility) {
-        this.flyAbility = doubleJumpAbility;
+    public void setMobilityAbility(Ability doubleJumpAbility) {
+        this.mobilityAbility = doubleJumpAbility;
     }
 
-    public Ability getSwapAbility() {
-        return swapAbility;
+    public Ability getCarnageAbility() {
+        return carnageAbility;
     }
 
-    public void setSwapAbility(Ability swapAbility) {
-        this.swapAbility = swapAbility;
+    public void setCarnageAbility(Ability carnageAbility) {
+        this.carnageAbility = carnageAbility;
     }
 
-    public Ability getDropAbility() {
-        return dropAbility;
+    public Ability getMythicalAbility() {
+        return mythicalAbility;
     }
 
-    public void setDropAbility(Ability dropAbility) {
-        this.dropAbility = dropAbility;
+    public void setMythicalAbility(Ability mythicalAbility) {
+        this.mythicalAbility = mythicalAbility;
     }
 }

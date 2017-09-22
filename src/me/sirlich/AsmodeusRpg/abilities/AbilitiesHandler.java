@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -23,19 +24,19 @@ public class AbilitiesHandler implements Listener
         if(event.getPlayer() != null){
             Player player = event.getPlayer();
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
-            Ability ability = rpgPlayer.getSwapAbility();
-            if(rpgPlayer.isCanUseSwapAbility()){
+            Ability ability = rpgPlayer.getCarnageAbility();
+            if(rpgPlayer.isCanUseCarnageAbility()){
                 player.sendMessage(ChatColor.WHITE + "You used the " + ChatColor.AQUA + ability.getName() + ChatColor.WHITE + " ability.");
                 ability.run();
-                rpgPlayer.setCanUseSwapAbility(false);
+                rpgPlayer.setCanUseCarnageAbility(false);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        rpgPlayer.setCanUseSwapAbility(true);
+                        rpgPlayer.setCanUseCarnageAbility(true);
                         player.sendMessage("You can now use " + ChatColor.AQUA + ability.getName() + ChatColor.WHITE + " ability");
                     }
 
-                }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
+                }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getCarnageAbility().getRechargeRate());
             } else{
                 ChatUtils.chatWarning(player, ability.getName() + " ability has not recharged yet.");
             }
@@ -55,17 +56,17 @@ public class AbilitiesHandler implements Listener
                 NBTItem nbtItem = new NBTItem(itemStack);
                 if(nbtItem.hasKey("wep")){
                     event.setCancelled(true);
-                    Ability ability = rpgPlayer.getSwapAbility();
-                    if(rpgPlayer.isCanUseDropAbility()){
+                    Ability ability = rpgPlayer.getCarnageAbility();
+                    if(rpgPlayer.isCanUseMythicalAbility()){
                         ability.run();
-                        rpgPlayer.setCanUseDropAbility(false);
+                        rpgPlayer.setCanUseMythicalAbility(false);
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                rpgPlayer.setCanUseDropAbility(true);
+                                rpgPlayer.setCanUseMythicalAbility(true);
                             }
 
-                        }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getSwapAbility().getRechargeRate());
+                        }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getCarnageAbility().getRechargeRate());
                     } else{
                         ChatUtils.chatWarning(player,"That ability has not recharged yet.");
                     }
@@ -73,6 +74,14 @@ public class AbilitiesHandler implements Listener
             }
         } else{
             System.out.println("Stop fucking around with packets");
+        }
+    }
+
+    @EventHandler
+    public void toggleFlyEvent(PlayerToggleFlightEvent event){
+        if(event.getPlayer() instanceof Player){
+            Player player = (Player) event.getPlayer();
+            
         }
     }
 }
