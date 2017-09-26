@@ -6,6 +6,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinHandler implements Listener{
@@ -32,6 +33,7 @@ public class PlayerJoinHandler implements Listener{
 
             //set Rpgplayer shit.
             rpgPlayer.setSpeedModifier(0.2f); //NOTE: This should eventualy loop over armour etc to figure out speed. 0,2 is just base.
+            rpgPlayer.resetHealth();
         } else{
             System.out.println("Something went wrong! Please see the player list.");
             PlayerList.removePlayer(player);

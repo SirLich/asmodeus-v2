@@ -1,6 +1,9 @@
 package me.sirlich.AsmodeusRpg.core;
 import me.sirlich.AsmodeusRpg.abilities.Ability;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import org.bukkit.material.MaterialData;
 
 public class RpgPlayer
 {
@@ -38,6 +41,8 @@ public class RpgPlayer
     private double staminaDrainOnBowUseModifier;
     private double healthRegenPerSecond;
     private double armorValue;
+    private int maxHealth;
+    private int health;
     private double experienceGainedModifier;
 
     /*
@@ -70,6 +75,77 @@ public class RpgPlayer
             player.setWalkSpeed(speedModifier);
         } else{
             player.setWalkSpeed(1);
+        }
+    }
+
+    public void resetHealth() {
+        maxHealth = 50;
+        health = 50;
+        Player player = getPlayer();
+        player.setHealth(20);
+    }
+
+    public void setMaxHealth(int i) {
+        if (i < 10) {
+            maxHealth = 10;
+        } else {
+            maxHealth = i;
+        }
+
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+
+        Player player = getPlayer();
+        double healthPercent = (health + 0.0)/(maxHealth + 0.0);
+        player.setHealth(healthPercent * 20);
+    }
+
+    public void editMaxHealth(int i) {
+        if (maxHealth + i < 10) {
+            maxHealth = 10;
+        } else {
+            maxHealth += i;
+        }
+
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+
+        Player player = getPlayer();
+        player.setHealth(health / maxHealth * 20);
+    }
+
+    public void setHealth(int i) {
+        if (i > maxHealth) {
+            health = maxHealth;
+        } else {
+            health = i;
+        }
+
+        Player player = getPlayer();
+        player.setHealth(health / maxHealth * 20);
+
+    }
+
+    public void editHealth(int i) {
+        if (health + i > maxHealth) {
+            health = maxHealth;
+        } else {
+            health += i;
+        }
+
+        Player player = getPlayer();
+        double healthPercent = (health + 0.0) / (maxHealth + 0.0);
+        if (!player.isDead()) {
+            player.damage(0.001);
+            if (healthPercent <= 0) {
+                player.setHealth(0);
+                health = maxHealth;
+            } else {
+                player.setHealth(healthPercent * 20.0);
+            }
+            player.getWorld().spawnParticle(Particle.BLOCK_CRACK, player.getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
         }
     }
 

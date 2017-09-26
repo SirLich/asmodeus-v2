@@ -2,23 +2,26 @@ package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
-import me.sirlich.AsmodeusRpg.core.CancelHunger;
-import me.sirlich.AsmodeusRpg.core.CancelPassiveRegeneration;
-import me.sirlich.AsmodeusRpg.core.PlayerJoinHandler;
-import me.sirlich.AsmodeusRpg.core.PlayerLeaveHandler;
+import me.sirlich.AsmodeusRpg.core.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
+//import me.sirlich.AsmodeusRpg.items.RPGWeapon;
+//import me.sirlich.AsmodeusRpg.items.Texture;
 import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
+//import me.sirlich.AsmodeusRpg.testing.GetItem;
 import me.sirlich.AsmodeusRpg.testing.TestPlayerList;
 import me.sirlich.AsmodeusRpg.testing.TestIncreaseSpeedModifier;
 import me.sirlich.AsmodeusRpg.testing.TestSetSpeedModifier;
+import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import me.sirlich.AsmodeusRpg.utilities.DebugUtilities;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.command.CommandMap;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -28,6 +31,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +50,7 @@ public class AsmodeusRpg extends JavaPlugin {
     public void onEnable() {
         RegionUtils.loadFiles();
 
-        registerCommands();
+        //register(new GetItem());
 
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
@@ -62,8 +66,13 @@ public class AsmodeusRpg extends JavaPlugin {
         listener(new PlayerLeaveHandler());
         listener(new AbilitiesEditor());
         listener(new CancelHunger());
+        listener(new RPGDamage());
 
         initStationaryMobs();
+
+        /*new RPGWeapon(Texture.WOOD_SWORD, "Test Sword", "weapon_test-sword", RPGWeapon.Rarity.COMMON, true,
+                1, 5, 5, 0, false, 0, 0, 0,
+                0, null, null, null);*/
     }
 
     @Override
@@ -139,12 +148,28 @@ public class AsmodeusRpg extends JavaPlugin {
         }
     }
 
-    private void registerCommands(){
-        this.getCommand("increaseSpeed").setExecutor(new TestIncreaseSpeedModifier());
-        this.getCommand("playerList").setExecutor(new TestPlayerList());
-        this.getCommand("setSpeed").setExecutor(new TestSetSpeedModifier());
-        this.getCommand("debug").setExecutor(new DebugUtilities());
+    static CommandMap map;
+
+    public static void register(AsmodeusCommand... cmds) {
+        try {
+            final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            f.setAccessible(true);
+            map = (CommandMap) f.get(Bukkit.getServer());
+
+            for (AsmodeusCommand cmd : cmds) {
+                map.register(cmd.getName(), cmd);
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
+
     private void listener(Listener... listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
