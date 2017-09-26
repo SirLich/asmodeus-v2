@@ -76,6 +76,8 @@ public class RPGDamage implements Listener {
                     }
                 }
 
+
+
                 // Hit the closest player
                 if (hit != null) {
                     PlayerList.getRpgPlayer(hit).editHealth(-1 * damage);
@@ -91,23 +93,25 @@ public class RPGDamage implements Listener {
 
     @EventHandler (priority = EventPriority.LOWEST)
     public void onAttack(EntityDamageByEntityEvent e) {
-        attackSuccess = true;
-        e.setCancelled(true);
-        ItemStack i = ((Player) e.getDamager()).getItemInHand();
-        int damage = 1;
-        RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
-        if (wep != null) {
-            damage = wep.getPrimaryDamage().getRandomInt();
-            System.out.println(damage);
-        }
-        if (e.getEntity() instanceof Player) {
-            PlayerList.getRpgPlayer((Player) e.getEntity()).editHealth(-1 * damage);
-            if (e.getDamager() instanceof Player) {
-                Player damager = (Player) e.getDamager();
+        if (e.getDamager() instanceof Player) {
+            attackSuccess = true;
+            e.setCancelled(true);
+            ItemStack i = ((Player) e.getDamager()).getItemInHand();
+            int damage = 1;
+            RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
+            if (wep != null) {
+                damage = wep.getPrimaryDamage().getRandomInt();
+                System.out.println(damage);
+            }
+            if (e.getEntity() instanceof Player) {
+                PlayerList.getRpgPlayer((Player) e.getEntity()).editHealth(-1 * damage);
+                if (e.getDamager() instanceof Player) {
+                    Player damager = (Player) e.getDamager();
 
-                Entity p = e.getEntity();
+                    Entity p = e.getEntity();
 
-                p.setVelocity(damager.getLocation().getDirection().setY(0).normalize().multiply(0));
+                    p.setVelocity(damager.getLocation().getDirection().setY(0).normalize().multiply(0));
+                }
             }
         }
     }
