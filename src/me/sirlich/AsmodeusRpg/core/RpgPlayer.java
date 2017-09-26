@@ -116,6 +116,14 @@ public class RpgPlayer
         player.setHealth(health / maxHealth * 20);
     }
 
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
     public void setHealth(int i) {
         if (i > maxHealth) {
             health = maxHealth;
@@ -141,7 +149,6 @@ public class RpgPlayer
             player.damage(0.001);
             if (healthPercent <= 0) {
                 player.setHealth(0);
-                health = maxHealth;
             } else {
                 player.setHealth(healthPercent * 20.0);
             }

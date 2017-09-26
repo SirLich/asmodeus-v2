@@ -203,7 +203,7 @@ public final class Range<T> implements Serializable {
     public int getRandomInt() {
         if (this.minimum instanceof Integer) {
             Random random = new Random();
-            return random.nextInt(((Integer) this.minimum - (Integer) this.maximum) + 1) + (Integer) this.minimum;
+            return random.nextInt(((Integer) this.maximum - (Integer) this.minimum) + 1) + (Integer) this.minimum;
         }
         return 0;
     }

@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg.core;
 
+import me.sirlich.AsmodeusRpg.items.ItemHandler;
 import me.sirlich.AsmodeusRpg.items.RPGItem;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.utilities.Vector3D;
@@ -15,7 +16,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class RPGDamage implements Listener {
@@ -28,8 +31,8 @@ public class RPGDamage implements Listener {
 
                 Player observer = e.getPlayer();
 
-                int damage;
-                double range;
+                int damage = 1;
+                double range = 3;
 
                 //Calculate damage from weapon here.
 
@@ -38,8 +41,13 @@ public class RPGDamage implements Listener {
                 damage = wep.getPrimaryDamage().getRandomInt();
                 range = wep.getPrimaryRange();
             } else {*/
-                damage = 1;
-                range = 10;
+                ItemStack i = observer.getItemInHand();
+                RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
+                if (wep != null) {
+                    damage = wep.getPrimaryDamage().getRandomInt();
+                    System.out.println(damage);
+                    range = wep.getPrimaryRange();
+                }
                 //}
 
                 Location observerPos = observer.getEyeLocation();
@@ -85,8 +93,13 @@ public class RPGDamage implements Listener {
     public void onAttack(EntityDamageByEntityEvent e) {
         attackSuccess = true;
         e.setCancelled(true);
-        //Calculate damage from weapon here.
+        ItemStack i = ((Player) e.getDamager()).getItemInHand();
         int damage = 1;
+        RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
+        if (wep != null) {
+            damage = wep.getPrimaryDamage().getRandomInt();
+            System.out.println(damage);
+        }
         if (e.getEntity() instanceof Player) {
             PlayerList.getRpgPlayer((Player) e.getEntity()).editHealth(-1 * damage);
             if (e.getDamager() instanceof Player) {
@@ -102,6 +115,12 @@ public class RPGDamage implements Listener {
     @EventHandler (priority = EventPriority.LOW)
     public void onDeath(PlayerDeathEvent e) {
         e.setDeathMessage("");
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+        RpgPlayer player = PlayerList.getRpgPlayer(e.getPlayer());
+        player.setHealth(player.getMaxHealth());
     }
 
     private boolean hasIntersection(Vector3D p1, Vector3D p2, Vector3D min, Vector3D max) {

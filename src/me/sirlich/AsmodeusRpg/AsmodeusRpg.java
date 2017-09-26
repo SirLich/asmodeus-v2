@@ -8,9 +8,12 @@ import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 //import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 //import me.sirlich.AsmodeusRpg.items.Texture;
+import me.sirlich.AsmodeusRpg.items.RPGWeapon;
+import me.sirlich.AsmodeusRpg.items.Texture;
 import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 //import me.sirlich.AsmodeusRpg.testing.GetItem;
+import me.sirlich.AsmodeusRpg.testing.GetItem;
 import me.sirlich.AsmodeusRpg.testing.TestPlayerList;
 import me.sirlich.AsmodeusRpg.testing.TestIncreaseSpeedModifier;
 import me.sirlich.AsmodeusRpg.testing.TestSetSpeedModifier;
@@ -50,7 +53,7 @@ public class AsmodeusRpg extends JavaPlugin {
     public void onEnable() {
         RegionUtils.loadFiles();
 
-        //register(new GetItem());
+        register(new GetItem());
 
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
@@ -69,6 +72,10 @@ public class AsmodeusRpg extends JavaPlugin {
         listener(new RPGDamage());
 
         initStationaryMobs();
+
+        RPGWeapon wep = new RPGWeapon("weapon_test-sword");
+        wep.primaryAttack(1, 5, 10, 0).texture(Texture.WOOD_SWORD).rarity(0).name("Test Sword").description("&9This weapon was created to",
+                "&9test the functionalities of the", "&9Item System.").finish();
 
         /*new RPGWeapon(Texture.WOOD_SWORD, "Test Sword", "weapon_test-sword", RPGWeapon.Rarity.COMMON, true,
                 1, 5, 5, 0, false, 0, 0, 0,
