@@ -1,9 +1,9 @@
 package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_2_R1.*;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftVillager;
+import org.bukkit.craftbukkit.v1_12_2_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_12_2_R1.entity.CraftVillager;
 
 public class Blacksmith extends EntityVillager {
 

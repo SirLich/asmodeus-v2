@@ -27,7 +27,6 @@ public class RPGDamage implements Listener {
     public void onPrimaryAttack(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             if (!attackSuccess) {
-                e.setCancelled(true);
 
                 Player observer = e.getPlayer();
 
