@@ -6,6 +6,7 @@ import me.sirlich.AsmodeusRpg.core.PlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import me.sirlich.AsmodeusRpg.utilities.ChatUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,6 +39,7 @@ public class AbilitiesHandler implements Listener
 
                 }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getCarnageAbility().getRechargeRate());
             } else{
+                player.playSound(player.getLocation(),Sound.BLOCK_COMPARATOR_CLICK,1,1);
                 ChatUtils.chatWarning(player, ability.getName() + " ability has not recharged yet.");
             }
         } else{
@@ -68,6 +70,7 @@ public class AbilitiesHandler implements Listener
 
                         }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getCarnageAbility().getRechargeRate());
                     } else{
+                        player.playSound(player.getLocation(),Sound.BLOCK_COMPARATOR_CLICK,1,1);
                         ChatUtils.chatWarning(player,"That ability has not recharged yet.");
                     }
                 }
@@ -81,7 +84,24 @@ public class AbilitiesHandler implements Listener
     public void toggleFlyEvent(PlayerToggleFlightEvent event){
         if(event.getPlayer() instanceof Player){
             Player player = (Player) event.getPlayer();
-            
+            RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+            event.setCancelled(true);
+            Ability ability = rpgPlayer.getMobilityAbility();
+            if(rpgPlayer.isCanUseMobilityAbility()){
+                ability.run();
+                rpgPlayer.setCanUseMobilityAbility(false);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.playSound(player.getLocation(),Sound.ITEM_BOTTLE_FILL,1,1);
+                        rpgPlayer.setCanUseMobilityAbility(true);
+                    }
+
+                }.runTaskLater(AsmodeusRpg.getInstance(), rpgPlayer.getMobilityAbility().getRechargeRate());
+            } else{
+                player.playSound(player.getLocation(),Sound.BLOCK_COMPARATOR_CLICK,1,1);
+                ChatUtils.chatWarning(player,"That ability has not recharged yet.");
+            }
         }
     }
 }

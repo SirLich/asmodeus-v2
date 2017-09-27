@@ -4,6 +4,7 @@ import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
 import me.sirlich.AsmodeusRpg.core.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
+import me.sirlich.AsmodeusRpg.customMobs.monsters.LeapingZombie;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 //import me.sirlich.AsmodeusRpg.items.RPGWeapon;
@@ -60,6 +61,8 @@ public class AsmodeusRpg extends JavaPlugin {
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
         NMSUtils.registerEntity("blacksmith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
         NMSUtils.registerEntity("aggressive_cow", NMSUtils.Type.COW, AggressiveCow.class, false);
+        NMSUtils.registerEntity("leaping_zombie", NMSUtils.Type.HUSK, LeapingZombie.class, false);
+
 
         listener(new BlacksmithHandler());
         listener(new CivilianHandler());

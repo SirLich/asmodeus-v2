@@ -13,9 +13,20 @@ public class RpgPlayer
     private Ability mobilityAbility;
     private boolean canUseMobilityAbility;
 
+    public int getMobilityAbilityLevel()
+    {
+        return mobilityAbilityLevel;
+    }
+
+    public void setMobilityAbilityLevel(int mobilityAbilityLevel)
+    {
+        this.mobilityAbilityLevel = mobilityAbilityLevel;
+    }
+
+    private int mobilityAbilityLevel;
+
     private Ability carnageAbility;
     private boolean canUseCarnageAbility;
-
     private int carnageAbilityLevel;
 
     private Ability mythicalAbility;

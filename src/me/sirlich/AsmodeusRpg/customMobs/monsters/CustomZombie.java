@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg.customMobs.monsters;
 
+import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -13,6 +14,7 @@ public class CustomZombie extends EntityZombie implements IRangedEntity
         super(world);
     }
 
+
     /*
     @Override
     protected void initAttributes() {
@@ -20,12 +22,14 @@ public class CustomZombie extends EntityZombie implements IRangedEntity
         super.initAttributes();
         // Next, overriding armor and max health!
         // Setting the max health to 40:
-        this.getAttributeInstance(Attributes.MAX_HEALTH.getValue()).setValue(40.0);
+        this.getAttributeInstance(NMSUtils.Attributes.MAX_HEALTH.getValue()).setValue(40.0);
         // Setting the 'defense' (armor) to 5:
-        this.getAttributeInstance(Attributes.ARMOR.getValue()).setValue(5.0);
+        this.getAttributeInstance(NMSUtils.Attributes.ARMOR.getValue()).setValue(5.0);
     }
     */
+
     @Override
+
     protected void r() {
         // Adding our custom pathfinder selectors.
         // Grants our zombie the ability to swim.
