@@ -1,6 +1,6 @@
 package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_2_R1.*;
 
 public class ShopKeeper extends EntityVillager
 {
