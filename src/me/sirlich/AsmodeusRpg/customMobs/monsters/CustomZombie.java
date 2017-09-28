@@ -1,7 +1,7 @@
 package me.sirlich.AsmodeusRpg.customMobs.monsters;
 
-import net.minecraft.server.v1_12_2_R1.*;
-import org.bukkit.craftbukkit.v1_12_2_R1.event.CraftEventFactory;
+import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 // Requires NMSUtils to be available! https://pastebin.com/V6G1B4cg

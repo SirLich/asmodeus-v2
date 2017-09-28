@@ -1,4 +1,18 @@
 name: AsmodeusRpg
 version: 1.12.1
-author: SirLich
+author: SirLich and HowToZombie
 main: me.sirlich.AsmodeusRpg.AsmodeusRpg
+commands:
+  increaseSpeed:
+    description: NA
+    usage: NA
+  setSpeed:
+    description: NA
+    usage: Also NA
+  playerList:
+    description: Not needed
+    usage: not needed lol
+  debug:
+    description: Use to toggle debub lines from AsmodeusRpg
+    usage: /debug
+   

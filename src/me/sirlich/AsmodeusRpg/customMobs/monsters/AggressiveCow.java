@@ -1,8 +1,8 @@
 package me.sirlich.AsmodeusRpg.customMobs.monsters;
 
-import net.minecraft.server.v1_12_2_R1.*;
-import org.bukkit.craftbukkit.v1_12_2_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_12_2_R1.entity.CraftCow;
+import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftCow;
 
 public class AggressiveCow extends EntityCow
 {

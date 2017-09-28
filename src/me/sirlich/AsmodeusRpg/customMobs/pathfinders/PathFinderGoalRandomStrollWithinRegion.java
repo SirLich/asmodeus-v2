@@ -1,15 +1,12 @@
 package me.sirlich.AsmodeusRpg.customMobs.pathfinders;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.customMobs.npcs.CivilianList;
 import me.sirlich.AsmodeusRpg.regions.Region;
-import me.sirlich.AsmodeusRpg.regions.RegionUtils;
-import net.minecraft.server.v1_12_2_R1.EntityCreature;
-import net.minecraft.server.v1_12_2_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_12_2_R1.Vec3D;
+import net.minecraft.server.v1_12_R1.EntityCreature;
+import net.minecraft.server.v1_12_R1.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_12_R1.Vec3D;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import javax.annotation.Nullable;

@@ -2,12 +2,13 @@ package me.sirlich.AsmodeusRpg.customMobs.npcs;
 
 import me.sirlich.AsmodeusRpg.customMobs.pathfinders.PathFinderGoalRandomStrollWithinRegion;
 import me.sirlich.AsmodeusRpg.regions.Region;
-import net.minecraft.server.v1_12_2_R1.*;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_12_2_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_12_2_R1.entity.CraftVillager;
+import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftVillager;
 
-public class Civilian extends EntityVillager {
+public class Civilian extends EntityVillager
+{
     private String name;
     private int profession;
     private Region region;

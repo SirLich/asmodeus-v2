@@ -1,10 +1,10 @@
 package me.sirlich.AsmodeusRpg.utilities;
 
-import net.minecraft.server.v1_12_2_R1.ChatMessageType;
-import net.minecraft.server.v1_12_2_R1.IChatBaseComponent;
-import net.minecraft.server.v1_12_2_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_12_R1.ChatMessageType;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent;
+import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_12_2_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class ActionBarUtil {
