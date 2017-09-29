@@ -1,4 +1,5 @@
 package me.sirlich.AsmodeusRpg.core;
+
 import me.sirlich.AsmodeusRpg.abilities.Ability;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -12,26 +13,12 @@ public class RpgPlayer
      */
     private Ability mobilityAbility;
     private boolean canUseMobilityAbility;
-
-    public int getMobilityAbilityLevel()
-    {
-        return mobilityAbilityLevel;
-    }
-
-    public void setMobilityAbilityLevel(int mobilityAbilityLevel)
-    {
-        this.mobilityAbilityLevel = mobilityAbilityLevel;
-    }
-
     private int mobilityAbilityLevel;
-
     private Ability carnageAbility;
     private boolean canUseCarnageAbility;
     private int carnageAbilityLevel;
-
     private Ability mythicalAbility;
     private boolean canUseMythicalAbility;
-
     /*
     These vars are all about passive things that effect the player.
     Things that might influence these values:
@@ -56,6 +43,16 @@ public class RpgPlayer
     private int health;
     private double experienceGainedModifier;
 
+    public int getMobilityAbilityLevel()
+    {
+        return mobilityAbilityLevel;
+    }
+
+    public void setMobilityAbilityLevel(int mobilityAbilityLevel)
+    {
+        this.mobilityAbilityLevel = mobilityAbilityLevel;
+    }
+
     /*
     This method is used to add or subtract speed from a players passive walking/running speed.
     The value range is between 0 (no walk) and 1 (speed 10 in essentials)
@@ -63,13 +60,14 @@ public class RpgPlayer
     Sneaking walking speed: 0.1
     So boots that add 5% walking speed should add 0.01 speed (and you should add -0.01 when you take them off)
      */
-    public void editSpeedModifier(Float f){
+    public void editSpeedModifier(Float f)
+    {
         speedModifier += f;
         System.out.println("Speed mod is " + speedModifier);
         Player player = getPlayer();
-        if(speedModifier != 0 && speedModifier <= 1){
+        if (speedModifier != 0 && speedModifier <= 1) {
             player.setWalkSpeed(speedModifier);
-        } else{
+        } else {
             player.setWalkSpeed(1);
         }
     }
@@ -79,40 +77,27 @@ public class RpgPlayer
     This should only be used in rare cases, such as for initialization.
     Please see editSpeedModifier for a more general case method.
      */
-    public void setSpeedModifier(Float f){
+    public void setSpeedModifier(Float f)
+    {
         speedModifier = f;
         Player player = getPlayer();
-        if(speedModifier != 0 && speedModifier <= 1 && speedModifier >= 0){
+        if (speedModifier != 0 && speedModifier <= 1 && speedModifier >= 0) {
             player.setWalkSpeed(speedModifier);
-        } else{
+        } else {
             player.setWalkSpeed(1);
         }
     }
 
-    public void resetHealth() {
+    public void resetHealth()
+    {
         maxHealth = 50;
         health = 50;
         Player player = getPlayer();
         player.setHealth(20);
     }
 
-    public void setMaxHealth(int i) {
-        if (i < 10) {
-            maxHealth = 10;
-        } else {
-            maxHealth = i;
-        }
-
-        if (health > maxHealth) {
-            health = maxHealth;
-        }
-
-        Player player = getPlayer();
-        double healthPercent = (health + 0.0)/(maxHealth + 0.0);
-        player.setHealth(healthPercent * 20);
-    }
-
-    public void editMaxHealth(int i) {
+    public void editMaxHealth(int i)
+    {
         if (maxHealth + i < 10) {
             maxHealth = 10;
         } else {
@@ -127,15 +112,35 @@ public class RpgPlayer
         player.setHealth(health / maxHealth * 20);
     }
 
-    public int getMaxHealth() {
+    public int getMaxHealth()
+    {
         return maxHealth;
     }
 
-    public int getHealth() {
+    public void setMaxHealth(int i)
+    {
+        if (i < 10) {
+            maxHealth = 10;
+        } else {
+            maxHealth = i;
+        }
+
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+
+        Player player = getPlayer();
+        double healthPercent = (health + 0.0) / (maxHealth + 0.0);
+        player.setHealth(healthPercent * 20);
+    }
+
+    public int getHealth()
+    {
         return health;
     }
 
-    public void setHealth(int i) {
+    public void setHealth(int i)
+    {
         if (i > maxHealth) {
             health = maxHealth;
         } else {
@@ -147,7 +152,8 @@ public class RpgPlayer
 
     }
 
-    public void editHealth(int i) {
+    public void editHealth(int i)
+    {
         if (health + i > maxHealth) {
             health = maxHealth;
         } else {
@@ -172,7 +178,8 @@ public class RpgPlayer
     This method is used to get a Player from an RpgPlayer.
     I make use of the PlayerList to do so.
      */
-    public Player getPlayer(){
+    public Player getPlayer()
+    {
         System.out.println("Into getPlayer inside RpgPlayer!");
         return PlayerList.getPlayer(this);
     }
@@ -218,27 +225,33 @@ public class RpgPlayer
     }
 
 
-    public Ability getMobilityAbility() {
+    public Ability getMobilityAbility()
+    {
         return mobilityAbility;
     }
 
-    public void setMobilityAbility(Ability doubleJumpAbility) {
+    public void setMobilityAbility(Ability doubleJumpAbility)
+    {
         this.mobilityAbility = doubleJumpAbility;
     }
 
-    public Ability getCarnageAbility() {
+    public Ability getCarnageAbility()
+    {
         return carnageAbility;
     }
 
-    public void setCarnageAbility(Ability carnageAbility) {
+    public void setCarnageAbility(Ability carnageAbility)
+    {
         this.carnageAbility = carnageAbility;
     }
 
-    public Ability getMythicalAbility() {
+    public Ability getMythicalAbility()
+    {
         return mythicalAbility;
     }
 
-    public void setMythicalAbility(Ability mythicalAbility) {
+    public void setMythicalAbility(Ability mythicalAbility)
+    {
         this.mythicalAbility = mythicalAbility;
     }
 }

@@ -2,9 +2,12 @@ package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
+import me.sirlich.AsmodeusRpg.cancellers.CancelHunger;
+import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.LeapingZombie;
+import me.sirlich.AsmodeusRpg.customMobs.monsters.TestMob;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 //import me.sirlich.AsmodeusRpg.items.RPGWeapon;
@@ -15,15 +18,11 @@ import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 //import me.sirlich.AsmodeusRpg.testing.GetItem;
 import me.sirlich.AsmodeusRpg.testing.GetItem;
-import me.sirlich.AsmodeusRpg.testing.TestPlayerList;
-import me.sirlich.AsmodeusRpg.testing.TestIncreaseSpeedModifier;
-import me.sirlich.AsmodeusRpg.testing.TestSetSpeedModifier;
+import me.sirlich.AsmodeusRpg.testing.TestMobSpawn;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
-import me.sirlich.AsmodeusRpg.utilities.DebugUtilities;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandMap;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
@@ -55,6 +54,7 @@ public class AsmodeusRpg extends JavaPlugin {
         RegionUtils.loadFiles();
 
         register(new GetItem());
+        register(new TestMobSpawn());
 
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
@@ -62,6 +62,7 @@ public class AsmodeusRpg extends JavaPlugin {
         NMSUtils.registerEntity("blacksmith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
         NMSUtils.registerEntity("aggressive_cow", NMSUtils.Type.COW, AggressiveCow.class, false);
         NMSUtils.registerEntity("leaping_zombie", NMSUtils.Type.HUSK, LeapingZombie.class, false);
+        NMSUtils.registerEntity("test_mob", NMSUtils.Type.SKELETON, TestMob.class, false);
 
 
         listener(new BlacksmithHandler());

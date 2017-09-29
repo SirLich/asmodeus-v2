@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.core;
+package me.sirlich.AsmodeusRpg.cancellers;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
