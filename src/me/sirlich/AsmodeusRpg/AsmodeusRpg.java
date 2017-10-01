@@ -19,6 +19,8 @@ import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 //import me.sirlich.AsmodeusRpg.testing.GetItem;
 import me.sirlich.AsmodeusRpg.testing.GetItem;
 import me.sirlich.AsmodeusRpg.testing.TestMobSpawn;
+import me.sirlich.AsmodeusRpg.testing.getPlayerHealthCommand;
+import me.sirlich.AsmodeusRpg.testing.testDamageCommand;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
@@ -55,6 +57,8 @@ public class AsmodeusRpg extends JavaPlugin {
 
         register(new GetItem());
         register(new TestMobSpawn());
+        register(new testDamageCommand());
+        register(new getPlayerHealthCommand());
 
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);

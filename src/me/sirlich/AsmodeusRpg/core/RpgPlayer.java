@@ -37,11 +37,23 @@ public class RpgPlayer
     private double stamineDrainOnAxeUseModifier;
     private double stamineDrainOnMagicUseModifier;
     private double staminaDrainOnBowUseModifier;
+
+    /*
+    Health API variables/methods
+     */
     private double healthRegenPerSecond;
-    private double armorValue;
-    private int maxHealth;
-    private int health;
-    private double experienceGainedModifier;
+    private double maxHealth;
+    private double health;
+
+    public double getHealthRegenPerSecond()
+    {
+        return healthRegenPerSecond;
+    }
+
+    public void setHealthRegenPerSecond(double healthRegenPerSecond)
+    {
+        this.healthRegenPerSecond = healthRegenPerSecond;
+    }
 
     public int getMobilityAbilityLevel()
     {
@@ -88,58 +100,40 @@ public class RpgPlayer
         }
     }
 
-    public void resetHealth()
-    {
-        maxHealth = 50;
-        health = 50;
-        Player player = getPlayer();
-        player.setHealth(20);
+    public void rawDamage(double dmg){
+        System.out.println("Inside!");
+        editHealth(-dmg);
     }
 
-    public void editMaxHealth(int i)
+    public void editMaxHealth(double healthChange)
+
     {
-        if (maxHealth + i < 10) {
-            maxHealth = 10;
-        } else {
-            maxHealth += i;
-        }
-
-        if (health > maxHealth) {
-            health = maxHealth;
-        }
-
-        Player player = getPlayer();
-        player.setHealth(health / maxHealth * 20);
+        maxHealth += healthChange;
+        refreshDisplayedHealth();
     }
-
-    public int getMaxHealth()
+    public double getMaxHealth()
     {
         return maxHealth;
     }
 
-    public void setMaxHealth(int i)
+    public void setMaxHealth(double i)
     {
-        if (i < 10) {
-            maxHealth = 10;
-        } else {
-            maxHealth = i;
-        }
-
-        if (health > maxHealth) {
-            health = maxHealth;
-        }
-
-        Player player = getPlayer();
-        double healthPercent = (health + 0.0) / (maxHealth + 0.0);
-        player.setHealth(healthPercent * 20);
+        System.out.println("Set max health");
+        maxHealth = i;
+        refreshDisplayedHealth();
     }
 
-    public int getHealth()
+    public void refreshDisplayedHealth(){
+        System.out.println("Setting player health!");
+        this.getPlayer().setHealth(20*(health/maxHealth));
+    }
+
+    public double getHealth()
     {
         return health;
     }
 
-    public void setHealth(int i)
+    public void setHealth(double i)
     {
         if (i > maxHealth) {
             health = maxHealth;
@@ -147,30 +141,18 @@ public class RpgPlayer
             health = i;
         }
 
-        Player player = getPlayer();
-        player.setHealth(health / maxHealth * 20);
-
+        refreshDisplayedHealth();
     }
 
-    public void editHealth(int i)
+    public void editHealth(double i)
     {
         if (health + i > maxHealth) {
             health = maxHealth;
         } else {
             health += i;
         }
-
-        Player player = getPlayer();
-        double healthPercent = (health + 0.0) / (maxHealth + 0.0);
-        if (!player.isDead()) {
-            player.damage(0.001);
-            if (healthPercent <= 0) {
-                player.setHealth(0);
-            } else {
-                player.setHealth(healthPercent * 20.0);
-            }
-            player.getWorld().spawnParticle(Particle.BLOCK_CRACK, player.getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
-        }
+        getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
+        refreshDisplayedHealth();
     }
 
 
@@ -180,7 +162,6 @@ public class RpgPlayer
      */
     public Player getPlayer()
     {
-        System.out.println("Into getPlayer inside RpgPlayer!");
         return PlayerList.getPlayer(this);
     }
 

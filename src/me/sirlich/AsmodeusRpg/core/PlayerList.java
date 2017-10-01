@@ -1,4 +1,6 @@
 package me.sirlich.AsmodeusRpg.core;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import me.sirlich.AsmodeusRpg.abilities.Ability;
@@ -33,9 +35,11 @@ public class PlayerList {
         return rpgPlayerHashMap.get(player);
     }
 
+    public static Collection<RpgPlayer> getRpgPlayers(){
+        return rpgPlayerHashMap.values();
+    }
     public static Player getPlayer(RpgPlayer rpgPlayer){
         Player player = playerHashMap.get(rpgPlayer);
-        System.out.println(player.getName());
         return player;
     }
 
