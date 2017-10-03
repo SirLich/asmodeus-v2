@@ -14,13 +14,14 @@ public class CivilianHandler implements Listener
     Handles the Villlager interaction
      */
     @EventHandler
-    public void onInteract(PlayerInteractEntityEvent event) {
+    public void onInteract(PlayerInteractEntityEvent event)
+    {
         if (event.getRightClicked().getScoreboardTags().contains("civilian")) {
             event.setCancelled(true);
             List<String> quoteList = CivilianList.getMessages(event.getRightClicked());
-            int index = ThreadLocalRandom.current().nextInt(0,quoteList.size());
+            int index = ThreadLocalRandom.current().nextInt(0, quoteList.size());
             String quote = quoteList.get(index);
-            ChatUtils.civilianChat(event.getPlayer(),quote);
+            ChatUtils.civilianChat(event.getPlayer(), quote);
         }
     }
 }

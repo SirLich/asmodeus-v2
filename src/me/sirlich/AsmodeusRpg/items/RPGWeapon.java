@@ -2,19 +2,17 @@ package me.sirlich.AsmodeusRpg.items;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 import me.sirlich.AsmodeusRpg.utilities.Range;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 
-public class RPGWeapon extends RPGItem {
+public class RPGWeapon extends RPGItem
+{
     /*public RPGWeapon(Texture t, String name, String identifier, Rarity r, boolean hasPrimaryAttack, int damage1Min, int damage1Max, double damage1Range,
                      double stamina1, boolean hasSecondaryAttack, int damage2Min, int damage2Max, double damage2Range, double stamina2,
                      Material damage2Item, SpecialType damage2Type, Particle damage2Particle) {
@@ -77,53 +75,69 @@ public class RPGWeapon extends RPGItem {
     private Double primaryStamina;
     private Double specialStamina;
 
-    public Range<Integer> getPrimaryDamage() {
+    public RPGWeapon(String identifier)
+    {
+        this.identifier = identifier;
+    }
+
+    public Range<Integer> getPrimaryDamage()
+    {
         return primaryDamage;
     }
 
-    public Double getPrimaryRange() {
+    public Double getPrimaryRange()
+    {
         return primaryRange;
     }
 
-    public RPGWeapon texture(Texture t) {
+    public RPGWeapon texture(Texture t)
+    {
         this.material = t.getItem().getType();
         this.durability = t.getItem().getDurability();
         return this;
     }
 
-    public RPGWeapon rarity(Rarity r) {
+    public RPGWeapon rarity(Rarity r)
+    {
         this.r = r;
         return this;
     }
 
-    public RPGWeapon rarity(String s) {
+    public RPGWeapon rarity(String s)
+    {
         return this.rarity(Rarity.fromString(s));
     }
 
-    public RPGWeapon rarity(int i) {
+    public RPGWeapon rarity(int i)
+    {
         return this.rarity(Rarity.fromIdentifier(i));
     }
 
-    public RPGWeapon primaryAttack(int min, int max, double range, double stamina) {
+    public RPGWeapon primaryAttack(int min, int max, double range, double stamina)
+    {
         this.primaryDamage = new Range<Integer>(min, max, null);
         this.primaryRange = range;
         this.primaryStamina = stamina;
         return this;
     }
 
-    public RPGWeapon primaryAttack(int damage, double range, double stamina) {
+    public RPGWeapon primaryAttack(int damage, double range, double stamina)
+    {
         return this.primaryAttack(damage, damage, range, stamina);
     }
 
-    public RPGWeapon primaryAttack(int damage, double stamina) {
+    public RPGWeapon primaryAttack(int damage, double stamina)
+    {
         return this.primaryAttack(damage, damage, 3, stamina);
     }
 
-    public RPGWeapon primaryAttack(int min, int max, double stamina) {
+    public RPGWeapon primaryAttack(int min, int max, double stamina)
+    {
         return this.primaryAttack(min, max, 3, stamina);
     }
 
-    public RPGWeapon specialAttack(int min, int max, double range, double stamina, Material item) {
+    public RPGWeapon specialAttack(int min, int max, double range, double stamina, Material item)
+    {
         this.specialDamage = new Range<>(min, max, null);
         this.specialType = SpecialType.ITEM;
         this.specialItem = item;
@@ -132,7 +146,8 @@ public class RPGWeapon extends RPGItem {
         return this;
     }
 
-    public RPGWeapon specialAttack(int min, int max, double range, double stamina, Particle particle) {
+    public RPGWeapon specialAttack(int min, int max, double range, double stamina, Particle particle)
+    {
         this.specialDamage = new Range<>(min, max, null);
         this.specialType = SpecialType.PARTICLE;
         this.specialParticle = particle;
@@ -141,7 +156,8 @@ public class RPGWeapon extends RPGItem {
         return this;
     }
 
-    public RPGWeapon specialAttack(int min, int max, double range, double stamina) {
+    public RPGWeapon specialAttack(int min, int max, double range, double stamina)
+    {
         this.specialDamage = new Range<>(min, max, null);
         this.specialType = SpecialType.ARROW;
         this.secondaryRange = range;
@@ -149,22 +165,26 @@ public class RPGWeapon extends RPGItem {
         return this;
     }
 
-    public RPGWeapon name(String name) {
+    public RPGWeapon name(String name)
+    {
         this.name = ChatColor.translateAlternateColorCodes('&', name);
         return this;
     }
 
-    public RPGWeapon description(String... description) {
+    public RPGWeapon description(String... description)
+    {
         this.description = description.clone();
         return this;
     }
 
-    public void finish() {
+    public void finish()
+    {
         ItemHandler.weapons.put(this.identifier, this);
     }
 
     @Override
-    public ItemStack generate() {
+    public ItemStack generate()
+    {
         //Texture
         ItemStack i = new ItemStack(this.material);
         i.setDurability(this.durability);
@@ -174,17 +194,17 @@ public class RPGWeapon extends RPGItem {
         //Lore
         ArrayList<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.translateAlternateColorCodes('&',"&fPrimary Attack"));
-        lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Damage: &e&o" + primaryDamage.getMinimum() + "-" + primaryDamage.getMaximum()));
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&fPrimary Attack"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Damage: &e&o" + primaryDamage.getMinimum() + "-" + primaryDamage.getMaximum()));
         if (primaryRange.toString().endsWith(".0")) {
-            lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Range: &e&o" + primaryRange.intValue() + " Blocks"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Range: &e&o" + primaryRange.intValue() + " Blocks"));
         } else {
-            lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Range: &e&o" + primaryRange + " Blocks"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Range: &e&o" + primaryRange + " Blocks"));
         }
         if (primaryStamina.toString().endsWith(".0")) {
-            lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Stamina Cost: &e&o" + primaryStamina.intValue()));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Stamina Cost: &e&o" + primaryStamina.intValue()));
         } else {
-            lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Stamina Cost: &e&o" + primaryStamina));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Stamina Cost: &e&o" + primaryStamina));
         }
         if (description.length > 0) {
             lore.add("");
@@ -193,7 +213,7 @@ public class RPGWeapon extends RPGItem {
             }
         }
         lore.add("");
-        lore.add(ChatColor.translateAlternateColorCodes('&',r.color + "&o" + r.name + " &r" + r.color + "Rarity &8- " + r.color + "Level 10"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', r.color + "&o" + r.name + " &r" + r.color + "Rarity &8- " + r.color + "Level 10"));
         m.setLore(lore);
         i.setItemMeta(m);
         //Tag
@@ -202,15 +222,13 @@ public class RPGWeapon extends RPGItem {
         return nbt.getItem();
     }
 
-    public RPGWeapon(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public enum SpecialType {
+    public enum SpecialType
+    {
         ARROW, ITEM, PARTICLE
     }
 
-    public enum Rarity {
+    public enum Rarity
+    {
 
         COMMON("&7", 0, "Common"),
         RARE("&b", 1, "Rare"),
@@ -220,21 +238,15 @@ public class RPGWeapon extends RPGItem {
         private int identifier;
         private String name;
 
-        Rarity(String color, int identifier, String name) {
-            this.color = ChatColor.translateAlternateColorCodes('&',color);
+        Rarity(String color, int identifier, String name)
+        {
+            this.color = ChatColor.translateAlternateColorCodes('&', color);
             this.identifier = identifier;
             this.name = name;
         }
 
-        public String getColor() {
-            return this.color;
-        }
-
-        public int getIdentifier() {
-            return this.identifier;
-        }
-
-        public static Rarity fromIdentifier(int i) {
+        public static Rarity fromIdentifier(int i)
+        {
             for (Rarity r : Rarity.values()) {
                 if (r.getIdentifier() == i) {
                     return r;
@@ -243,7 +255,8 @@ public class RPGWeapon extends RPGItem {
             return Rarity.COMMON;
         }
 
-        public static Rarity fromString(String s) {
+        public static Rarity fromString(String s)
+        {
             for (Rarity r : Rarity.values()) {
                 if (r.getName().equalsIgnoreCase(s)) {
                     return r;
@@ -252,7 +265,18 @@ public class RPGWeapon extends RPGItem {
             return Rarity.COMMON;
         }
 
-        public String getName() {
+        public String getColor()
+        {
+            return this.color;
+        }
+
+        public int getIdentifier()
+        {
+            return this.identifier;
+        }
+
+        public String getName()
+        {
             return this.name;
         }
 

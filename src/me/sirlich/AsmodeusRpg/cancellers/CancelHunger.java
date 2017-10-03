@@ -8,12 +8,14 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 public class CancelHunger implements Listener
 {
     @EventHandler
-    public void playerItemConsumeEvent(PlayerItemConsumeEvent event){
+    public void playerItemConsumeEvent(PlayerItemConsumeEvent event)
+    {
         event.setCancelled(true);
     }
 
     @EventHandler
-    public void stopHungerEvent(FoodLevelChangeEvent event){
+    public void stopHungerEvent(FoodLevelChangeEvent event)
+    {
         event.setCancelled(true);
     }
 }

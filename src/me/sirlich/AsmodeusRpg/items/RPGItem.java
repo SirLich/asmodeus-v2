@@ -1,12 +1,7 @@
 package me.sirlich.AsmodeusRpg.items;
 
-import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.HashMap;
 
 /*public class RPGItem {
 
@@ -67,7 +62,8 @@ import java.util.HashMap;
 
 }*/
 
-public abstract class RPGItem {
+public abstract class RPGItem
+{
 
     public String identifier = null;
     public String name = null;

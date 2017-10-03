@@ -17,27 +17,32 @@ public class PathFinderGoalRandomStrollWithinRegion extends PathfinderGoalRandom
     private BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
     private Region region;
 
-    public PathFinderGoalRandomStrollWithinRegion(EntityCreature entityCreature, double var2, int var4, Region region){
-        super(entityCreature,var2,var4);
+    public PathFinderGoalRandomStrollWithinRegion(EntityCreature entityCreature, double var2, int var4, Region region)
+    {
+        super(entityCreature, var2, var4);
         this.region = region;
         locationSwitcher();
     }
 
     @Nullable
-    private void locationSwitcher(){
-        scheduler.scheduleSyncRepeatingTask(AsmodeusRpg.getInstance(), new Runnable() {
+    private void locationSwitcher()
+    {
+        scheduler.scheduleSyncRepeatingTask(AsmodeusRpg.getInstance(), new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 System.out.println("Running find new loc on: " + region.getName());
                 Location loc = region.getRandomLoc();
-                vec3D = new Vec3D(loc.getX(),loc.getY(),loc.getZ());
+                vec3D = new Vec3D(loc.getX(), loc.getY(), loc.getZ());
             }
         }, 500L, 500L);
     }
 
     @Override
     @Nullable
-    protected Vec3D f(){
+    protected Vec3D f()
+    {
         return vec3D;
     }
 }

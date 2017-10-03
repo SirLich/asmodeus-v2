@@ -13,11 +13,13 @@ public class getPlayerHealthCommand extends AsmodeusCommand
     {
         super("test_player_health");
     }
+
     @Override
-    public boolean execute(CommandSender sender, String s, String[] args) {
-        if(sender instanceof Player){
+    public boolean execute(CommandSender sender, String s, String[] args)
+    {
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            ChatUtils.chatInfo(player,"" + PlayerList.getRpgPlayer(player).getHealth());
+            ChatUtils.chatInfo(player, "" + PlayerList.getRpgPlayer(player).getHealth());
         }
         return true;
     }

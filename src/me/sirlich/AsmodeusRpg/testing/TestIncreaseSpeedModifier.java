@@ -12,10 +12,10 @@ public class TestIncreaseSpeedModifier implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] argv)
     {
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer((Player) sender);
             rpgPlayer.editSpeedModifier(Float.parseFloat(argv[0]));
-        } else{
+        } else {
             System.out.println("Please only use this command in-game!");
             return false;
         }

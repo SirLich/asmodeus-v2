@@ -8,9 +8,6 @@ import org.bukkit.material.MaterialData;
 
 public class RpgPlayer
 {
-    /*
-    These vars are all about player abilities.
-     */
     private Ability mobilityAbility;
     private boolean canUseMobilityAbility;
     private int mobilityAbilityLevel;
@@ -19,16 +16,6 @@ public class RpgPlayer
     private int carnageAbilityLevel;
     private Ability mythicalAbility;
     private boolean canUseMythicalAbility;
-    /*
-    These vars are all about passive things that effect the player.
-    Things that might influence these values:
-     - Armour
-     - Weapons
-     - Classes
-     - Abilities
-     - Artifacts
-     - Mob hits (say, that cause slowness)
-     */
     private float speedModifier;
     private double staminaDrainOnRunModifier;
     private double stamineRegenRateModifier;
@@ -37,10 +24,6 @@ public class RpgPlayer
     private double stamineDrainOnAxeUseModifier;
     private double stamineDrainOnMagicUseModifier;
     private double staminaDrainOnBowUseModifier;
-
-    /*
-    Health API variables/methods
-     */
     private double healthRegenPerSecond;
     private double maxHealth;
     private double health;
@@ -65,17 +48,9 @@ public class RpgPlayer
         this.mobilityAbilityLevel = mobilityAbilityLevel;
     }
 
-    /*
-    This method is used to add or subtract speed from a players passive walking/running speed.
-    The value range is between 0 (no walk) and 1 (speed 10 in essentials)
-    Vanilla walking speed: 0.2
-    Sneaking walking speed: 0.1
-    So boots that add 5% walking speed should add 0.01 speed (and you should add -0.01 when you take them off)
-     */
     public void editSpeedModifier(Float f)
     {
         speedModifier += f;
-        System.out.println("Speed mod is " + speedModifier);
         Player player = getPlayer();
         if (speedModifier != 0 && speedModifier <= 1) {
             player.setWalkSpeed(speedModifier);
@@ -84,11 +59,7 @@ public class RpgPlayer
         }
     }
 
-    /*
-    This method is used to SET player speed.
-    This should only be used in rare cases, such as for initialization.
-    Please see editSpeedModifier for a more general case method.
-     */
+
     public void setSpeedModifier(Float f)
     {
         speedModifier = f;
@@ -96,36 +67,76 @@ public class RpgPlayer
         if (speedModifier != 0 && speedModifier <= 1 && speedModifier >= 0) {
             player.setWalkSpeed(speedModifier);
         } else {
+            //Speed exceeds max allowed, save the greater number but safely set player speed to max.
             player.setWalkSpeed(1);
         }
     }
 
-    public void rawDamage(double dmg){
-        System.out.println("Inside!");
+    /*
+    All damage methods should eventually call this method.
+    You should avoid calling this outside of this class though.
+    Call one of these instead.
+     - Melee Damage
+     - Magic Damage
+     - Ranged Damage
+     */
+    public void rawDamage(double dmg)
+    {
         editHealth(-dmg);
+        getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
     }
 
-    public void editMaxHealth(double healthChange)
+    public void rawHeal(double heal)
+    {
+        editHealth(heal);
+        getPlayer().getWorld().spawnParticle(Particle.HEART, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2);
+    }
 
+    /*
+    This is a safe way to edit players max health.
+    Consider using:
+    - setMaxHealth
+    NOTE: This does not edit their displayed health.
+     */
+    public void editMaxHealth(double healthChange)
     {
         maxHealth += healthChange;
+
+        //Truncace player health
+        if(getHealth() > maxHealth){
+            setHealth(maxHealth);
+        }
         refreshDisplayedHealth();
     }
+
     public double getMaxHealth()
     {
         return maxHealth;
     }
 
+    /*
+    This is a safe way to edit players max health.
+    Consider using:
+    - editMaxHealth
+    NOTE: This does not edit their displayed health.
+     */
     public void setMaxHealth(double i)
     {
-        System.out.println("Set max health");
         maxHealth = i;
+        if(health > maxHealth){
+            setHealth(maxHealth);
+        }
         refreshDisplayedHealth();
     }
 
-    public void refreshDisplayedHealth(){
+    /*
+    This method resets the displayed hearts of players.
+    Should not need to call from outside very often.
+     */
+    public void refreshDisplayedHealth()
+    {
         System.out.println("Setting player health!");
-        this.getPlayer().setHealth(20*(health/maxHealth));
+        this.getPlayer().setHealth(20 * (health / maxHealth));
     }
 
     public double getHealth()
@@ -133,6 +144,10 @@ public class RpgPlayer
         return health;
     }
 
+    /*
+    This method can be used to force set a players health to a certain value.
+    Will not force health past maxHealth.
+     */
     public void setHealth(double i)
     {
         if (i > maxHealth) {
@@ -140,10 +155,15 @@ public class RpgPlayer
         } else {
             health = i;
         }
-
         refreshDisplayedHealth();
     }
 
+    /*
+    This method should not be called outside if it can be helped.
+    See:
+     - rawDamage
+     - rawHeal
+     */
     public void editHealth(double i)
     {
         if (health + i > maxHealth) {
@@ -151,15 +171,33 @@ public class RpgPlayer
         } else {
             health += i;
         }
-        getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
         refreshDisplayedHealth();
     }
 
+    /*
+    This method takes a magicDamage value, applies magic armour modifier, and calls rawDamage.
+     */
+    public void magicDamage(double dmg){
+        //This method should look at players armour. For now, it just takes away 50%
+        rawDamage(dmg/2);
+    }
 
     /*
-    This method is used to get a Player from an RpgPlayer.
-    I make use of the PlayerList to do so.
+    This method takes a rangedDamage value, applies magic armour modifier, and calls rawDamage.
      */
+    public void rangedDamage(double dmg){
+        //This method should look at players armour. For now, it just takes away 25%
+        rawDamage(dmg*0.75);
+    }
+
+    /*
+    This method takes a meleeDamage value, applies magic armour modifier, and calls rawDamage.
+     */
+    public void meleeDamage(double dmg){
+        //This method should look at players armour. For now, it just deals the damage.
+        rawDamage(dmg);
+    }
+
     public Player getPlayer()
     {
         return PlayerList.getPlayer(this);

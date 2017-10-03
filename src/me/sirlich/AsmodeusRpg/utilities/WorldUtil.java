@@ -8,7 +8,8 @@ import java.util.UUID;
 
 public class WorldUtil
 {
-    public static Entity getEntityByUniqueId(UUID uuid) {
+    public static Entity getEntityByUniqueId(UUID uuid)
+    {
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (entity.getUniqueId().equals(uuid))

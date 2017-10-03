@@ -8,16 +8,18 @@ import java.util.UUID;
 
 public class RpgEntity
 {
+    private int maxHealth;
+    private int health;
+
     public int getMaxHealth()
     {
         return maxHealth;
     }
+
     public void setMaxHealth(int maxHealth)
     {
         this.maxHealth = maxHealth;
     }
-
-    private int maxHealth;
 
     public int getHealth()
     {
@@ -29,34 +31,35 @@ public class RpgEntity
         this.health = health;
     }
 
-
-    private int health;
-
-    public void kill(){
+    public void kill()
+    {
         Entity entity = RpgEntityList.getEntity(this);
-        if(entity instanceof Damageable){
+        if (entity instanceof Damageable) {
             LivingEntity livingEntity = (LivingEntity) entity;
             livingEntity.setHealth(0);
             RpgEntityList.removeEntity(entity);
-        } else{
+        } else {
             System.out.println("ERROR: RpgEntity.kill");
         }
     }
 
 
-    public void rawDamageEntity(int damage){
+    public void rawDamageEntity(int damage)
+    {
         Entity entity = this.getEntity();
         setHealth(health - damage);
-        if(getHealth() <= 0){
+        if (getHealth() <= 0) {
             kill();
         }
     }
 
-    public Entity getEntity(){
+    public Entity getEntity()
+    {
         return RpgEntityList.getEntity(this);
     }
 
-    public UUID getUniqueId(){
+    public UUID getUniqueId()
+    {
         return RpgEntityList.getEntity(this).getUniqueId();
     }
 }

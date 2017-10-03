@@ -7,8 +7,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class ActionBarUtil {
-    public static void sendActionBar(Player p, String msg) {
+public class ActionBarUtil
+{
+    public static void sendActionBar(Player p, String msg)
+    {
         String s = ChatColor.translateAlternateColorCodes('&', msg);
         IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + s + "\"}");
         PacketPlayOutChat bar = new PacketPlayOutChat(icbc, ChatMessageType.GAME_INFO);

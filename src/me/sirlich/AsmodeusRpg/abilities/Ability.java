@@ -2,14 +2,16 @@ package me.sirlich.AsmodeusRpg.abilities;
 
 import org.bukkit.entity.Player;
 
-public class Ability {
+public class Ability
+{
     private Player player;
     private int rechargeRate;
     private String name;
     private int duration;
     private int range;
 
-    public Ability(Player p){
+    public Ability(Player p)
+    {
         player = p;
     }
 
@@ -18,6 +20,7 @@ public class Ability {
     {
         return range;
     }
+
     public void setRange(int range)
     {
         this.range = range;
@@ -27,6 +30,7 @@ public class Ability {
     {
         return duration;
     }
+
     public void setDuration(int duration)
     {
         this.duration = duration;
@@ -37,6 +41,7 @@ public class Ability {
     {
         return player;
     }
+
     public void setPlayer(Player player)
     {
         this.player = player;
@@ -46,6 +51,7 @@ public class Ability {
     {
         return rechargeRate;
     }
+
     public void setRechargeRate(int rechargeRate)
     {
         this.rechargeRate = rechargeRate;
@@ -55,12 +61,14 @@ public class Ability {
     {
         return name;
     }
+
     public void setName(String name)
     {
         this.name = name;
     }
 
-    public void run(){
+    public void run()
+    {
         System.out.println(name + " was run by player " + player);
     }
 

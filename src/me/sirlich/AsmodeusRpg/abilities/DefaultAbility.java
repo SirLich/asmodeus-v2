@@ -6,12 +6,16 @@ import org.bukkit.entity.Player;
 public class DefaultAbility extends Ability
 {
     private Player player;
-    public DefaultAbility(Player p) {
+
+    public DefaultAbility(Player p)
+    {
         super(p);
         this.player = super.getPlayer();
     }
+
     @Override
-    public void run(){
+    public void run()
+    {
         ChatUtils.chatWarning(player, "This ability is currently locked.");
     }
 

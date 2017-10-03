@@ -5,8 +5,6 @@ import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.Player;
@@ -22,12 +20,12 @@ public class TestMobSpawn extends AsmodeusCommand
     @Override
     public boolean execute(CommandSender sender, String label, String[] argv)
     {
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
             Player player = (Player) sender;
             World world = Bukkit.getServer().getWorld("world");
             Location loc = player.getLocation();
             TestMob testMob = new TestMob(((CraftWorld) world).getHandle());
-            testMob.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
+            testMob.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
             ((CraftWorld) world).addEntity(testMob, CreatureSpawnEvent.SpawnReason.CUSTOM);
             System.out.println("Test Mob successfully added.");
         } else {

@@ -9,7 +9,8 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 public class CustomZombie extends EntityZombie implements IRangedEntity
 {
 
-    public CustomZombie(World world) {
+    public CustomZombie(World world)
+    {
         super(world);
     }
 
@@ -29,7 +30,8 @@ public class CustomZombie extends EntityZombie implements IRangedEntity
 
     @Override
 
-    protected void r() {
+    protected void r()
+    {
         // Adding our custom pathfinder selectors.
         // Grants our zombie the ability to swim.
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
@@ -54,7 +56,8 @@ public class CustomZombie extends EntityZombie implements IRangedEntity
     }
 
     @Override
-    public void a(final EntityLiving target, final float f) {
+    public void a(final EntityLiving target, final float f)
+    {
         // Preparing the projectile
         final EntityArrow entityarrow = this.prepareProjectile(f);
         // Calculating the motion for the arrow to hit
@@ -82,7 +85,8 @@ public class CustomZombie extends EntityZombie implements IRangedEntity
         this.a(SoundEffects.fV, 1.0f, 1.0f / (this.getRandom().nextFloat() * 0.4f + 0.8f));
     }
 
-    protected EntityArrow prepareProjectile(final float unknown) {
+    protected EntityArrow prepareProjectile(final float unknown)
+    {
         // Creating the arrow instance. Now, you see, it's a Tipped Arrow. No
         // idea why, but EntityArrow is abstract and we can't instantiate it
         // without creating a custom class.
@@ -94,7 +98,8 @@ public class CustomZombie extends EntityZombie implements IRangedEntity
     }
 
     @Override
-    public GroupDataEntity prepare(DifficultyDamageScaler dds, GroupDataEntity gde) {
+    public GroupDataEntity prepare(DifficultyDamageScaler dds, GroupDataEntity gde)
+    {
         // Calling the super method FIRST, so in case it changes the equipment,
         // our equipment overrides it.
         gde = super.prepare(dds, gde);

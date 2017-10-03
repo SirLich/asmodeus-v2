@@ -8,7 +8,8 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftVillager;
 public class Blacksmith extends EntityVillager
 {
 
-    public Blacksmith(World world) {
+    public Blacksmith(World world)
+    {
         super(world);
         this.bukkitEntity = new CraftCustomVillager(this.world.getServer(), this);
         this.addScoreboardTag("blacksmith");
@@ -22,12 +23,13 @@ public class Blacksmith extends EntityVillager
     }
 
     @Override
-    public GroupDataEntity a(DifficultyDamageScaler scaler, GroupDataEntity entity, boolean flag) {
+    public GroupDataEntity a(DifficultyDamageScaler scaler, GroupDataEntity entity, boolean flag)
+    {
         entity = super.a(scaler, entity, flag);
         this.setProfession(3);
         this.setInvulnerable(true);
         this.setCustomNameVisible(true);
-        this.setCustomName(ChatColor.GOLD + ">>>" +ChatColor.GRAY + " Blacksmith");
+        this.setCustomName(ChatColor.GOLD + ">>>" + ChatColor.GRAY + " Blacksmith");
         return entity;
     }
 
@@ -35,7 +37,8 @@ public class Blacksmith extends EntityVillager
     private static class CraftCustomVillager extends CraftVillager
     {
 
-        private CraftCustomVillager(CraftServer server, EntityVillager parent) {
+        private CraftCustomVillager(CraftServer server, EntityVillager parent)
+        {
             super(server, parent);
         }
 

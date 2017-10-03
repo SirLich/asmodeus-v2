@@ -30,7 +30,8 @@ public class TestMob extends EntitySkeleton
     private static class CraftTestMob extends CraftSkeleton
     {
 
-        private CraftTestMob(CraftServer server, EntitySkeleton parent) {
+        private CraftTestMob(CraftServer server, EntitySkeleton parent)
+        {
             super(server, parent);
         }
     }

@@ -6,14 +6,15 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class PlayerJoinHandler implements Listener{
+public class PlayerJoinHandler implements Listener
+{
     @EventHandler
-    public void playerJoinEvent(PlayerJoinEvent event){
+    public void playerJoinEvent(PlayerJoinEvent event)
+    {
         Player player = event.getPlayer();
-        if(!PlayerList.isPlayerOnline(player)){
+        if (!PlayerList.isPlayerOnline(player)) {
             //All of this shit will be read in from the DB eventually.
             PlayerList.addPlayer(player);
             RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
@@ -35,7 +36,8 @@ public class PlayerJoinHandler implements Listener{
             rpgPlayer.setSpeedModifier(0.2f); //NOTE: This should eventualy loop over armour etc to figure out speed. 0,2 is just base.
             rpgPlayer.setMaxHealth(50);
             rpgPlayer.setHealth(50);
-        } else{
+            rpgPlayer.setHealthRegenPerSecond(5);
+        } else {
             System.out.println("Something went wrong! Please see the player list.");
             PlayerList.removePlayer(player);
             PlayerList.addPlayer(player);

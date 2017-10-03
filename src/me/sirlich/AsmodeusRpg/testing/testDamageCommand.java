@@ -12,9 +12,11 @@ public class testDamageCommand extends AsmodeusCommand
     {
         super("damage");
     }
+
     @Override
-    public boolean execute(CommandSender sender, String s, String[] args) {
-        if(sender instanceof Player){
+    public boolean execute(CommandSender sender, String s, String[] args)
+    {
+        if (sender instanceof Player) {
             System.out.println("dmg: 1");
             Player player = (Player) sender;
             System.out.println("dmg: 2");

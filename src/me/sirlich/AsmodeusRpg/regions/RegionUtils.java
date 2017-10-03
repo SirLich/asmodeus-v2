@@ -9,9 +9,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class RegionUtils {
+public class RegionUtils
+{
 
-    public static void loadFiles() {
+    public static void loadFiles()
+    {
 
         File dir = new File(AsmodeusRpg.getPlugin(AsmodeusRpg.class).getDataFolder() + "/regions");
         if (!dir.exists())
@@ -25,7 +27,8 @@ public class RegionUtils {
 
     }
 
-    public static void loadFile(File f) {
+    public static void loadFile(File f)
+    {
 
         Scanner scan = null;
 
@@ -35,7 +38,7 @@ public class RegionUtils {
 
             next = scan.nextLine().trim();
             String name = next;
-            System.out.println("Region loaded with name: " +  name);
+            System.out.println("Region loaded with name: " + name);
             //World
             next = scan.nextLine().trim();
             String world = next;
@@ -78,7 +81,8 @@ public class RegionUtils {
 
     }
 
-    public static Region getRegion(String id) {
+    public static Region getRegion(String id)
+    {
         System.out.println("getRegion (Region list)");
         for (Region r : Region.regions) {
             System.out.println("Trying: " + r.getName() + " and " + id);
@@ -89,7 +93,8 @@ public class RegionUtils {
         return null;
     }
 
-    public static ArrayList<Region> getFromTag(String tag) {
+    public static ArrayList<Region> getFromTag(String tag)
+    {
         ArrayList<Region> regions = new ArrayList<>();
         for (Region r : Region.regions) {
             if (r.hasTag(tag)) {
@@ -100,7 +105,8 @@ public class RegionUtils {
     }
 
 
-    public static ArrayList<Region> getFromLocation(Location l) {
+    public static ArrayList<Region> getFromLocation(Location l)
+    {
         ArrayList<Region> regions = new ArrayList<>();
         for (Region r : Region.regions) {
             if (r.containsLocation(l)) {
@@ -110,7 +116,8 @@ public class RegionUtils {
         return regions;
     }
 
-    public static ArrayList<Region> getFromVector(Vector v) {
+    public static ArrayList<Region> getFromVector(Vector v)
+    {
         ArrayList<Region> regions = new ArrayList<>();
         for (Region r : Region.regions) {
             if (r.containsVector(v)) {

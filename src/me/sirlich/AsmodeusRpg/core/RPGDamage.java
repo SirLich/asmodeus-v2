@@ -1,7 +1,6 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.items.ItemHandler;
-import me.sirlich.AsmodeusRpg.items.RPGItem;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.utilities.Vector3D;
 import org.bukkit.Location;
@@ -12,19 +11,19 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
-public class RPGDamage implements Listener {
+public class RPGDamage implements Listener
+{
 
-    @EventHandler (priority = EventPriority.HIGHEST)
-    public void onPrimaryAttack(PlayerInteractEvent e) {
+    private boolean attackSuccess = false;
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPrimaryAttack(PlayerInteractEvent e)
+    {
         if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             if (!attackSuccess) {
 
@@ -76,7 +75,6 @@ public class RPGDamage implements Listener {
                 }
 
 
-
                 // Hit the closest player
                 if (hit != null) {
                     PlayerList.getRpgPlayer(hit).editHealth(-1 * damage);
@@ -88,10 +86,9 @@ public class RPGDamage implements Listener {
         }
     }
 
-    private boolean attackSuccess = false;
-
-    @EventHandler (priority = EventPriority.LOWEST)
-    public void onAttack(EntityDamageByEntityEvent e) {
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onAttack(EntityDamageByEntityEvent e)
+    {
         if (e.getDamager() instanceof Player) {
             attackSuccess = true;
             e.setCancelled(true);
@@ -115,18 +112,21 @@ public class RPGDamage implements Listener {
         }
     }
 
-    @EventHandler (priority = EventPriority.LOW)
-    public void onDeath(PlayerDeathEvent e) {
+    @EventHandler(priority = EventPriority.LOW)
+    public void onDeath(PlayerDeathEvent e)
+    {
         e.setDeathMessage("");
     }
 
     @EventHandler
-    public void onRespawn(PlayerRespawnEvent e) {
+    public void onRespawn(PlayerRespawnEvent e)
+    {
         RpgPlayer player = PlayerList.getRpgPlayer(e.getPlayer());
         player.setHealth(player.getMaxHealth());
     }
 
-    private boolean hasIntersection(Vector3D p1, Vector3D p2, Vector3D min, Vector3D max) {
+    private boolean hasIntersection(Vector3D p1, Vector3D p2, Vector3D min, Vector3D max)
+    {
         final double epsilon = 0.0001f;
 
         Vector3D d = p2.subtract(p1).multiply(0.5);

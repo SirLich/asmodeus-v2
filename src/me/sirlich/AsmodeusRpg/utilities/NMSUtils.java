@@ -2,84 +2,14 @@ package me.sirlich.AsmodeusRpg.utilities;
 
 
 import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.BiomeBase.BiomeMeta;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
+import org.bukkit.entity.EntityType;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
-import org.bukkit.entity.EntityType;
-import net.minecraft.server.v1_12_R1.BiomeBase.BiomeMeta;
-import net.minecraft.server.v1_12_R1.EntityEvokerFangs;
-import net.minecraft.server.v1_12_R1.EntityExperienceOrb;
-import net.minecraft.server.v1_12_R1.EntityFallingBlock;
-import net.minecraft.server.v1_12_R1.EntityFireball;
-import net.minecraft.server.v1_12_R1.EntityFireworks;
-import net.minecraft.server.v1_12_R1.EntityGhast;
-import net.minecraft.server.v1_12_R1.EntityGiantZombie;
-import net.minecraft.server.v1_12_R1.EntityGuardian;
-import net.minecraft.server.v1_12_R1.EntityGuardianElder;
-import net.minecraft.server.v1_12_R1.EntityHorse;
-import net.minecraft.server.v1_12_R1.EntityHorseDonkey;
-import net.minecraft.server.v1_12_R1.EntityHorseMule;
-import net.minecraft.server.v1_12_R1.EntityHorseSkeleton;
-import net.minecraft.server.v1_12_R1.EntityHorseZombie;
-import net.minecraft.server.v1_12_R1.EntityIllagerIllusioner;
-import net.minecraft.server.v1_12_R1.EntityIronGolem;
-import net.minecraft.server.v1_12_R1.EntityItem;
-import net.minecraft.server.v1_12_R1.EntityItemFrame;
-import net.minecraft.server.v1_12_R1.EntityLeash;
-import net.minecraft.server.v1_12_R1.EntityLlama;
-import net.minecraft.server.v1_12_R1.EntityLlamaSpit;
-import net.minecraft.server.v1_12_R1.EntityMagmaCube;
-import net.minecraft.server.v1_12_R1.EntityMinecartChest;
-import net.minecraft.server.v1_12_R1.EntityMinecartCommandBlock;
-import net.minecraft.server.v1_12_R1.EntityMinecartFurnace;
-import net.minecraft.server.v1_12_R1.EntityMinecartHopper;
-import net.minecraft.server.v1_12_R1.EntityMinecartMobSpawner;
-import net.minecraft.server.v1_12_R1.EntityMinecartRideable;
-import net.minecraft.server.v1_12_R1.EntityMinecartTNT;
-import net.minecraft.server.v1_12_R1.EntityMushroomCow;
-import net.minecraft.server.v1_12_R1.EntityOcelot;
-import net.minecraft.server.v1_12_R1.EntityPainting;
-import net.minecraft.server.v1_12_R1.EntityParrot;
-import net.minecraft.server.v1_12_R1.EntityPig;
-import net.minecraft.server.v1_12_R1.EntityPigZombie;
-import net.minecraft.server.v1_12_R1.EntityPolarBear;
-import net.minecraft.server.v1_12_R1.EntityPotion;
-import net.minecraft.server.v1_12_R1.EntityRabbit;
-import net.minecraft.server.v1_12_R1.EntitySheep;
-import net.minecraft.server.v1_12_R1.EntityShulker;
-import net.minecraft.server.v1_12_R1.EntityShulkerBullet;
-import net.minecraft.server.v1_12_R1.EntitySilverfish;
-import net.minecraft.server.v1_12_R1.EntitySkeleton;
-import net.minecraft.server.v1_12_R1.EntitySkeletonStray;
-import net.minecraft.server.v1_12_R1.EntitySkeletonWither;
-import net.minecraft.server.v1_12_R1.EntitySlime;
-import net.minecraft.server.v1_12_R1.EntitySmallFireball;
-import net.minecraft.server.v1_12_R1.EntitySnowball;
-import net.minecraft.server.v1_12_R1.EntitySnowman;
-import net.minecraft.server.v1_12_R1.EntitySpectralArrow;
-import net.minecraft.server.v1_12_R1.EntitySpider;
-import net.minecraft.server.v1_12_R1.EntitySquid;
-import net.minecraft.server.v1_12_R1.EntityTNTPrimed;
-import net.minecraft.server.v1_12_R1.EntityThrownExpBottle;
-import net.minecraft.server.v1_12_R1.EntityTypes;
-import net.minecraft.server.v1_12_R1.EntityVex;
-import net.minecraft.server.v1_12_R1.EntityVillager;
-import net.minecraft.server.v1_12_R1.EntityVindicator;
-import net.minecraft.server.v1_12_R1.EntityWitch;
-import net.minecraft.server.v1_12_R1.EntityWither;
-import net.minecraft.server.v1_12_R1.EntityWitherSkull;
-import net.minecraft.server.v1_12_R1.EntityWolf;
-import net.minecraft.server.v1_12_R1.EntityZombie;
-import net.minecraft.server.v1_12_R1.EntityZombieHusk;
-import net.minecraft.server.v1_12_R1.EntityZombieVillager;
-import net.minecraft.server.v1_12_R1.GenericAttributes;
-import net.minecraft.server.v1_12_R1.IAttribute;
-import net.minecraft.server.v1_12_R1.Item;
-import net.minecraft.server.v1_12_R1.MinecraftKey;
-import net.minecraft.server.v1_12_R1.MinecraftServer;
 
 /**
  * A Free-to-use library class for registering custom entities in Minecraft, using the Spigot server software (ver.
@@ -87,30 +17,58 @@ import net.minecraft.server.v1_12_R1.MinecraftServer;
  *
  * @author jetp250
  */
-public class NMSUtils {
+public class NMSUtils
+{
 
+    public static final CraftServer CRAFTBUKKIT_SERVER;
+    public static final MinecraftServer MINECRAFT_SERVER;
     private static final Field META_LIST_MONSTER;
     private static final Field META_LIST_CREATURE;
     private static final Field META_LIST_WATER_CREATURE;
     private static final Field META_LIST_AMBIENT;
-
     private static final BiomeBase[] BIOMES;
 
-    public static final CraftServer CRAFTBUKKIT_SERVER;
-    public static final MinecraftServer MINECRAFT_SERVER;
+    static {
+        Class<BiomeBase> clazz = BiomeBase.class;
+        Field monster = null;
+        Field creature = null;
+        Field water = null;
+        Field ambient = null;
+        try {
+            // These fields may vary depending on your version.
+            // The new names can be found under
+            // net.minecraft.server.<version>.BiomeBase.class
+            monster = clazz.getDeclaredField("t");
+            creature = clazz.getDeclaredField("u");
+            water = clazz.getDeclaredField("v");
+            ambient = clazz.getDeclaredField("w");
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("Wrong server version / software; BiomeMeta fields not found, aborting.");
+        }
+        META_LIST_MONSTER = monster;
+        META_LIST_CREATURE = creature;
+        META_LIST_WATER_CREATURE = water;
+        META_LIST_AMBIENT = ambient;
+        CRAFTBUKKIT_SERVER = (CraftServer) Bukkit.getServer();
+        MINECRAFT_SERVER = NMSUtils.CRAFTBUKKIT_SERVER.getServer();
+        BIOMES = new BiomeBase[BiomeBase.i.a()];
+        Iterator<BiomeBase> iterator = BiomeBase.i.iterator();
+        int index = 0;
+        while (iterator.hasNext()) {
+            NMSUtils.BIOMES[index++] = iterator.next();
+        }
+    }
 
     /**
      * Registers an Item (Not an ItemStack!) to be available for use. an ItemStack can then be created using
      * <code>new ItemStack(item)</code>.
      *
-     * @param name
-     *            - The name of the item, can be anything
-     * @param id
-     *            - The ID of the item, will be rendered depending on this
-     * @param item
-     *            - The net.minecraft.server.version.Item itself
+     * @param name - The name of the item, can be anything
+     * @param id   - The ID of the item, will be rendered depending on this
+     * @param item - The net.minecraft.server.version.Item itself
      */
-    public static void registerItem(String name, int id, Item item) {
+    public static void registerItem(String name, int id, Item item)
+    {
         Item.REGISTRY.a(id, new MinecraftKey(name), item);
     }
 
@@ -125,15 +83,13 @@ public class NMSUtils {
      * <p>
      * If {@link #isAccessible()} returns false, the process will not be executed.
      *
+     * @param data   - The spawn data (chance, amount, spawn weight..)
+     * @param meta   - The category in which your mob'll spawn (i.e creatures'll spawn in day, monsters during night..)
+     * @param biomes - The array of biomes to let the mobs spawn in, use {@link Biome#COLLECTION_ALL} for all of them.
      * @see #registerEntity(Type, Class, boolean)
-     * @param data
-     *            - The spawn data (chance, amount, spawn weight..)
-     * @param meta
-     *            - The category in which your mob'll spawn (i.e creatures'll spawn in day, monsters during night..)
-     * @param biomes
-     *            - The array of biomes to let the mobs spawn in, use {@link Biome#COLLECTION_ALL} for all of them.
      */
-    public static boolean addRandomSpawn(SpawnData data, MobMeta meta, Biome... biomes) {
+    public static boolean addRandomSpawn(SpawnData data, MobMeta meta, Biome... biomes)
+    {
         Field field;
         if ((field = meta.getField()) == null) {
             return false;
@@ -164,16 +120,14 @@ public class NMSUtils {
      * <p>
      * If {@link #isAccessible()} returns false, the process will not be executed.
      *
+     * @param type   - The mob type to spawn
+     * @param data   - The spawn data (chance, amount, spawn weight..)
+     * @param biomes - The array of biomes to let the mobs spawn in, use {@link Biome#COLLECTION_ALL} for all of them.
      * @see #registerEntity(Type, Class, boolean)
-     * @param type
-     *            - The mob type to spawn
-     * @param data
-     *            - The spawn data (chance, amount, spawn weight..)
-     * @param biomes
-     *            - The array of biomes to let the mobs spawn in, use {@link Biome#COLLECTION_ALL} for all of them.
      * @see #addRandomSpawn(SpawnData, MobMeta, Biome...)
      */
-    public static boolean addRandomSpawn(Type type, SpawnData data, Biome... biomes) {
+    public static boolean addRandomSpawn(Type type, SpawnData data, Biome... biomes)
+    {
         if (type.isSpecial()) {
             return false;
         }
@@ -204,16 +158,15 @@ public class NMSUtils {
      * you go.
      * <p>
      * Can still be spawned via /summon.
-     *
+     * <p>
      * <p>
      * <b>Note: </b>Since no mob Type can be provided, overriding default mobs is not possible.
      *
-     * @param name
-     *            - The 'savegame id' of your mob (ex. "custom_zombie")
-     * @param clazz
-     *            - The class of your custom entity
+     * @param name  - The 'savegame id' of your mob (ex. "custom_zombie")
+     * @param clazz - The class of your custom entity
      */
-    public static void registerWithoutID(String name, Class<? extends Entity> clazz) {
+    public static void registerWithoutID(String name, Class<? extends Entity> clazz)
+    {
         MinecraftKey key = new MinecraftKey(name);
         EntityTypes.b.a(key, clazz);
         if (!EntityTypes.d.contains(key)) {
@@ -224,38 +177,32 @@ public class NMSUtils {
     /**
      * Registers the custom class to be available for use.
      *
-     * @param type
-     *            - The type of your mob
-     * @param customClass
-     *            - Your custom class that'll be used
-     * @param override
-     *            - Should your mob be set as a default in each biome? Only one custom entity of this type entity can
-     *            have this set as 'true'.
+     * @param type        - The type of your mob
+     * @param customClass - Your custom class that'll be used
+     * @param override    - Should your mob be set as a default in each biome? Only one custom entity of this type entity can
+     *                    have this set as 'true'.
      */
-    public static void registerEntity(Type type, Class<? extends Entity> customClass, boolean override) {
+    public static void registerEntity(Type type, Class<? extends Entity> customClass, boolean override)
+    {
         NMSUtils.registerEntity(type.getName(), type, customClass, override);
     }
 
     /**
      * Registers the custom class to be available for use.
      *
-     * @param id
-     *            - The mob id. BE CAREFUL with this. Your Minecraft client renders the entity based on this, and if
-     *            used improperly, will cause unexpected behavior!
-     * @param name
-     *            - The 'savegame id' of the mob.
-     * @param type
-     *            - The type of your mob
-     * @param customClass
-     *            - Your custom class that'll be used
-     * @param biomes
-     *            - The array of biomes to make the mob spawn in.
+     * @param id          - The mob id. BE CAREFUL with this. Your Minecraft client renders the entity based on this, and if
+     *                    used improperly, will cause unexpected behavior!
+     * @param name        - The 'savegame id' of the mob.
+     * @param type        - The type of your mob
+     * @param customClass - Your custom class that'll be used
+     * @param biomes      - The array of biomes to make the mob spawn in.
      * @see #registerEntity(int, String, Type, Class, Biome[])
      * @see EntityType#getName() EntityType#getName() for the savegame id.
      * @see EntityType#getId() EntityType#getId() for the correct mob id.
      */
     @SuppressWarnings("unchecked")
-    public static void registerEntity(String name, Type type, Class<? extends Entity> customClass, Biome... biomes) {
+    public static void registerEntity(String name, Type type, Class<? extends Entity> customClass, Biome... biomes)
+    {
         MinecraftKey key = new MinecraftKey(name);
         EntityTypes.b.a(type.id, key, customClass);
         if (!EntityTypes.d.contains(key)) {
@@ -290,20 +237,17 @@ public class NMSUtils {
     /**
      * Registers the custom class to be available for use.
      *
-     * @param name
-     *            - The 'savegame id' of the mob.
-     * @param type
-     *            - The type of your mob
-     * @param customClass
-     *            - Your custom class that'll be used
-     * @param override
-     *            - Should your mob be set as a default in each biome? Only one custom entity of this type entity can
-     *            have this set as 'true'.
+     * @param name        - The 'savegame id' of the mob.
+     * @param type        - The type of your mob
+     * @param customClass - Your custom class that'll be used
+     * @param override    - Should your mob be set as a default in each biome? Only one custom entity of this type entity can
+     *                    have this set as 'true'.
      * @see #registerEntity(int, String, Type, Class, Biome[])
      * @see EntityType#getName() EntityType#getName() for the savegame id.
      */
     @SuppressWarnings("unchecked")
-    public static void registerEntity(String name, Type type, Class<? extends Entity> customClass, boolean override) {
+    public static void registerEntity(String name, Type type, Class<? extends Entity> customClass, boolean override)
+    {
         MinecraftKey key = new MinecraftKey(name);
         EntityTypes.b.a(type.getId(), key, customClass);
         if (!EntityTypes.d.contains(key)) {
@@ -335,9 +279,9 @@ public class NMSUtils {
     /**
      * An enum containing all the biomes of Minecraft. The descriptions are taken from the
      * <a href="http://minecraft.gamepedia.com/Biome">Minecraft Wiki Page</a>, which also has images for each biome.
-     *
      */
-    public enum Biome {
+    public enum Biome
+    {
 
         /**
          * A large, open biome made entirely of water going up to y=63, with underwater relief on the sea floor, such as
@@ -449,7 +393,7 @@ public class NMSUtils {
          * jungle. Mushroom islands are most often adjacent to an ocean and are often found isolated from other biomes.
          * It is one of the only biomes where huge mushrooms can generate naturally, and where mushrooms can grow in
          * full sunlight.
-         *
+         * <p>
          * <p>
          * Technically no mobs other than mooshrooms spawn naturally in this biome, including the usual night-time
          * hostile mobs. This also applies to caves, abandoned mine shafts, and other dark structures, meaning exploring
@@ -573,7 +517,7 @@ public class NMSUtils {
          * will also generate here instead of regular sand, with occasional cacti. Its composition is useful when other
          * sources of clay are scarce. However, finding mesa biomes can be difficult due to their rarity. On the other
          * hand, it offers great variety - there are a total of 6 variations of this biome to explore.
-         *
+         * <p>
          * <p>
          * Mesas can contain above ground abandoned mineshafts. They also allow gold ore to generate near surface
          * levels, rather than just at layer 32 and below.
@@ -761,10 +705,18 @@ public class NMSUtils {
         COLLECTION_ALL(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 127, 129, 130, 131, 132, 133, 134, 140, 149, 151, 155, 156, 157, 158, 160, 161, 162, 163, 164, 165, 166, 167);
         private static Biome[] ID_LOOKUP_TABLE = new Biome[168];
 
+        static {
+            Biome[] values = Biome.values();
+            for (Biome biome : values) {
+                Biome.ID_LOOKUP_TABLE[BiomeBase.REGISTRY_ID.a(biome.biome)] = biome;
+            }
+        }
+
         private BiomeBase[] biomes;
         private BiomeBase biome;
 
-        private Biome(int... ids) {
+        private Biome(int... ids)
+        {
             assert ids.length > 0;
             this.biomes = new BiomeBase[ids.length];
             for (int i = 0; i < this.biomes.length; ++i) {
@@ -773,27 +725,24 @@ public class NMSUtils {
             this.biome = this.biomes[0];
         }
 
-        public BiomeBase asNMSBiome() {
-            return this.biome;
-        }
-
-        public BiomeBase[] getNMSBiomeArray() {
-            return this.biomes;
-        }
-
-        public static Biome fromId(int id) {
+        public static Biome fromId(int id)
+        {
             return Biome.ID_LOOKUP_TABLE[id];
         }
 
-        static {
-            Biome[] values = Biome.values();
-            for (Biome biome : values) {
-                Biome.ID_LOOKUP_TABLE[BiomeBase.REGISTRY_ID.a(biome.biome)] = biome;
-            }
+        public BiomeBase asNMSBiome()
+        {
+            return this.biome;
+        }
+
+        public BiomeBase[] getNMSBiomeArray()
+        {
+            return this.biomes;
         }
     }
 
-    public enum Type {
+    public enum Type
+    {
         DROPPED_ITEM(1, "item", EntityItem.class, MobMeta.UNDEFINED, true),
         EXPERIENCE_ORB(2, "xp_orb", EntityExperienceOrb.class, MobMeta.UNDEFINED, true),
         AREA_EFFECT_CLOUD(3, "area_effect_cloud", EntityAreaEffectCloud.class, MobMeta.UNDEFINED, true),
@@ -884,7 +833,8 @@ public class NMSUtils {
         private MobMeta meta;
         private boolean special;
 
-        private Type(int id, String name, Class<? extends Entity> nmsClazz, MobMeta meta, boolean special) {
+        private Type(int id, String name, Class<? extends Entity> nmsClazz, MobMeta meta, boolean special)
+        {
             this.id = id;
             this.name = name;
             this.clazz = nmsClazz;
@@ -892,28 +842,34 @@ public class NMSUtils {
             this.special = special;
         }
 
-        public MobMeta getMeta() {
+        public MobMeta getMeta()
+        {
             return this.meta;
         }
 
-        public int getId() {
+        public int getId()
+        {
             return this.id;
         }
 
-        public String getName() {
+        public String getName()
+        {
             return this.name;
         }
 
-        public Class<? extends Entity> getNMSClass() {
+        public Class<? extends Entity> getNMSClass()
+        {
             return this.clazz;
         }
 
-        public boolean isSpecial() {
+        public boolean isSpecial()
+        {
             return this.special;
         }
     }
 
-    public enum MobMeta {
+    public enum MobMeta
+    {
         MONSTER(NMSUtils.META_LIST_MONSTER),
         CREATURE(NMSUtils.META_LIST_CREATURE),
         WATER_CREATURE(NMSUtils.META_LIST_WATER_CREATURE),
@@ -922,22 +878,105 @@ public class NMSUtils {
 
         private Field field;
 
-        private MobMeta(Field field) {
+        private MobMeta(Field field)
+        {
             this.field = field;
         }
 
         /**
          * @return the BiomeMeta list field of this entity.
-         *         <p>
-         *         <b>Undefined will not be accepted and returns null.</b>
-         *         </p>
+         * <p>
+         * <b>Undefined will not be accepted and returns null.</b>
+         * </p>
          */
-        public Field getField() {
+        public Field getField()
+        {
             return this.field;
         }
     }
 
-    public class NBTTagType {
+    public static enum Attributes
+    {
+        MAX_HEALTH("generic.maxHealth", GenericAttributes.maxHealth),
+        MOVEMENT_SPEED("generic.movementSpeed", GenericAttributes.MOVEMENT_SPEED),
+        ATTACK_DAMAGE("generic.attackDamage", GenericAttributes.ATTACK_DAMAGE),
+        FOLLOW_RANGE("generic.followRange", GenericAttributes.FOLLOW_RANGE),
+        LUCK("generic.luck", GenericAttributes.j),
+        ARMOR("generic.armor", GenericAttributes.h),
+        ARMOR_TOUGHNESS("generic.armorToughness", GenericAttributes.i),
+        ATTACK_SPEED("generic.attackSpeed", GenericAttributes.g),
+        KNOCKBACK_RESISTANCE("generic.knockbackResistance", GenericAttributes.c);
+
+        private String name;
+        private IAttribute attribute;
+
+        private Attributes(String nmsName, IAttribute nmsAttribute)
+        {
+            this.name = nmsName;
+            this.attribute = nmsAttribute;
+        }
+
+        /**
+         * Returns the NMS name of the attribute. For example, <code>MAX_HEALTH</code> returns
+         * <code>"generic.maxHealth"</code>, and so on and so forth.
+         *
+         * @return The name as a String.
+         */
+        public String getName()
+        {
+            return this.name;
+        }
+
+        /**
+         * @return the IAttribute value of this type, used in place of <code>GenericAttributes.h</code> (for
+         * Attributes.ARMOR as an example).
+         */
+        public IAttribute asIAttribute()
+        {
+            return this.attribute;
+        }
+    }
+
+    public static class SpawnData extends BiomeMeta
+    {
+
+        /**
+         * Creates a new instance of SpawnData, and at the same time, a new instanceof BiomeMeta, used to add random
+         * spawns and such.
+         *
+         * @param customClass - Your class to spawn
+         * @param spawnWeight - The chance for the mob(s) to spawn.
+         * @param minSpawns   - The minimum amount of entities spawned at once.
+         * @param maxSpawns   - The maximum amount of entities spawned at once.
+         */
+        public SpawnData(Class<? extends EntityInsentient> customClass, int spawnWeight, int minSpawns, int maxSpawns)
+        {
+            super(customClass, spawnWeight, minSpawns, maxSpawns);
+        }
+
+        public Class<? extends EntityInsentient> getCustomClass()
+        {
+            return this.b;
+        }
+
+        public int getSpawnWeight()
+        {
+            return this.a;
+        }
+
+        public int getMinSpawns()
+        {
+            return this.c;
+        }
+
+        public int getMaxSpawns()
+        {
+            return this.d;
+        }
+    }
+
+    public class NBTTagType
+    {
         public static final int COMPOUND = 10;
         public static final int LIST = 9;
         public static final int STRING = 8;
@@ -952,110 +991,5 @@ public class NMSUtils {
         public static final int BYTE = 1;
         public static final int BOOLEAN = 1;
         public static final int END = 0;
-    }
-
-    public static enum Attributes {
-        MAX_HEALTH("generic.maxHealth", GenericAttributes.maxHealth),
-        MOVEMENT_SPEED("generic.movementSpeed", GenericAttributes.MOVEMENT_SPEED),
-        ATTACK_DAMAGE("generic.attackDamage", GenericAttributes.ATTACK_DAMAGE),
-        FOLLOW_RANGE("generic.followRange", GenericAttributes.FOLLOW_RANGE),
-        LUCK("generic.luck", GenericAttributes.j),
-        ARMOR("generic.armor", GenericAttributes.h),
-        ARMOR_TOUGHNESS("generic.armorToughness", GenericAttributes.i),
-        ATTACK_SPEED("generic.attackSpeed", GenericAttributes.g),
-        KNOCKBACK_RESISTANCE("generic.knockbackResistance", GenericAttributes.c);
-
-        private String name;
-        private IAttribute attribute;
-
-        private Attributes(String nmsName, IAttribute nmsAttribute) {
-            this.name = nmsName;
-            this.attribute = nmsAttribute;
-        }
-
-        /**
-         * Returns the NMS name of the attribute. For example, <code>MAX_HEALTH</code> returns
-         * <code>"generic.maxHealth"</code>, and so on and so forth.
-         *
-         * @return The name as a String.
-         */
-        public String getName() {
-            return this.name;
-        }
-
-        /**
-         * @return the IAttribute value of this type, used in place of <code>GenericAttributes.h</code> (for
-         *         Attributes.ARMOR as an example).
-         */
-        public IAttribute asIAttribute() {
-            return this.attribute;
-        }
-    }
-
-    public static class SpawnData extends BiomeMeta {
-
-        /**
-         * Creates a new instance of SpawnData, and at the same time, a new instanceof BiomeMeta, used to add random
-         * spawns and such.
-         *
-         * @param customClass
-         *            - Your class to spawn
-         * @param spawnWeight
-         *            - The chance for the mob(s) to spawn.
-         * @param minSpawns
-         *            - The minimum amount of entities spawned at once.
-         * @param maxSpawns
-         *            - The maximum amount of entities spawned at once.
-         */
-        public SpawnData(Class<? extends EntityInsentient> customClass, int spawnWeight, int minSpawns, int maxSpawns) {
-            super(customClass, spawnWeight, minSpawns, maxSpawns);
-        }
-
-        public Class<? extends EntityInsentient> getCustomClass() {
-            return this.b;
-        }
-
-        public int getSpawnWeight() {
-            return this.a;
-        }
-
-        public int getMinSpawns() {
-            return this.c;
-        }
-
-        public int getMaxSpawns() {
-            return this.d;
-        }
-    }
-
-    static {
-        Class<BiomeBase> clazz = BiomeBase.class;
-        Field monster = null;
-        Field creature = null;
-        Field water = null;
-        Field ambient = null;
-        try {
-            // These fields may vary depending on your version.
-            // The new names can be found under
-            // net.minecraft.server.<version>.BiomeBase.class
-            monster = clazz.getDeclaredField("t");
-            creature = clazz.getDeclaredField("u");
-            water = clazz.getDeclaredField("v");
-            ambient = clazz.getDeclaredField("w");
-        } catch (Exception e) {
-            Bukkit.getLogger().warning("Wrong server version / software; BiomeMeta fields not found, aborting.");
-        }
-        META_LIST_MONSTER = monster;
-        META_LIST_CREATURE = creature;
-        META_LIST_WATER_CREATURE = water;
-        META_LIST_AMBIENT = ambient;
-        CRAFTBUKKIT_SERVER = (CraftServer) Bukkit.getServer();
-        MINECRAFT_SERVER = NMSUtils.CRAFTBUKKIT_SERVER.getServer();
-        BIOMES = new BiomeBase[BiomeBase.i.a()];
-        Iterator<BiomeBase> iterator = BiomeBase.i.iterator();
-        int index = 0;
-        while (iterator.hasNext()) {
-            NMSUtils.BIOMES[index++] = iterator.next();
-        }
     }
 }

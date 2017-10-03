@@ -4,19 +4,19 @@ import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
 import me.sirlich.AsmodeusRpg.cancellers.CancelHunger;
 import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
-import me.sirlich.AsmodeusRpg.core.*;
+import me.sirlich.AsmodeusRpg.core.PlayerJoinHandler;
+import me.sirlich.AsmodeusRpg.core.PlayerLeaveHandler;
+import me.sirlich.AsmodeusRpg.core.RPGDamage;
+import me.sirlich.AsmodeusRpg.core.RpgPassiveRegen;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
+import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.LeapingZombie;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.TestMob;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
-import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
-//import me.sirlich.AsmodeusRpg.items.RPGWeapon;
-//import me.sirlich.AsmodeusRpg.items.Texture;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.items.Texture;
 import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
-//import me.sirlich.AsmodeusRpg.testing.GetItem;
 import me.sirlich.AsmodeusRpg.testing.GetItem;
 import me.sirlich.AsmodeusRpg.testing.TestMobSpawn;
 import me.sirlich.AsmodeusRpg.testing.getPlayerHealthCommand;
@@ -40,20 +40,51 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-public class AsmodeusRpg extends JavaPlugin {
+//import me.sirlich.AsmodeusRpg.items.RPGWeapon;
+//import me.sirlich.AsmodeusRpg.items.Texture;
+//import me.sirlich.AsmodeusRpg.testing.GetItem;
+
+public class AsmodeusRpg extends JavaPlugin
+{
+    static CommandMap map;
     private static AsmodeusRpg instance;
 
-    public AsmodeusRpg(){
+    public AsmodeusRpg()
+    {
         instance = this;
     }
+
     public static AsmodeusRpg getInstance()
     {
         return instance;
     }
 
+    public static void register(AsmodeusCommand... cmds)
+    {
+        try {
+            final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            f.setAccessible(true);
+            map = (CommandMap) f.get(Bukkit.getServer());
+
+            for (AsmodeusCommand cmd : cmds) {
+                map.register(cmd.getName(), cmd);
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
-    public void onEnable() {
+    public void onEnable()
+    {
         RegionUtils.loadFiles();
+        RpgPassiveRegen.startTicker();
 
         register(new GetItem());
         register(new TestMobSpawn());
@@ -91,23 +122,25 @@ public class AsmodeusRpg extends JavaPlugin {
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable()
+    {
         System.out.println("Asmodeus disabled");
     }
 
-    private void initStationaryMobs(){
+    private void initStationaryMobs()
+    {
         System.out.println("Begin mob spawning...");
 
         //Spawn blacksmiths
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/blacksmith.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/blacksmith.txt"));
             String line;
             while ((line = br.readLine()) != null) {
                 List<String> arr = Arrays.asList(line.split(","));
                 World world = Bukkit.getServer().getWorld("world");
-                Location loc = new Location(world,Double.parseDouble(arr.get(0)),Double.parseDouble(arr.get(1)),Double.parseDouble(arr.get(2)));
+                Location loc = new Location(world, Double.parseDouble(arr.get(0)), Double.parseDouble(arr.get(1)), Double.parseDouble(arr.get(2)));
                 Blacksmith keeper = new Blacksmith(((CraftWorld) world).getHandle());
-                keeper.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
+                keeper.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
                 ((CraftWorld) world).addEntity(keeper, CreatureSpawnEvent.SpawnReason.CUSTOM);
                 System.out.println("Blacksmith successfully added.");
             }
@@ -119,7 +152,7 @@ public class AsmodeusRpg extends JavaPlugin {
 
         //Spawn Civilians
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/civilians/civilians.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/civilians/civilians.txt"));
             String line;
             while ((line = br.readLine()) != null) {
                 civilianLoader(line);
@@ -131,26 +164,27 @@ public class AsmodeusRpg extends JavaPlugin {
         }
     }
 
-    private void civilianLoader(String s){
+    private void civilianLoader(String s)
+    {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(getDataFolder()+ "/civilians/" + s + ".txt"));
+            BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/civilians/" + s + ".txt"));
 
             World world = Bukkit.getWorld("world");
             String name = br.readLine();
             int profession = Integer.parseInt(br.readLine());
             List<String> locs = Arrays.asList(br.readLine().split(","));
-            Location loc = new Location(world,Double.parseDouble(locs.get(0)),Double.parseDouble(locs.get(1)),Double.parseDouble(locs.get(2)));
+            Location loc = new Location(world, Double.parseDouble(locs.get(0)), Double.parseDouble(locs.get(1)), Double.parseDouble(locs.get(2)));
             String regionID = br.readLine();
             Region region = RegionUtils.getRegion(regionID);
             System.out.println("Region name: " + region.getName());
             List<String> quotes = Arrays.asList(br.readLine().split(">"));
             System.out.println("1");
             System.out.println("Region name: " + region.getName());
-            Civilian civilian = new Civilian(((CraftWorld) world).getHandle(),name,profession,region);
+            Civilian civilian = new Civilian(((CraftWorld) world).getHandle(), name, profession, region);
             System.out.println("2");
-            CivilianList.addEntity(civilian.getBukkitEntity(),quotes,loc,regionID);
+            CivilianList.addEntity(civilian.getBukkitEntity(), quotes, loc, regionID);
             System.out.println("3");
-            civilian.setLocation(loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch());
+            civilian.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
             System.out.println("4");
             ((CraftWorld) world).addEntity(civilian, CreatureSpawnEvent.SpawnReason.CUSTOM);
             System.out.println("5");
@@ -163,29 +197,8 @@ public class AsmodeusRpg extends JavaPlugin {
         }
     }
 
-    static CommandMap map;
-
-    public static void register(AsmodeusCommand... cmds) {
-        try {
-            final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-            f.setAccessible(true);
-            map = (CommandMap) f.get(Bukkit.getServer());
-
-            for (AsmodeusCommand cmd : cmds) {
-                map.register(cmd.getName(), cmd);
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void listener(Listener... listeners) {
+    private void listener(Listener... listeners)
+    {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
         }
