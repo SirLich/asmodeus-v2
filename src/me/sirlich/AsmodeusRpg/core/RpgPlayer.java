@@ -27,6 +27,7 @@ public class RpgPlayer
     private double healthRegenPerSecond;
     private double maxHealth;
     private double health;
+    private double takeKnockbackModifier;
 
     public double getHealthRegenPerSecond()
     {

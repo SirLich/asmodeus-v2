@@ -8,6 +8,7 @@ import me.sirlich.AsmodeusRpg.core.PlayerJoinHandler;
 import me.sirlich.AsmodeusRpg.core.PlayerLeaveHandler;
 import me.sirlich.AsmodeusRpg.core.RPGDamage;
 import me.sirlich.AsmodeusRpg.core.RpgPassiveRegen;
+import me.sirlich.AsmodeusRpg.customMobs.handlers.AggressiveCowHandler;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.LeapingZombie;
@@ -109,6 +110,7 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new AbilitiesEditor());
         listener(new CancelHunger());
         listener(new RPGDamage());
+        listener(new AggressiveCowHandler());
 
         initStationaryMobs();
 
