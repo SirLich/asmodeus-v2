@@ -33,6 +33,7 @@ public class RpgSummon extends AsmodeusCommand
                     RpgEntityList.addEntity(cow.getUniqueID());
                     RpgEntity rpgEntity = RpgEntityList.getRpgEntity(cow.getUniqueID());
                     rpgEntity.setName("Aggresive Cow");
+                    rpgEntity.setAggression(false);
                     cow.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
                     ((CraftWorld) world).addEntity(cow, CreatureSpawnEvent.SpawnReason.CUSTOM);
                     System.out.println("Cow successfully added.");

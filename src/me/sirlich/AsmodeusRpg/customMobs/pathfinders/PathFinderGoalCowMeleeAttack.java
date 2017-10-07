@@ -1,6 +1,7 @@
 package me.sirlich.AsmodeusRpg.customMobs.pathfinders;
 
 
+import me.sirlich.AsmodeusRpg.core.RpgEntityList;
 import me.sirlich.AsmodeusRpg.customMobs.events.AggressiveCowMeleeAttackPlayerEvent;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
@@ -34,7 +35,9 @@ public class PathFinderGoalCowMeleeAttack extends PathfinderGoal
             return false;
         } else if (!var1.isAlive()) {
             return false;
-        } else {
+        } else if(!RpgEntityList.getRpgEntity(b.getUniqueID()).isAggressive()){
+            return false;
+        }else {
             this.f = this.b.getNavigation().a(var1);
             if (this.f != null) {
                 return true;

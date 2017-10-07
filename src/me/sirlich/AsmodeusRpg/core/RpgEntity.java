@@ -13,7 +13,15 @@ public class RpgEntity
 {
     private int maxHealth;
     private int health;
+    private boolean aggression;
 
+    public void setAggression(boolean agro){
+        aggression = agro;
+    }
+
+    public boolean isAggressive(){
+        return aggression;
+    }
     public String getName()
     {
         return name;
@@ -74,6 +82,7 @@ public class RpgEntity
             kill();
         }
     }
+
 
     public void knockbackByEntity(double knockback, double knockup, Location entityLoc){
         Entity entity = this.getEntity();

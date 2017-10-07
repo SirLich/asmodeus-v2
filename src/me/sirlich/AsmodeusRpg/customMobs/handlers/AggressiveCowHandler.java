@@ -2,6 +2,7 @@ package me.sirlich.AsmodeusRpg.customMobs.handlers;
 
 import me.sirlich.AsmodeusRpg.core.PlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.customMobs.events.AggressiveCowDamagedEvent;
 import me.sirlich.AsmodeusRpg.customMobs.events.AggressiveCowMeleeAttackPlayerEvent;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
@@ -15,5 +16,9 @@ public class AggressiveCowHandler implements Listener
         PlayerList.getRpgPlayer(event.getPlayer()).meleeDamage(4);
         PlayerList.getRpgPlayer(event.getPlayer()).knockbackByEntity(0.7,event.getEntity().getLocation());
         RpgEntityList.getRpgEntity(event.getEntity().getUniqueId()).knockbackByEntity(0.3, 0.3,event.getPlayer().getLocation());
+    }
+    @EventHandler
+    public void cowAttacked(AggressiveCowDamagedEvent event){
+        RpgEntityList.getRpgEntity(event.getEntity().getUniqueId()).setAggression(true);
     }
 }
