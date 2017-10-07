@@ -1,6 +1,9 @@
 package me.sirlich.AsmodeusRpg.abilities;
 
+import me.sirlich.AsmodeusRpg.core.RpgEntity;
+import me.sirlich.AsmodeusRpg.core.RpgEntityList;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -24,14 +27,11 @@ public class HolyOrderAbility extends Ability
     @Override
     public void run()
     {
+        getPlayer().playSound(getPlayer().getLocation(), Sound.ENTITY_PARROT_IMITATE_CREEPER, 1, 1);
         List<Entity> nearby = getPlayer().getNearbyEntities(MAX_RANGE, MAX_RANGE, MAX_RANGE);
         for (Entity entity : nearby) {
             if (entity instanceof Damageable && entity.getType() != EntityType.ARMOR_STAND && entity.getType() != EntityType.VILLAGER) {
-                Location playerLoc = getPlayer().getLocation();
-                Location entityLoc = entity.getLocation();
-                Double slope = ((entityLoc.getZ() - playerLoc.getZ()) / (entityLoc.getX() - playerLoc.getX()));
-                Vector vec = new Vector(-Math.abs(Math.cos(slope) * POWER), 0.5, -(Math.abs(Math.sin(slope) * POWER)));
-                entity.setVelocity(vec);
+                RpgEntityList.getRpgEntity(entity.getUniqueId()).knockbackByEntity(2, 0.6,getPlayer().getLocation());
             }
         }
     }

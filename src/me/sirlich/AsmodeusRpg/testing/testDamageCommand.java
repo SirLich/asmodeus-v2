@@ -17,11 +17,8 @@ public class testDamageCommand extends AsmodeusCommand
     public boolean execute(CommandSender sender, String s, String[] args)
     {
         if (sender instanceof Player) {
-            System.out.println("dmg: 1");
             Player player = (Player) sender;
-            System.out.println("dmg: 2");
             PlayerList.getRpgPlayer(player).rawDamage(Double.parseDouble(args[0]));
-            System.out.println("dmg: 3");
         }
         return true;
     }

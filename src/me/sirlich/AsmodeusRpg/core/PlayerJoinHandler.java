@@ -36,7 +36,8 @@ public class PlayerJoinHandler implements Listener
             rpgPlayer.setSpeedModifier(0.2f); //NOTE: This should eventualy loop over armour etc to figure out speed. 0,2 is just base.
             rpgPlayer.setMaxHealth(50);
             rpgPlayer.setHealth(50);
-            rpgPlayer.setHealthRegenPerSecond(5);
+            rpgPlayer.setHealthRegenPerTick(0.1);
+            rpgPlayer.setKnockbackResistance(0.5);
         } else {
             System.out.println("Something went wrong! Please see the player list.");
             PlayerList.removePlayer(player);

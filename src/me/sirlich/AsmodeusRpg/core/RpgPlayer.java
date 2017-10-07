@@ -1,13 +1,15 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.abilities.Ability;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
 public class RpgPlayer
 {
+    private static Location DEATH_LOCATION = new Location(Bukkit.getWorld("world"),282,53,296);
+    private static Location RESPAWN_LOCATION = new Location(Bukkit.getWorld("world"),236,67,294);
+    private static int DEATH_ANIMATION_DURATION = 50;
     private Ability mobilityAbility;
     private boolean canUseMobilityAbility;
     private int mobilityAbilityLevel;
@@ -24,19 +26,34 @@ public class RpgPlayer
     private double stamineDrainOnAxeUseModifier;
     private double stamineDrainOnMagicUseModifier;
     private double staminaDrainOnBowUseModifier;
-    private double healthRegenPerSecond;
+    private double healthRegenPerTick;
     private double maxHealth;
     private double health;
-    private double takeKnockbackModifier;
 
-    public double getHealthRegenPerSecond()
+    public double getKnockbackResistance()
     {
-        return healthRegenPerSecond;
+        return knockbackResistance;
     }
 
-    public void setHealthRegenPerSecond(double healthRegenPerSecond)
+    public void setKnockbackResistance(double knockbackResistance)
     {
-        this.healthRegenPerSecond = healthRegenPerSecond;
+        this.knockbackResistance = knockbackResistance;
+    }
+
+    public void knockbackByEntity(double knockback, Location entityLoc){
+        Player player = this.getPlayer();
+        player.setVelocity(entityLoc.getDirection().multiply(knockback).setY(0.2));
+    }
+    private double knockbackResistance;
+
+    public double getHealthRegenPerTick()
+    {
+        return healthRegenPerTick;
+    }
+
+    public void setHealthRegenPerTick(double healthRegenPerTick)
+    {
+        this.healthRegenPerTick = healthRegenPerTick;
     }
 
     public int getMobilityAbilityLevel()
@@ -83,14 +100,17 @@ public class RpgPlayer
      */
     public void rawDamage(double dmg)
     {
-        editHealth(-dmg);
         getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
+        editHealth(-dmg);
     }
 
+    public void fullHeal(){
+        setHealth(maxHealth);
+    }
     public void rawHeal(double heal)
     {
         editHealth(heal);
-        getPlayer().getWorld().spawnParticle(Particle.HEART, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2);
+        getPlayer().getWorld().spawnParticle(Particle.HEART, getPlayer().getLocation().add(0, 1, 0), 3, 0.2, 0.2, 0.2);
     }
 
     /*
@@ -103,7 +123,7 @@ public class RpgPlayer
     {
         maxHealth += healthChange;
 
-        //Truncace player health
+        //Truncate player health
         if(getHealth() > maxHealth){
             setHealth(maxHealth);
         }
@@ -136,8 +156,11 @@ public class RpgPlayer
      */
     public void refreshDisplayedHealth()
     {
-        System.out.println("Setting player health!");
-        this.getPlayer().setHealth(20 * (health / maxHealth));
+        if((20 * (health / maxHealth) != 0)){
+            this.getPlayer().setHealth(20 * (health / maxHealth));
+        } else{
+            kill();
+        }
     }
 
     public double getHealth()
@@ -153,6 +176,8 @@ public class RpgPlayer
     {
         if (i > maxHealth) {
             health = maxHealth;
+        } else if(i <= 0){
+            kill();
         } else {
             health = i;
         }
@@ -167,13 +192,38 @@ public class RpgPlayer
      */
     public void editHealth(double i)
     {
-        if (health + i > maxHealth) {
+        health += i;
+        if(health <= 0){
+            kill();
+        } else if(health > maxHealth){
             health = maxHealth;
-        } else {
-            health += i;
         }
         refreshDisplayedHealth();
     }
+
+    public void kill(){
+        getPlayer().teleport(RESPAWN_LOCATION);
+        getPlayer().setHealth(0);
+        /*
+        setHealth(maxHealth);
+        getPlayer().teleport(DEATH_LOCATION);
+        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, DEATH_ANIMATION_DURATION,Integer.MAX_VALUE));
+        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, DEATH_ANIMATION_DURATION, Integer.MAX_VALUE));
+        getPlayer().playSound(getPlayer().getLocation(),Sound.ENTITY_ENDERMEN_SCREAM,1,1);
+        getPlayer().playSound(getPlayer().getLocation(),Sound.ENTITY_BAT_DEATH,1,1);
+        getPlayer().playSound(getPlayer().getLocation(),Sound.ENTITY_GHAST_SCREAM, 1, 1);
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                getPlayer().teleport(RESPAWN_LOCATION);
+            }
+
+        }.runTaskLater(AsmodeusRpg.getInstance(), DEATH_ANIMATION_DURATION);
+        */
+    }
+
 
     /*
     This method takes a magicDamage value, applies magic armour modifier, and calls rawDamage.

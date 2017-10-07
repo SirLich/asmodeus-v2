@@ -4,10 +4,7 @@ import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
 import me.sirlich.AsmodeusRpg.cancellers.CancelHunger;
 import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
-import me.sirlich.AsmodeusRpg.core.PlayerJoinHandler;
-import me.sirlich.AsmodeusRpg.core.PlayerLeaveHandler;
-import me.sirlich.AsmodeusRpg.core.RPGDamage;
-import me.sirlich.AsmodeusRpg.core.RpgPassiveRegen;
+import me.sirlich.AsmodeusRpg.core.*;
 import me.sirlich.AsmodeusRpg.customMobs.handlers.AggressiveCowHandler;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
@@ -18,10 +15,7 @@ import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.items.Texture;
 import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
-import me.sirlich.AsmodeusRpg.testing.GetItem;
-import me.sirlich.AsmodeusRpg.testing.TestMobSpawn;
-import me.sirlich.AsmodeusRpg.testing.getPlayerHealthCommand;
-import me.sirlich.AsmodeusRpg.testing.testDamageCommand;
+import me.sirlich.AsmodeusRpg.testing.*;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import org.bukkit.Bukkit;
@@ -29,6 +23,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandMap;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -91,6 +87,9 @@ public class AsmodeusRpg extends JavaPlugin
         register(new TestMobSpawn());
         register(new testDamageCommand());
         register(new getPlayerHealthCommand());
+        register(new TestRpgValues());
+        register(new RpgSummon());
+        register(new RecalculateEntityList());
 
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
@@ -111,6 +110,7 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new CancelHunger());
         listener(new RPGDamage());
         listener(new AggressiveCowHandler());
+        listener(new PlayerRespawnHandler());
 
         initStationaryMobs();
 
@@ -126,6 +126,16 @@ public class AsmodeusRpg extends JavaPlugin
     @Override
     public void onDisable()
     {
+
+        //Kick players
+        for(Player player : Bukkit.getOnlinePlayers()){
+            player.kickPlayer("AsmodeusRpg is reloading. Please login again.");
+        }
+
+        //Kill mobs
+        for(Entity entity : Bukkit.getWorld("world").getEntities()){
+            entity.remove();
+        }
         System.out.println("Asmodeus disabled");
     }
 

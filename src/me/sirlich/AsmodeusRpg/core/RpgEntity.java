@@ -1,8 +1,11 @@
 package me.sirlich.AsmodeusRpg.core;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -10,6 +13,18 @@ public class RpgEntity
 {
     private int maxHealth;
     private int health;
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    private String name;
 
     public int getMaxHealth()
     {
@@ -31,6 +46,14 @@ public class RpgEntity
         this.health = health;
     }
 
+    public String toString(){
+        if (getName() != null) {
+            return getName();
+        } else{
+            return "Unknown Entity";
+        }
+    }
+
     public void kill()
     {
         Entity entity = RpgEntityList.getEntity(this);
@@ -43,7 +66,6 @@ public class RpgEntity
         }
     }
 
-
     public void rawDamageEntity(int damage)
     {
         Entity entity = this.getEntity();
@@ -51,6 +73,11 @@ public class RpgEntity
         if (getHealth() <= 0) {
             kill();
         }
+    }
+
+    public void knockbackByEntity(double knockback, double knockup, Location entityLoc){
+        Entity entity = this.getEntity();
+        entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(knockup));
     }
 
     public Entity getEntity()

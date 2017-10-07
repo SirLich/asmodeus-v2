@@ -1,6 +1,7 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.utilities.WorldUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 
 import java.util.HashMap;
@@ -15,9 +16,15 @@ public class RpgEntityList
     public static void addEntity(Entity entity)
     {
         RpgEntity rpgEntity = new RpgEntity();
-
         rpgEntityHashMap.put(entity.getUniqueId(), rpgEntity);
         entityHashMap.put(rpgEntity, entity.getUniqueId());
+    }
+
+    public static void addEntity(UUID uuid){
+        System.out.println("inside");
+        RpgEntity rpgEntity = new RpgEntity();
+        rpgEntityHashMap.put(uuid, rpgEntity);
+        entityHashMap.put(rpgEntity, uuid);
     }
 
     public static void removeEntity(Entity entity)
@@ -33,9 +40,20 @@ public class RpgEntityList
         rpgEntityHashMap.remove(rpgEntity.getUniqueId());
     }
 
+    public static void removeEntity(UUID uuid)
+    {
+        entityHashMap.remove(rpgEntityHashMap.get(uuid));
+        rpgEntityHashMap.remove(uuid);
+    }
+
     public static RpgEntity getRpgEntity(Entity entity)
     {
         return rpgEntityHashMap.get(entity.getUniqueId());
+    }
+
+    public static RpgEntity getRpgEntity(UUID uuid)
+    {
+        return rpgEntityHashMap.get(uuid);
     }
 
     public static Entity getEntity(RpgEntity rpgEntity)
@@ -43,6 +61,21 @@ public class RpgEntityList
         return WorldUtil.getEntityByUniqueId(entityHashMap.get(rpgEntity));
     }
 
+    public static void recalculate(){
+        for(UUID u :entityHashMap.values()){
+            if(Bukkit.getEntity(u) != null){
+                Entity entity = Bukkit.getEntity(u);
+                if(entity.isDead()){
+                    System.out.println("Removed entity with ID: " + entity.getUniqueId());
+                    removeEntity(entity);
+                }
+            } else {
+                System.out.println("Removed entity with ID: " + u);
+                removeEntity(u);
+            }
+
+        }
+    }
     public static boolean doesEntityExist(Entity entity)
     {
         return rpgEntityHashMap.containsKey(entity.getUniqueId());

@@ -101,12 +101,9 @@ public class PathFinderGoalCowMeleeAttack extends PathfinderGoal
     protected void a(EntityLiving var1, double var2) {
         double var4 = this.a(var1);
         if (var2 <= var4 && this.c <= 0) {
-            System.out.println("Cow attacked player");
             if(var1 != null){
-                System.out.println(var1.getName());
                 Player player = Bukkit.getPlayer(var1.getUniqueID());
-                player.sendMessage("Yololo");
-                AggressiveCowMeleeAttackPlayerEvent cowEvent = new AggressiveCowMeleeAttackPlayerEvent(player);
+                AggressiveCowMeleeAttackPlayerEvent cowEvent = new AggressiveCowMeleeAttackPlayerEvent(player, this.b.getBukkitEntity());
                 Bukkit.getPluginManager().callEvent(cowEvent);
             }
 

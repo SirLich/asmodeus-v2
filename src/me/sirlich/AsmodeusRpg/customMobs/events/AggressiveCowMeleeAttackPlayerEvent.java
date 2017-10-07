@@ -8,16 +8,21 @@ import org.bukkit.event.HandlerList;
 public class AggressiveCowMeleeAttackPlayerEvent extends Event
 {
     private static final HandlerList handlers = new HandlerList();
-
     public Player getPlayer()
     {
         return player;
     }
 
-    private final Player player;
+    public Entity getEntity(){
+        return entity;
+    }
 
-    public AggressiveCowMeleeAttackPlayerEvent(Player player){
+    private final Player player;
+    private final Entity entity;
+
+    public AggressiveCowMeleeAttackPlayerEvent(Player player, Entity entity){
         this.player = player;
+        this.entity = entity;
     }
 
     public HandlerList getHandlers() {
