@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PlayerRespawnHandler implements Listener
 {
-    private static Location RESPAWN_LOCATION = new Location(Bukkit.getWorld("world"),236,67,294);
+    private static Location RESPAWN_LOCATION = new Location(Bukkit.getWorld("asmodeus"),236,67,294);
     @EventHandler
     public void playerRespawnEvent(PlayerRespawnEvent event){
         event.getPlayer().teleport(RESPAWN_LOCATION);

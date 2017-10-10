@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg.core;
 
+import me.sirlich.AsmodeusRpg.customMobs.damageResponses.DamageResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Damageable;
@@ -14,6 +15,23 @@ public class RpgEntity
     private int maxHealth;
     private int health;
     private boolean aggression;
+
+    public DamageResponse getDamageResponse()
+    {
+        return damageResponse;
+    }
+
+    public void setDamageResponse(DamageResponse damageResponse)
+    {
+        this.damageResponse = damageResponse;
+    }
+
+    public void damageRespone(){
+        this.damageResponse.run();
+    }
+
+    private DamageResponse damageResponse;
+
 
     public void setAggression(boolean agro){
         aggression = agro;

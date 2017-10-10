@@ -78,7 +78,8 @@ public class RPGDamage implements Listener
                 // Hit the closest player
                 if (hit != null) {
                     PlayerList.getRpgPlayer(hit).editHealth(-1 * damage);
-                    hit.setVelocity(observer.getLocation().getDirection().setY(0).normalize().multiply(0));
+
+                    //hit.setVelocity(observer.getLocation().getDirection().setY(0).normalize().multiply(0));
                 }
             } else {
                 attackSuccess = false;

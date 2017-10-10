@@ -4,6 +4,7 @@ package me.sirlich.AsmodeusRpg.regions;
  * Created by Jo on 11/10/2015.
  */
 
+import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -132,7 +133,7 @@ public class Region implements Cloneable
     public Location getRandomLoc()
     {
         System.out.println("getRandomLoc");
-        return new Location(Bukkit.getWorld("world"), ThreadLocalRandom.current().nextDouble(this.getLowerX(), this.getUpperX()),
+        return new Location(Bukkit.getWorld(AsmodeusRpg.getInstance().getWorld()), ThreadLocalRandom.current().nextDouble(this.getLowerX(), this.getUpperX()),
                 ThreadLocalRandom.current().nextDouble(this.getLowerY(), this.getUpperY()),
                 ThreadLocalRandom.current().nextDouble(this.getLowerZ(), this.getUpperZ()));
     }

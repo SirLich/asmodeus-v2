@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg.core;
 
+import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.abilities.Ability;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -7,8 +8,8 @@ import org.bukkit.material.MaterialData;
 
 public class RpgPlayer
 {
-    private static Location DEATH_LOCATION = new Location(Bukkit.getWorld("world"),282,53,296);
-    private static Location RESPAWN_LOCATION = new Location(Bukkit.getWorld("world"),236,67,294);
+    private static Location DEATH_LOCATION = new Location(Bukkit.getWorld(AsmodeusRpg.getInstance().getWorld()),282,53,296);
+    private static Location RESPAWN_LOCATION = new Location(Bukkit.getWorld(AsmodeusRpg.getInstance().getWorld()),236,67,294);
     private static int DEATH_ANIMATION_DURATION = 50;
     private Ability mobilityAbility;
     private boolean canUseMobilityAbility;

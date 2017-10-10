@@ -5,11 +5,8 @@ import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
 import me.sirlich.AsmodeusRpg.cancellers.CancelHunger;
 import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.*;
-import me.sirlich.AsmodeusRpg.customMobs.handlers.AggressiveCowHandler;
-import me.sirlich.AsmodeusRpg.customMobs.monsters.AggressiveCow;
-import me.sirlich.AsmodeusRpg.customMobs.monsters.CustomZombie;
-import me.sirlich.AsmodeusRpg.customMobs.monsters.LeapingZombie;
-import me.sirlich.AsmodeusRpg.customMobs.monsters.TestMob;
+import me.sirlich.AsmodeusRpg.customMobs.handlers.RpgCowHandler;
+import me.sirlich.AsmodeusRpg.customMobs.monsters.*;
 import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.items.Texture;
@@ -41,8 +38,10 @@ import java.util.List;
 //import me.sirlich.AsmodeusRpg.items.Texture;
 //import me.sirlich.AsmodeusRpg.testing.GetItem;
 
+
 public class AsmodeusRpg extends JavaPlugin
 {
+    private String world = "AsmodeusRpg";
     static CommandMap map;
     private static AsmodeusRpg instance;
 
@@ -77,9 +76,17 @@ public class AsmodeusRpg extends JavaPlugin
         }
     }
 
+    public void handleConfigData(){
+        this.world = this.getConfig().getString("main-world");
+        System.out.println("World is: " + this.getConfig().getString("main-world"));
+    }
+
+
+
     @Override
     public void onEnable()
     {
+        handleConfigData();
         RegionUtils.loadFiles();
         RpgPassiveRegen.startTicker();
 
@@ -95,9 +102,10 @@ public class AsmodeusRpg extends JavaPlugin
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
         NMSUtils.registerEntity("blacksmith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
-        NMSUtils.registerEntity("aggressive_cow", NMSUtils.Type.COW, AggressiveCow.class, false);
+        NMSUtils.registerEntity("aggressive_cow", NMSUtils.Type.COW, RpgCow.class, false);
         NMSUtils.registerEntity("leaping_zombie", NMSUtils.Type.HUSK, LeapingZombie.class, false);
         NMSUtils.registerEntity("test_mob", NMSUtils.Type.SKELETON, TestMob.class, false);
+        NMSUtils.registerEntity("rpg_polar_bear", NMSUtils.Type.POLARBEAR, RpgPolarBear.class,false);
 
 
         listener(new BlacksmithHandler());
@@ -108,9 +116,10 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new PlayerLeaveHandler());
         listener(new AbilitiesEditor());
         listener(new CancelHunger());
-        listener(new RPGDamage());
-        listener(new AggressiveCowHandler());
+        //listener(new RPGDamage());
+        listener(new RpgCowHandler());
         listener(new PlayerRespawnHandler());
+        listener(new PlayerAttackEntityHandler());
 
         initStationaryMobs();
 
@@ -133,12 +142,15 @@ public class AsmodeusRpg extends JavaPlugin
         }
 
         //Kill mobs
-        for(Entity entity : Bukkit.getWorld("world").getEntities()){
+        for(Entity entity : Bukkit.getWorld(AsmodeusRpg.getInstance().getWorld()).getEntities()){
             entity.remove();
         }
         System.out.println("Asmodeus disabled");
     }
 
+    public String getWorld(){
+        return world;
+    }
     private void initStationaryMobs()
     {
         System.out.println("Begin mob spawning...");
@@ -149,7 +161,7 @@ public class AsmodeusRpg extends JavaPlugin
             String line;
             while ((line = br.readLine()) != null) {
                 List<String> arr = Arrays.asList(line.split(","));
-                World world = Bukkit.getServer().getWorld("world");
+                World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
                 Location loc = new Location(world, Double.parseDouble(arr.get(0)), Double.parseDouble(arr.get(1)), Double.parseDouble(arr.get(2)));
                 Blacksmith keeper = new Blacksmith(((CraftWorld) world).getHandle());
                 keeper.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
@@ -181,7 +193,7 @@ public class AsmodeusRpg extends JavaPlugin
         try {
             BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/civilians/" + s + ".txt"));
 
-            World world = Bukkit.getWorld("world");
+            World world = Bukkit.getWorld(AsmodeusRpg.getInstance().getWorld());
             String name = br.readLine();
             int profession = Integer.parseInt(br.readLine());
             List<String> locs = Arrays.asList(br.readLine().split(","));

@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg.testing;
 
+import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.customMobs.monsters.TestMob;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.Bukkit;
@@ -22,7 +23,7 @@ public class TestMobSpawn extends AsmodeusCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            World world = Bukkit.getServer().getWorld("world");
+            World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
             Location loc = player.getLocation();
             TestMob testMob = new TestMob(((CraftWorld) world).getHandle());
             testMob.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());

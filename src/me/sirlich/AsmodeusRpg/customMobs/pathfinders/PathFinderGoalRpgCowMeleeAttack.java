@@ -2,12 +2,12 @@ package me.sirlich.AsmodeusRpg.customMobs.pathfinders;
 
 
 import me.sirlich.AsmodeusRpg.core.RpgEntityList;
-import me.sirlich.AsmodeusRpg.customMobs.events.AggressiveCowMeleeAttackPlayerEvent;
+import me.sirlich.AsmodeusRpg.customMobs.events.RpgCowMeleeAttackPlayerEvent;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class PathFinderGoalCowMeleeAttack extends PathfinderGoal
+public class PathFinderGoalRpgCowMeleeAttack extends PathfinderGoal
 {
     World a;
     protected EntityCreature b;
@@ -21,7 +21,7 @@ public class PathFinderGoalCowMeleeAttack extends PathfinderGoal
     private double k;
     protected final int g = 20;
 
-    public PathFinderGoalCowMeleeAttack(EntityCreature var1, double var2, boolean var4) {
+    public PathFinderGoalRpgCowMeleeAttack(EntityCreature var1, double var2, boolean var4) {
         this.b = var1;
         this.a = var1.world;
         this.d = var2;
@@ -106,7 +106,7 @@ public class PathFinderGoalCowMeleeAttack extends PathfinderGoal
         if (var2 <= var4 && this.c <= 0) {
             if(var1 != null){
                 Player player = Bukkit.getPlayer(var1.getUniqueID());
-                AggressiveCowMeleeAttackPlayerEvent cowEvent = new AggressiveCowMeleeAttackPlayerEvent(player, this.b.getBukkitEntity());
+                RpgCowMeleeAttackPlayerEvent cowEvent = new RpgCowMeleeAttackPlayerEvent(player, this.b.getBukkitEntity());
                 Bukkit.getPluginManager().callEvent(cowEvent);
             }
 
