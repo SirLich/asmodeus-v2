@@ -111,7 +111,9 @@ public class RpgPlayer
     public void rawHeal(double heal)
     {
         editHealth(heal);
-        getPlayer().getWorld().spawnParticle(Particle.HEART, getPlayer().getLocation().add(0, 1, 0), 3, 0.2, 0.2, 0.2);
+        if (health != maxHealth) {
+            getPlayer().getWorld().spawnParticle(Particle.HEART, getPlayer().getLocation().add(0, 1, 0), 3, 0.2, 0.2, 0.2);
+        }
     }
 
     /*
