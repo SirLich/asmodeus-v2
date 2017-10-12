@@ -2,6 +2,7 @@ package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.items.ItemHandler;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,18 +19,18 @@ public class PlayerAttackEntityHandler implements Listener
             ItemStack i = player.getInventory().getItemInMainHand();
             RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
             RpgEntity rpgEntity = RpgEntityList.getRpgEntity(event.getEntity().getUniqueId());
+            LivingEntity livingEntity = (LivingEntity) event.getEntity();
+            livingEntity.damage(0);
             if (wep != null) {
                 System.out.println("Hit a mob!");
                 double damage = wep.getPrimaryDamage().getRandomInt();
-                rpgEntity.damageRespone();
-                if(event.getEntity().isOnGround()){
-                    rpgEntity.knockbackByEntity(0.4,0.3,player.getLocation());
-                } else{
-                    rpgEntity.knockbackByEntity(0.4,0,player.getLocation());
-                }
+                rpgEntity.damageResponse();
+                rpgEntity.knockbackByEntity(0.4,0.3,player.getLocation());
+                rpgEntity.meleeDamageEntity(damage);
             } else {
-                rpgEntity.damageRespone();
+                rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(0.2,0.2,player.getLocation());
+                rpgEntity.meleeDamageEntity(10);
             }
         }
     }

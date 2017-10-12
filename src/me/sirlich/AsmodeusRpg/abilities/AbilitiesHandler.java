@@ -38,6 +38,7 @@ public class AbilitiesHandler implements Listener
                         @Override
                         public void run()
                         {
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_GUITAR, 1, 1);
                             rpgPlayer.setCanUseCarnageAbility(true);
                             player.sendMessage("You can now use " + ChatColor.AQUA + ability.getName() + ChatColor.WHITE + " ability");
                         }
@@ -75,6 +76,7 @@ public class AbilitiesHandler implements Listener
                                 @Override
                                 public void run()
                                 {
+                                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_GUITAR, 1, 1);
                                     rpgPlayer.setCanUseMythicalAbility(true);
                                 }
 
@@ -108,7 +110,7 @@ public class AbilitiesHandler implements Listener
                         @Override
                         public void run()
                         {
-                            player.playSound(player.getLocation(), Sound.ITEM_BOTTLE_FILL, 1, 1);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_GUITAR, 1, 1);
                             rpgPlayer.setCanUseMobilityAbility(true);
                         }
 

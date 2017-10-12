@@ -1,7 +1,7 @@
 package me.sirlich.AsmodeusRpg.testing;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.customMobs.monsters.TestMob;
+import me.sirlich.AsmodeusRpg.mobs.monsters.TestMob;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

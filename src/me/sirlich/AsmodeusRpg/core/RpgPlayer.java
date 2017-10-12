@@ -105,7 +105,7 @@ public class RpgPlayer
         editHealth(-dmg);
     }
 
-    public void fullHeal(){
+    public void setToFullHealth(){
         setHealth(maxHealth);
     }
     public void rawHeal(double heal)

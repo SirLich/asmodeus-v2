@@ -3,11 +3,14 @@ package me.sirlich.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
 import me.sirlich.AsmodeusRpg.cancellers.CancelHunger;
+import me.sirlich.AsmodeusRpg.cancellers.CancelMobDrops;
+import me.sirlich.AsmodeusRpg.cancellers.CancelMobSunDamage;
 import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.*;
-import me.sirlich.AsmodeusRpg.customMobs.handlers.RpgCowHandler;
-import me.sirlich.AsmodeusRpg.customMobs.monsters.*;
-import me.sirlich.AsmodeusRpg.customMobs.npcs.*;
+import me.sirlich.AsmodeusRpg.mobs.handlers.RpgCowHandler;
+import me.sirlich.AsmodeusRpg.mobs.handlers.RpgPolarBearHandler;
+import me.sirlich.AsmodeusRpg.mobs.monsters.*;
+import me.sirlich.AsmodeusRpg.mobs.npcs.*;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.items.Texture;
 import me.sirlich.AsmodeusRpg.regions.Region;
@@ -34,16 +37,12 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-//import me.sirlich.AsmodeusRpg.items.RPGWeapon;
-//import me.sirlich.AsmodeusRpg.items.Texture;
-//import me.sirlich.AsmodeusRpg.testing.GetItem;
-
-
 public class AsmodeusRpg extends JavaPlugin
 {
-    private String world = "AsmodeusRpg";
     static CommandMap map;
     private static AsmodeusRpg instance;
+    private int regenTickrate = 20;
+    private String world = "AsmodeusRpg";
 
     public AsmodeusRpg()
     {
@@ -77,8 +76,12 @@ public class AsmodeusRpg extends JavaPlugin
     }
 
     public void handleConfigData(){
+        //World
         this.world = this.getConfig().getString("main-world");
-        System.out.println("World is: " + this.getConfig().getString("main-world"));
+        System.out.println("World is: " + world);
+        //Regen tickrate
+        this.regenTickrate = Integer.parseInt(this.getConfig().getString("regen-tickrate"));
+        System.out.println("Tick Refresh Rate is: " + regenTickrate);
     }
 
 
@@ -94,9 +97,10 @@ public class AsmodeusRpg extends JavaPlugin
         register(new TestMobSpawn());
         register(new testDamageCommand());
         register(new getPlayerHealthCommand());
-        register(new TestRpgValues());
+        register(new PrintGameValues());
         register(new RpgSummon());
         register(new RecalculateEntityList());
+        register(new SetGameValues());
 
         NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
         NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
@@ -106,7 +110,7 @@ public class AsmodeusRpg extends JavaPlugin
         NMSUtils.registerEntity("leaping_zombie", NMSUtils.Type.HUSK, LeapingZombie.class, false);
         NMSUtils.registerEntity("test_mob", NMSUtils.Type.SKELETON, TestMob.class, false);
         NMSUtils.registerEntity("rpg_polar_bear", NMSUtils.Type.POLARBEAR, RpgPolarBear.class,false);
-
+        NMSUtils.registerEntity("rpg_polar_bear_rider", NMSUtils.Type.ZOMBIE_VILLAGER, RpgPolarBearRider.class,false);
 
         listener(new BlacksmithHandler());
         listener(new CivilianHandler());
@@ -118,8 +122,12 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new CancelHunger());
         //listener(new RPGDamage());
         listener(new RpgCowHandler());
+        listener(new RpgPolarBearHandler());
         listener(new PlayerRespawnHandler());
         listener(new PlayerAttackEntityHandler());
+        listener(new CancelMobDrops());
+        listener(new RpgPolarBearHandler());
+        listener(new CancelMobSunDamage());
 
         initStationaryMobs();
 
@@ -150,6 +158,18 @@ public class AsmodeusRpg extends JavaPlugin
 
     public String getWorld(){
         return world;
+    }
+
+    public int getRegenTickrate(){
+        return regenTickrate;
+    }
+
+    public void setWorld(String s){
+        this.world = s;
+    }
+
+    public void setRegenTickrate(int i){
+        this.regenTickrate = i;
     }
     private void initStationaryMobs()
     {

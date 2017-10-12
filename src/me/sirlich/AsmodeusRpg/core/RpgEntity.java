@@ -1,20 +1,21 @@
 package me.sirlich.AsmodeusRpg.core;
 
-import me.sirlich.AsmodeusRpg.customMobs.damageResponses.DamageResponse;
-import org.bukkit.Bukkit;
+import me.sirlich.AsmodeusRpg.mobs.damageResponses.DamageResponse;
 import org.bukkit.Location;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public class RpgEntity
 {
-    private int maxHealth;
-    private int health;
+    private double maxHealth;
+    private double health;
     private boolean aggression;
+    private DamageResponse damageResponse;
+    private String name;
+
 
     public DamageResponse getDamageResponse()
     {
@@ -26,11 +27,9 @@ public class RpgEntity
         this.damageResponse = damageResponse;
     }
 
-    public void damageRespone(){
+    public void damageResponse(){
         this.damageResponse.run();
     }
-
-    private DamageResponse damageResponse;
 
 
     public void setAggression(boolean agro){
@@ -50,9 +49,8 @@ public class RpgEntity
         this.name = name;
     }
 
-    private String name;
 
-    public int getMaxHealth()
+    public double getMaxHealth()
     {
         return maxHealth;
     }
@@ -62,16 +60,25 @@ public class RpgEntity
         this.maxHealth = maxHealth;
     }
 
-    public int getHealth()
+    public double getHealth()
     {
         return health;
     }
 
-    public void setHealth(int health)
+    public void setHealth(double i)
     {
-        this.health = health;
+        if (i > maxHealth) {
+            health = maxHealth;
+        } else if(i <= 0){
+            kill();
+        } else {
+            health = i;
+        }
     }
 
+    public void setToFullHealth(){
+        setHealth(maxHealth);
+    }
     public String toString(){
         if (getName() != null) {
             return getName();
@@ -92,19 +99,40 @@ public class RpgEntity
         }
     }
 
-    public void rawDamageEntity(int damage)
-    {
-        Entity entity = this.getEntity();
-        setHealth(health - damage);
-        if (getHealth() <= 0) {
+    public void editHealth(double i){
+        health += i;
+        if(health <= 0){
             kill();
+        } else if(health > maxHealth){
+            health = maxHealth;
         }
     }
+    public void rawDamageEntity(double damage)
+    {
+        editHealth(-damage);
+    }
 
+    public void meleeDamageEntity(double dmg){
+        rawDamageEntity(dmg);
+    }
+
+    public void magicDamageEntity(double dmg){
+        rawDamageEntity(dmg);
+    }
+
+    public void rangedDamageEntity(double dmg){
+        rawDamageEntity(dmg);
+    }
 
     public void knockbackByEntity(double knockback, double knockup, Location entityLoc){
         Entity entity = this.getEntity();
-        entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(knockup));
+        if(entity != null){
+            if(entity.isOnGround()){
+                entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(knockup));
+            } else{
+                entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(0));
+            }
+        }
     }
 
     public Entity getEntity()
