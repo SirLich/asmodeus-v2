@@ -15,7 +15,7 @@ public class RpgCowHandler implements Listener
         System.out.println("Cow attack");
         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_COW_HURT, 1,1);
         PlayerList.getRpgPlayer(event.getPlayer()).meleeDamage(4);
-        PlayerList.getRpgPlayer(event.getPlayer()).knockbackByEntity(0.7,event.getEntity().getLocation());
+        PlayerList.getRpgPlayer(event.getPlayer()).knockbackByEntity(0.7, 0.7,event.getEntity().getLocation());
         RpgEntityList.getRpgEntity(event.getEntity().getUniqueId()).knockbackByEntity(0.3, 0.3,event.getPlayer().getLocation());
     }
     @EventHandler

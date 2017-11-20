@@ -61,33 +61,11 @@ public class RPGWeapon extends RPGItem
     }*/
 
     private Rarity r;
-
-    private Range<Integer> primaryDamage;
-    private Range<Integer> specialDamage;
-
-    private SpecialType specialType;
-    private Material specialItem;
-    private Particle specialParticle;
-
-    private Double primaryRange;
-    private Double secondaryRange;
-
-    private Double primaryStamina;
-    private Double specialStamina;
+    private int level;
 
     public RPGWeapon(String identifier)
     {
-        this.identifier = identifier;
-    }
-
-    public Range<Integer> getPrimaryDamage()
-    {
-        return primaryDamage;
-    }
-
-    public Double getPrimaryRange()
-    {
-        return primaryRange;
+        this.identifier = "weapon_" + identifier;
     }
 
     public RPGWeapon texture(Texture t)
@@ -113,55 +91,8 @@ public class RPGWeapon extends RPGItem
         return this.rarity(Rarity.fromIdentifier(i));
     }
 
-    public RPGWeapon primaryAttack(int min, int max, double range, double stamina)
-    {
-        this.primaryDamage = new Range<Integer>(min, max, null);
-        this.primaryRange = range;
-        this.primaryStamina = stamina;
-        return this;
-    }
-
-    public RPGWeapon primaryAttack(int damage, double range, double stamina)
-    {
-        return this.primaryAttack(damage, damage, range, stamina);
-    }
-
-    public RPGWeapon primaryAttack(int damage, double stamina)
-    {
-        return this.primaryAttack(damage, damage, 3, stamina);
-    }
-
-    public RPGWeapon primaryAttack(int min, int max, double stamina)
-    {
-        return this.primaryAttack(min, max, 3, stamina);
-    }
-
-    public RPGWeapon specialAttack(int min, int max, double range, double stamina, Material item)
-    {
-        this.specialDamage = new Range<>(min, max, null);
-        this.specialType = SpecialType.ITEM;
-        this.specialItem = item;
-        this.secondaryRange = range;
-        this.specialStamina = stamina;
-        return this;
-    }
-
-    public RPGWeapon specialAttack(int min, int max, double range, double stamina, Particle particle)
-    {
-        this.specialDamage = new Range<>(min, max, null);
-        this.specialType = SpecialType.PARTICLE;
-        this.specialParticle = particle;
-        this.secondaryRange = range;
-        this.specialStamina = stamina;
-        return this;
-    }
-
-    public RPGWeapon specialAttack(int min, int max, double range, double stamina)
-    {
-        this.specialDamage = new Range<>(min, max, null);
-        this.specialType = SpecialType.ARROW;
-        this.secondaryRange = range;
-        this.specialStamina = stamina;
+    public RPGWeapon level(int i) {
+        this.level = i;
         return this;
     }
 
@@ -174,6 +105,16 @@ public class RPGWeapon extends RPGItem
     public RPGWeapon description(String... description)
     {
         this.description = description.clone();
+        return this;
+    }
+
+    public RPGWeapon primaryEvent(AttackEvent e) {
+        this.primaryEvent = e;
+        return this;
+    }
+
+    public RPGWeapon secondaryEvent(AttackEvent e) {
+        this.secondaryEvent = e;
         return this;
     }
 
@@ -193,18 +134,15 @@ public class RPGWeapon extends RPGItem
         m.setDisplayName(this.r.getColor() + this.name);
         //Lore
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&fPrimary Attack"));
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Damage: &e&o" + primaryDamage.getMinimum() + "-" + primaryDamage.getMaximum()));
-        if (primaryRange.toString().endsWith(".0")) {
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Range: &e&o" + primaryRange.intValue() + " Blocks"));
-        } else {
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Range: &e&o" + primaryRange + " Blocks"));
+        if (this.getPrimaryEvent() != null) {
+            lore.add("");
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&fPrimary Attack"));
+            lore.addAll(this.getPrimaryEvent().getDescription());
         }
-        if (primaryStamina.toString().endsWith(".0")) {
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Stamina Cost: &e&o" + primaryStamina.intValue()));
-        } else {
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&6&o- Stamina Cost: &e&o" + primaryStamina));
+        if (this.getSecondaryEvent() != null) {
+            lore.add("");
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&fSecondary Attack"));
+            lore.addAll(this.getSecondaryEvent().getDescription());
         }
         if (description.length > 0) {
             lore.add("");
@@ -213,18 +151,17 @@ public class RPGWeapon extends RPGItem
             }
         }
         lore.add("");
-        lore.add(ChatColor.translateAlternateColorCodes('&', r.color + "&o" + r.name + " &r" + r.color + "Rarity &8- " + r.color + "Level 10"));
+        if (level != 0) {
+            lore.add(ChatColor.translateAlternateColorCodes('&', r.color + "&o" + r.name + " &r" + r.color + "Item &8- " + r.color + "Level " + level));
+        } else {
+            lore.add(ChatColor.translateAlternateColorCodes('&', r.color + "&o" + r.name + " &r" + r.color + "Item"));
+        }
         m.setLore(lore);
         i.setItemMeta(m);
         //Tag
         NBTItem nbt = new NBTItem(i);
         nbt.setString("Identifier", this.identifier);
         return nbt.getItem();
-    }
-
-    public enum SpecialType
-    {
-        ARROW, ITEM, PARTICLE
     }
 
     public enum Rarity

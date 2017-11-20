@@ -1,7 +1,9 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.items.ItemHandler;
+import me.sirlich.AsmodeusRpg.items.RPGItem;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
+import me.sirlich.AsmodeusRpg.items.attackevents.Hit;
 import me.sirlich.AsmodeusRpg.utilities.Vector3D;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -27,63 +29,33 @@ public class RPGDamage implements Listener
         if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             if (!attackSuccess) {
 
-                Player observer = e.getPlayer();
-
-                int damage = 1;
-                double range = 3;
-
-                //Calculate damage from weapon here.
-
-                //RPGWeapon wep /*= RPGItem.getWeapon(observer.getItemInHand())*/;
-            /*if (wep != null) {
-                damage = wep.getPrimaryDamage().getRandomInt();
-                range = wep.getPrimaryRange();
-            } else {*/
-                ItemStack i = observer.getItemInHand();
-                RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
-                if (wep != null) {
-                    damage = wep.getPrimaryDamage().getRandomInt();
-                    System.out.println(damage);
-                    range = wep.getPrimaryRange();
-                }
-                //}
-
-                Location observerPos = observer.getEyeLocation();
-                Vector3D observerDir = new Vector3D(observerPos.getDirection());
-
-                Vector3D observerStart = new Vector3D(observerPos);
-                Vector3D observerEnd = observerStart.add(observerDir.multiply(range));
-
-                Player hit = null;
-
-                // Get nearby entities
-                for (Player target : observer.getWorld().getPlayers()) {
-                    // Bounding box of the given player
-                    Vector3D targetPos = new Vector3D(target.getLocation());
-                    Vector3D minimum = targetPos.add(-0.5, 0, -0.5);
-                    Vector3D maximum = targetPos.add(0.5, 1.67, 0.5);
-
-                    if (target != observer && hasIntersection(observerStart, observerEnd, minimum, maximum)) {
-                        if (hit == null ||
-                                hit.getLocation().distanceSquared(observerPos) >
-                                        target.getLocation().distanceSquared(observerPos)) {
-
-                            hit = target;
-                            System.out.println(observerPos.distance(targetPos.toVector().toLocation(observer.getWorld())));
-                        }
-                    }
+                Player p = e.getPlayer();
+                if (ItemHandler.getWeaponFromItem(p.getItemInHand()) == null) {
+                    new Hit().setDamage(1, 1).setRange(3).setStamina(0).setKnockback(0.3).setKnockup(0.25).execute(p);
+                    System.out.println("fist");
+                } else if (ItemHandler.getWeaponFromItem(p.getItemInHand()).getPrimaryEvent() == null) {
+                    new Hit().setDamage(1, 1).setRange(3).setStamina(0).setKnockback(0.3).setKnockup(0.25).execute(p);
+                    System.out.println("no primary attack");
+                } else {
+                    RPGWeapon wep = ItemHandler.getWeaponFromItem(p.getItemInHand());
+                    wep.getPrimaryEvent().execute(p);
+                    System.out.println("you're a failure");
                 }
 
-
-                // Hit the closest player
-                if (hit != null) {
-                    PlayerList.getRpgPlayer(hit).editHealth(-1 * damage);
-
-                    //hit.setVelocity(observer.getLocation().getDirection().setY(0).normalize().multiply(0));
-                }
             } else {
                 attackSuccess = false;
             }
+        } else if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+
+            Player p = e.getPlayer();
+            if (ItemHandler.getWeaponFromItem(p.getItemInHand()) != null) {
+                if (ItemHandler.getWeaponFromItem(p.getItemInHand()).getSecondaryEvent() != null) {
+                    RPGWeapon wep = ItemHandler.getWeaponFromItem(p.getItemInHand());
+                    wep.getSecondaryEvent().execute(p);
+                    System.out.println("you're a failure");
+                }
+            }
+
         }
     }
 
@@ -91,7 +63,47 @@ public class RPGDamage implements Listener
     public void onAttack(EntityDamageByEntityEvent e)
     {
         if (e.getDamager() instanceof Player) {
+            Player p = (Player) e.getDamager();
+            int damage;
+            double knockback;
+            double knockup;
+            if (ItemHandler.getWeaponFromItem(p.getItemInHand()) == null) {
+                damage = 1;
+                knockback = 0.3;
+                knockup = 0.25;
+                System.out.println("fist");
+            } else if (ItemHandler.getWeaponFromItem(p.getItemInHand()).getPrimaryEvent() == null) {
+                damage = 1;
+                knockback = 0.3;
+                knockup = 0.25;
+                System.out.println("no primary attack");
+            } else if (ItemHandler.getWeaponFromItem(p.getItemInHand()).getPrimaryEvent() instanceof Hit) {
+                RPGWeapon wep = ItemHandler.getWeaponFromItem(p.getItemInHand());
+                Hit event = (Hit) wep.getPrimaryEvent();
+                damage = event.getDamage().getRandomInt();
+                knockback = event.getKnockback();
+                knockup = event.getKnockup();
+                System.out.println("youve got mail");
+            } else {
+                damage = 0;
+                knockback = 0;
+                knockup = 0;
+            }
+            e.setCancelled(true);
             attackSuccess = true;
+            if (e.getEntity() instanceof Player) {
+                RpgPlayer rpgPlayer = PlayerList.getRpgPlayer((Player) e.getEntity());
+                rpgPlayer.meleeDamage(damage);
+                rpgPlayer.knockbackByEntity(knockback, knockup, p.getLocation());
+                System.out.println(e.getEntity().getName());
+            } else {
+                RpgEntity rpgEntity = RpgEntityList.getRpgEntity(e.getEntity());
+                //rpgEntity.damageResponse();
+                rpgEntity.knockbackByEntity(knockback,knockup,p.getLocation());
+                rpgEntity.meleeDamageEntity(damage);
+                System.out.println(rpgEntity.getName());
+            }
+            /*attackSuccess = true;
             e.setCancelled(true);
             ItemStack i = ((Player) e.getDamager()).getItemInHand();
             int damage = 1;
@@ -109,7 +121,7 @@ public class RPGDamage implements Listener
 
                     p.setVelocity(damager.getLocation().getDirection().setY(0).normalize().multiply(0));
                 }
-            }
+            }*/
         }
     }
 

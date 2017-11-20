@@ -14,7 +14,7 @@ public class PlayerAttackEntityHandler implements Listener
     @EventHandler
     public void playerAttack(EntityDamageByEntityEvent event){
         if(event.getDamager() instanceof Player){
-            event.setCancelled(true);
+            /*event.setCancelled(true);
             Player player = (Player) event.getDamager();
             ItemStack i = player.getInventory().getItemInMainHand();
             RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
@@ -31,7 +31,7 @@ public class PlayerAttackEntityHandler implements Listener
                 rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(0.2,0.2,player.getLocation());
                 rpgEntity.meleeDamageEntity(10);
-            }
+            }*/
         }
     }
 }

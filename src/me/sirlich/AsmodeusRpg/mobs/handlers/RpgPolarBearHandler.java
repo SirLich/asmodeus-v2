@@ -13,7 +13,7 @@ public class RpgPolarBearHandler implements Listener
     @EventHandler
     public void polarBearAttack(RpgPolarBearMeleeAttackPlayerEvent event){
         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 1,1);
-        PlayerList.getRpgPlayer(event.getPlayer()).knockbackByEntity(0.2,event.getEntity().getLocation());
+        PlayerList.getRpgPlayer(event.getPlayer()).knockbackByEntity(0.2, 0.2,event.getEntity().getLocation());
         RpgEntityList.getRpgEntity(event.getEntity().getUniqueId()).knockbackByEntity(0.3, 0.3,event.getPlayer().getLocation());
         PlayerList.getRpgPlayer(event.getPlayer()).meleeDamage(12);
     }

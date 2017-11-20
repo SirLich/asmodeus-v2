@@ -3,6 +3,7 @@ package me.sirlich.AsmodeusRpg.core;
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.abilities.Ability;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
@@ -41,10 +42,6 @@ public class RpgPlayer
         this.knockbackResistance = knockbackResistance;
     }
 
-    public void knockbackByEntity(double knockback, Location entityLoc){
-        Player player = this.getPlayer();
-        player.setVelocity(entityLoc.getDirection().multiply(knockback).setY(0.2));
-    }
     private double knockbackResistance;
 
     public double getHealthRegenPerTick()
@@ -101,7 +98,6 @@ public class RpgPlayer
      */
     public void rawDamage(double dmg)
     {
-        getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
         editHealth(-dmg);
     }
 
@@ -111,9 +107,6 @@ public class RpgPlayer
     public void rawHeal(double heal)
     {
         editHealth(heal);
-        if (health != maxHealth) {
-            getPlayer().getWorld().spawnParticle(Particle.HEART, getPlayer().getLocation().add(0, 1, 0), 3, 0.2, 0.2, 0.2);
-        }
     }
 
     /*
@@ -250,6 +243,19 @@ public class RpgPlayer
     public void meleeDamage(double dmg){
         //This method should look at players armour. For now, it just deals the damage.
         rawDamage(dmg);
+        getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
+        getPlayer().getWorld().playSound(getPlayer().getLocation(), Sound.BLOCK_STONE_BREAK, 2.0f, 1.4f);
+    }
+
+    public void knockbackByEntity(double knockback, double knockup, Location entityLoc){
+        Player player = this.getPlayer();
+        if(player != null){
+            if(player.isOnGround()){
+                player.setVelocity(entityLoc.getDirection().multiply(knockback).setY(knockup));
+            } else{
+                player.setVelocity(entityLoc.getDirection().multiply(knockback).setY(0));
+            }
+        }
     }
 
     public Player getPlayer()

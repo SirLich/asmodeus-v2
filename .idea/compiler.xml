@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Asmodeus" />
         <module name="AsmodeusRPG" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Asmodeus" target="1.8" />
       <module name="AsmodeusRPG" target="1.8" />
     </bytecodeTargetLevel>
   </component>

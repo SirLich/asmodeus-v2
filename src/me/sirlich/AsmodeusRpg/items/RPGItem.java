@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg.items;
 
+import me.sirlich.AsmodeusRpg.items.attackevents.None;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -70,6 +71,22 @@ public abstract class RPGItem
     public Material material = null;
     public short durability = 0;
     public String[] description = null;
+    public AttackEvent primaryEvent = new None();
+    public AttackEvent secondaryEvent = new None();
+
+    public AttackEvent getPrimaryEvent() {
+        if (primaryEvent instanceof None) {
+            return null;
+        }
+        return primaryEvent;
+    }
+
+    public AttackEvent getSecondaryEvent() {
+        if (secondaryEvent instanceof None) {
+            return null;
+        }
+        return secondaryEvent;
+    }
 
     public abstract ItemStack generate();
 }
