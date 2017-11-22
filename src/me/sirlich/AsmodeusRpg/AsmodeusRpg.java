@@ -7,6 +7,10 @@ import me.sirlich.AsmodeusRpg.cancellers.CancelMobDrops;
 import me.sirlich.AsmodeusRpg.cancellers.CancelMobSunDamage;
 import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.*;
+import me.sirlich.AsmodeusRpg.items.AttackEventHandler;
+import me.sirlich.AsmodeusRpg.items.ItemHandler;
+import me.sirlich.AsmodeusRpg.items.attackevents.Heal;
+import me.sirlich.AsmodeusRpg.items.attackevents.Hit;
 import me.sirlich.AsmodeusRpg.mobs.handlers.RpgCowHandler;
 import me.sirlich.AsmodeusRpg.mobs.handlers.RpgPolarBearHandler;
 import me.sirlich.AsmodeusRpg.mobs.monsters.*;
@@ -116,7 +120,7 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new PlayerLeaveHandler());
         listener(new AbilitiesEditor());
         listener(new CancelHunger());
-        //listener(new RPGDamage());
+        listener(new RPGDamage());
         listener(new RpgCowHandler());
         listener(new RpgPolarBearHandler());
         listener(new PlayerRespawnHandler());
@@ -127,9 +131,39 @@ public class AsmodeusRpg extends JavaPlugin
 
         initStationaryMobs();
 
-        RPGWeapon wep = new RPGWeapon("weapon_test-sword");
-        wep.primaryAttack(1, 5, 10, 0).texture(Texture.WOOD_SWORD).rarity(0).name("Test Sword").description("&9This weapon was created to",
-                "&9test the functionalities of the", "&9Item System.").finish();
+        AttackEventHandler.loadEvents();
+        ItemHandler.loadItems();
+
+        /*RPGWeapon primaryTest = new RPGWeapon("primary");
+        primaryTest
+                .primaryEvent(new Hit().setDamage(1, 5).setRange(10.0).setStamina(0).setKnockback(2).setKnockup(1).finish())
+                .texture(Texture.PRIMARY)
+                .rarity(0)
+                .level(10)
+                .name("Primary Test")
+                .description("&9This weapon was created to", "&9test the functionalities of the", "&9Item System.")
+                .finish();
+
+        RPGWeapon secondaryTest = new RPGWeapon("secondary");
+        secondaryTest
+                .secondaryEvent(new Heal().setRecovery(10).setCooldown(2).finish())
+                .texture(Texture.SECONDARY)
+                .rarity(1)
+                .level(25)
+                .name("Secondary Test")
+                .description("&9This weapon was created to", "&9test the functionalities of the", "&9Item System.")
+                .finish();
+
+        RPGWeapon doubleTest = new RPGWeapon("dual");
+        doubleTest
+                .primaryEvent(new Hit().setDamage(5, 8).setRange(15).setStamina(0).setKnockback(1).setKnockup(2).finish())
+                .secondaryEvent(new Heal().setRecovery(40).setCooldown(4).finish())
+                .texture(Texture.DUAL)
+                .rarity(2)
+                .level(69)
+                .name("Dual Test")
+                .description("&9This weapon was created to", "&9test the functionalities of the", "&9Item System.", "&9Wait, is that two abilities?")
+                .finish();*/
 
         /*new RPGWeapon(Texture.WOOD_SWORD, "Test Sword", "weapon_test-sword", RPGWeapon.Rarity.COMMON, true,
                 1, 5, 5, 0, false, 0, 0, 0,

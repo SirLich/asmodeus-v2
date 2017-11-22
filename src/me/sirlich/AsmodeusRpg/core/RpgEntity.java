@@ -1,9 +1,13 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.material.MaterialData;
 
 import java.util.UUID;
 
@@ -153,6 +157,7 @@ public class RpgEntity
 
     public void editHealth(double i){
         health += i;
+        ((LivingEntity) getEntity()).damage(0);
         if(health <= 0){
             kill();
         } else if(health > maxHealth){
@@ -166,6 +171,8 @@ public class RpgEntity
 
     public void meleeDamageEntity(double dmg){
         rawDamageEntity(dmg);
+        getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, getEntity().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
+        getEntity().getWorld().playSound(getEntity().getLocation(), Sound.BLOCK_STONE_BREAK, 2.0f, 1.4f);
     }
 
     public void magicDamageEntity(double dmg){
@@ -177,15 +184,15 @@ public class RpgEntity
     }
 
     public void knockbackByEntity(double knockback, double knockup, Location entityLoc){
-        Entity entity = this.getEntity();
-        if(entity != null){
-            if(entity.isOnGround()){
-                entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(knockup));
-            } else{
-                entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(0));
-            }
+    Entity entity = this.getEntity();
+    if(entity != null){
+        if(entity.isOnGround()){
+            entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(knockup));
+        } else{
+            entity.setVelocity(entityLoc.getDirection().multiply(knockback).setY(0));
         }
     }
+}
 
     public Entity getEntity()
     {

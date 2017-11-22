@@ -4,6 +4,7 @@ import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.abilities.Ability;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
@@ -123,9 +124,6 @@ public class RpgPlayer
     public void rawHeal(double heal)
     {
         editHealth(heal);
-        if (health != maxHealth) {
-            getPlayer().getWorld().spawnParticle(Particle.HEART, getPlayer().getLocation().add(0, 1, 0), 3, 0.2, 0.2, 0.2);
-        }
     }
 
     /*
@@ -244,6 +242,8 @@ public class RpgPlayer
     public void meleeDamage(double dmg){
         //This method should look at players armour. For now, it just deals the damage.
         rawDamage(dmg);
+        getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
+        getPlayer().getWorld().playSound(getPlayer().getLocation(), Sound.BLOCK_STONE_BREAK, 2.0f, 1.4f);
     }
 
     public Player getPlayer()
