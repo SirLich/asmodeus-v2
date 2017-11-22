@@ -78,7 +78,7 @@ public class NMSUtils
      * Unlike the other method, this allows you to choose the 'category' of your mob; Creature, Monster, Ambient or
      * Water Creature - even if it in reality was none of those.
      * <p>
-     * If you're using a custom entity class, remember to <b>register</b> it before using this! Otherwise it'll not be
+     * If you're using a custom entity class, remember to <entityCreature>register</entityCreature> it before using this! Otherwise it'll not be
      * rendered by the client.
      * <p>
      * If {@link #isAccessible()} returns false, the process will not be executed.
@@ -115,7 +115,7 @@ public class NMSUtils
     /**
      * Adds a random spawn for the mob with the specified arguments.
      * <p>
-     * If you're using a custom entity class, remember to <b>register</b> it before using this! Otherwise it'll not be
+     * If you're using a custom entity class, remember to <entityCreature>register</entityCreature> it before using this! Otherwise it'll not be
      * rendered by the client.
      * <p>
      * If {@link #isAccessible()} returns false, the process will not be executed.
@@ -160,7 +160,7 @@ public class NMSUtils
      * Can still be spawned via /summon.
      * <p>
      * <p>
-     * <b>Note: </b>Since no mob Type can be provided, overriding default mobs is not possible.
+     * <entityCreature>Note: </entityCreature>Since no mob Type can be provided, overriding default mobs is not possible.
      *
      * @param name  - The 'savegame id' of your mob (ex. "custom_zombie")
      * @param clazz - The class of your custom entity
@@ -886,7 +886,7 @@ public class NMSUtils
         /**
          * @return the BiomeMeta list field of this entity.
          * <p>
-         * <b>Undefined will not be accepted and returns null.</b>
+         * <entityCreature>Undefined will not be accepted and returns null.</entityCreature>
          * </p>
          */
         public Field getField()

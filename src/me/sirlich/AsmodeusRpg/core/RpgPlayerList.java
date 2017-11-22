@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class PlayerList
+public class RpgPlayerList
 {
 
     public static HashMap<Player, RpgPlayer> rpgPlayerHashMap = new HashMap<>();

@@ -11,11 +11,11 @@ public class PlayerLeaveHandler implements Listener
     public void playerQuitEvent(PlayerQuitEvent event)
     {
         Player player = event.getPlayer();
-        if (PlayerList.isPlayerOnline(player)) {
+        if (RpgPlayerList.isPlayerOnline(player)) {
             System.out.println("Player leaving. Removing from database.");
-            PlayerList.removePlayer(player);
+            RpgPlayerList.removePlayer(player);
         } else {
-            System.out.println("WARNING: Something went wrong in PlayerList");
+            System.out.println("WARNING: Something went wrong in RpgPlayerList");
         }
     }
 }

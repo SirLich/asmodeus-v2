@@ -1,7 +1,6 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.utilities.DebugUtilities;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -15,7 +14,7 @@ public class RpgPassiveRegen
             @Override
             public void run()
             {
-                for (RpgPlayer rpgPlayer : PlayerList.getRpgPlayers()) {
+                for (RpgPlayer rpgPlayer : RpgPlayerList.getRpgPlayers()) {
                     if(!rpgPlayer.getPlayer().isDead() && !(rpgPlayer.getPlayer().getGameMode() == GameMode.CREATIVE)){
                         rpgPlayer.rawHeal(rpgPlayer.getHealthRegenPerTick() * AsmodeusRpg.getInstance().getRegenTickrate());
                     }

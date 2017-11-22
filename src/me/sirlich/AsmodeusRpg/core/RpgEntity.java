@@ -1,6 +1,5 @@
 package me.sirlich.AsmodeusRpg.core;
 
-import me.sirlich.AsmodeusRpg.mobs.damageResponses.DamageResponse;
 import org.bukkit.Location;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
@@ -12,33 +11,86 @@ public class RpgEntity
 {
     private double maxHealth;
     private double health;
-    private boolean aggression;
-    private DamageResponse damageResponse;
+    private boolean isAggressive;
+    private int maxAggression;
+    private int aggression;
     private String name;
+    private double meleeDamage;
+    private double meleeKnockback;
+
+    public RpgEntity(){
+        maxHealth = 100;
+        health = 100;
+        isAggressive = false;
+        maxAggression = 500;
+        aggression = 0;
+        name = "RpgCow";
+        meleeDamage = 5;
+        meleeKnockback = 0.3;
+    }
+    public void reduceAggression(){
+        if(isAggressive){
+            this.aggression -= 1;
+            if(this.aggression <= 0){
+                setAggressive(false);
+            }
+        }
+    }
 
 
-    public DamageResponse getDamageResponse()
+    public void setMaxAggression(int maxAggression)
     {
-        return damageResponse;
+        this.maxAggression = maxAggression;
     }
 
-    public void setDamageResponse(DamageResponse damageResponse)
+
+    public double getMeleeDamage()
     {
-        this.damageResponse = damageResponse;
+        return meleeDamage;
     }
 
-    public void damageResponse(){
-        this.damageResponse.run();
+    public void setMeleeDamage(double meleeDamage)
+    {
+        this.meleeDamage = meleeDamage;
+    }
+
+    public double getMeleeKnockback()
+    {
+        return meleeKnockback;
+    }
+
+    public void setMeleeKnockback(double meleeKnockback)
+    {
+        this.meleeKnockback = meleeKnockback;
     }
 
 
-    public void setAggression(boolean agro){
-        aggression = agro;
+
+
+    public Location getLocation(){
+        return getEntity().getLocation();
+    }
+
+    public int getLevel()
+    {
+        return level;
+    }
+
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+
+    private int level;
+
+    public void setAggressive(boolean agro){
+        isAggressive = agro;
     }
 
     public boolean isAggressive(){
-        return aggression;
+        return isAggressive;
     }
+
     public String getName()
     {
         return name;

@@ -1,6 +1,6 @@
 package me.sirlich.AsmodeusRpg.testing;
 
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +13,7 @@ public class TestIncreaseSpeedModifier implements CommandExecutor
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] argv)
     {
         if (sender instanceof Player) {
-            RpgPlayer rpgPlayer = PlayerList.getRpgPlayer((Player) sender);
+            RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer((Player) sender);
             rpgPlayer.editSpeedModifier(Float.parseFloat(argv[0]));
         } else {
             System.out.println("Please only use this command in-game!");

@@ -1,6 +1,6 @@
 package me.sirlich.AsmodeusRpg.abilities;
 
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,7 +29,7 @@ public class spinAbility extends Ability
     public void spin()
     {
         Player player = getPlayer();
-        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+        RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
 
     }
 }

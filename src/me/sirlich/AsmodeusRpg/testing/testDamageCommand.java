@@ -1,6 +1,6 @@
 package me.sirlich.AsmodeusRpg.testing;
 
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public class testDamageCommand extends AsmodeusCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            PlayerList.getRpgPlayer(player).rawDamage(Double.parseDouble(args[0]));
+            RpgPlayerList.getRpgPlayer(player).rawDamage(Double.parseDouble(args[0]));
         }
         return true;
     }

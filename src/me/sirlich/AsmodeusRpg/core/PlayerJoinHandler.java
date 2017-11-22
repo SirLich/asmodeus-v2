@@ -14,10 +14,10 @@ public class PlayerJoinHandler implements Listener
     public void playerJoinEvent(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
-        if (!PlayerList.isPlayerOnline(player)) {
+        if (!RpgPlayerList.isPlayerOnline(player)) {
             //All of this shit will be read in from the DB eventually.
-            PlayerList.addPlayer(player);
-            RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+            RpgPlayerList.addPlayer(player);
+            RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
 
             rpgPlayer.setCanUseCarnageAbility(true);
             rpgPlayer.setCarnageAbility(new HyperspeedAbility(player));
@@ -42,8 +42,8 @@ public class PlayerJoinHandler implements Listener
             rpgPlayer.setKnockbackResistance(0.5);
         } else {
             System.out.println("Something went wrong! Please see the player list.");
-            PlayerList.removePlayer(player);
-            PlayerList.addPlayer(player);
+            RpgPlayerList.removePlayer(player);
+            RpgPlayerList.addPlayer(player);
         }
     }
 }

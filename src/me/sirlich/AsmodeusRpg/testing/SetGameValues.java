@@ -1,8 +1,7 @@
 package me.sirlich.AsmodeusRpg.testing;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.core.PlayerList;
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.command.CommandSender;
@@ -20,7 +19,7 @@ public class SetGameValues extends AsmodeusCommand
     {
         if(sender instanceof Player){
             Player player = (Player) sender;
-            RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+            RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
             if(args.length > 1){
                 String cmd = args[0];
                 if(cmd.equalsIgnoreCase("health")){

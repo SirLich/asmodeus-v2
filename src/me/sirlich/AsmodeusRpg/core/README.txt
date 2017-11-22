@@ -1,0 +1,1 @@
+The core section is where we add fundamental aspects of the server.

@@ -77,7 +77,7 @@ public class RPGDamage implements Listener
 
                 // Hit the closest player
                 if (hit != null) {
-                    PlayerList.getRpgPlayer(hit).editHealth(-1 * damage);
+                    RpgPlayerList.getRpgPlayer(hit).editHealth(-1 * damage);
 
                     //hit.setVelocity(observer.getLocation().getDirection().setY(0).normalize().multiply(0));
                 }
@@ -101,7 +101,7 @@ public class RPGDamage implements Listener
                 System.out.println(damage);
             }
             if (e.getEntity() instanceof Player) {
-                PlayerList.getRpgPlayer((Player) e.getEntity()).editHealth(-1 * damage);
+                RpgPlayerList.getRpgPlayer((Player) e.getEntity()).editHealth(-1 * damage);
                 if (e.getDamager() instanceof Player) {
                     Player damager = (Player) e.getDamager();
 
@@ -122,7 +122,7 @@ public class RPGDamage implements Listener
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e)
     {
-        RpgPlayer player = PlayerList.getRpgPlayer(e.getPlayer());
+        RpgPlayer player = RpgPlayerList.getRpgPlayer(e.getPlayer());
         player.setHealth(player.getMaxHealth());
     }
 

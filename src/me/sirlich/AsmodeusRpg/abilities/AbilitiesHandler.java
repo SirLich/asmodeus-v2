@@ -2,7 +2,7 @@ package me.sirlich.AsmodeusRpg.abilities;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import me.sirlich.AsmodeusRpg.utilities.ChatUtils;
 import org.bukkit.ChatColor;
@@ -27,7 +27,7 @@ public class AbilitiesHandler implements Listener
         if (event.getPlayer() != null) {
             Player player = event.getPlayer();
             if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-                RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+                RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
                 Ability ability = rpgPlayer.getCarnageAbility();
                 if (rpgPlayer.isCanUseCarnageAbility()) {
                     player.sendMessage(ChatColor.WHITE + "You used the " + ChatColor.AQUA + ability.getName() + ChatColor.WHITE + " ability.");
@@ -60,7 +60,7 @@ public class AbilitiesHandler implements Listener
         if (event.getPlayer() instanceof Player) {
             Player player = event.getPlayer();
             if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-                RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+                RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
                 if (event.getItemDrop() != null) {
                     Item item = event.getItemDrop();
                     ItemStack itemStack = item.getItemStack();
@@ -99,7 +99,7 @@ public class AbilitiesHandler implements Listener
         if (event.getPlayer() instanceof Player) {
             Player player = (Player) event.getPlayer();
             if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-                RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+                RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
                 event.setCancelled(true);
                 Ability ability = rpgPlayer.getMobilityAbility();
                 if (rpgPlayer.isCanUseMobilityAbility()) {

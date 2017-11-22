@@ -1,60 +1,64 @@
 package me.sirlich.AsmodeusRpg.mobs.pathfinders;
 
 
+import me.sirlich.AsmodeusRpg.core.RpgEntity;
 import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayer;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class PathFinderGoalRpgMeleeAttack extends PathfinderGoal
 {
-    World a;
-    protected EntityCreature b;
+    World world;
+    protected EntityCreature entityCreature;
     protected int c;
-    double d;
-    boolean e;
-    PathEntity f;
+    double walkingSpeed;
+    boolean noIdeaButMakeItTrue;
+    PathEntity pathEntity;
     private int h;
     private double i;
     private double j;
     private double k;
     protected final int g = 20;
 
-    public PathFinderGoalRpgMeleeAttack(EntityCreature var1, double var2, boolean var4) {
-        this.b = var1;
-        this.a = var1.world;
-        this.d = var2;
-        this.e = var4;
+    public PathFinderGoalRpgMeleeAttack(EntityCreature entityCreature, double walkingSpeed) {
+        this.entityCreature = entityCreature;
+        this.world = entityCreature.world;
+        this.walkingSpeed = walkingSpeed;
+        this.noIdeaButMakeItTrue = true;
         this.a(3);
     }
 
     public boolean a() {
-        EntityLiving var1 = this.b.getGoalTarget();
+        EntityLiving var1 = this.entityCreature.getGoalTarget();
         if (var1 == null) {
             return false;
         } else if (!var1.isAlive()) {
             return false;
-        } else if(!RpgEntityList.getRpgEntity(b.getUniqueID()).isAggressive()){
+        } else if(!RpgEntityList.getRpgEntity(entityCreature.getUniqueID()).isAggressive()){
             return false;
         }else {
-            this.f = this.b.getNavigation().a(var1);
-            if (this.f != null) {
+            this.pathEntity = this.entityCreature.getNavigation().a(var1);
+            if (this.pathEntity != null) {
                 return true;
             } else {
-                return this.a(var1) >= this.b.d(var1.locX, var1.getBoundingBox().b, var1.locZ);
+                return this.a(var1) >= this.entityCreature.d(var1.locX, var1.getBoundingBox().b, var1.locZ);
             }
         }
     }
 
     public boolean b() {
-        EntityLiving var1 = this.b.getGoalTarget();
+        EntityLiving var1 = this.entityCreature.getGoalTarget();
         if (var1 == null) {
             return false;
         } else if (!var1.isAlive()) {
             return false;
-        } else if (!this.e) {
-            return !this.b.getNavigation().o();
-        } else if (!this.b.f(new BlockPosition(var1))) {
+        } else if (!this.noIdeaButMakeItTrue) {
+            return !this.entityCreature.getNavigation().o();
+        } else if (!this.entityCreature.f(new BlockPosition(var1))) {
             return false;
         } else {
             return !(var1 instanceof EntityHuman) || !((EntityHuman)var1).isSpectator() && !((EntityHuman)var1).z();
@@ -62,36 +66,36 @@ public class PathFinderGoalRpgMeleeAttack extends PathfinderGoal
     }
 
     public void c() {
-        this.b.getNavigation().a(this.f, this.d);
+        this.entityCreature.getNavigation().a(this.pathEntity, this.walkingSpeed);
         this.h = 0;
     }
 
     public void d() {
-        EntityLiving var1 = this.b.getGoalTarget();
+        EntityLiving var1 = this.entityCreature.getGoalTarget();
         if (var1 instanceof EntityHuman && (((EntityHuman)var1).isSpectator() || ((EntityHuman)var1).z())) {
-            this.b.setGoalTarget((EntityLiving)null);
+            this.entityCreature.setGoalTarget((EntityLiving)null);
         }
 
-        this.b.getNavigation().p();
+        this.entityCreature.getNavigation().p();
     }
 
     public void e() {
-        EntityLiving var1 = this.b.getGoalTarget();
-        this.b.getControllerLook().a(var1, 30.0F, 30.0F);
-        double var2 = this.b.d(var1.locX, var1.getBoundingBox().b, var1.locZ);
+        EntityLiving var1 = this.entityCreature.getGoalTarget();
+        this.entityCreature.getControllerLook().a(var1, 30.0F, 30.0F);
+        double var2 = this.entityCreature.d(var1.locX, var1.getBoundingBox().b, var1.locZ);
         --this.h;
-        if ((this.e || this.b.getEntitySenses().a(var1)) && this.h <= 0 && (this.i == 0.0D && this.j == 0.0D && this.k == 0.0D || var1.d(this.i, this.j, this.k) >= 1.0D || this.b.getRandom().nextFloat() < 0.05F)) {
+        if ((this.noIdeaButMakeItTrue || this.entityCreature.getEntitySenses().a(var1)) && this.h <= 0 && (this.i == 0.0D && this.j == 0.0D && this.k == 0.0D || var1.d(this.i, this.j, this.k) >= 1.0D || this.entityCreature.getRandom().nextFloat() < 0.05F)) {
             this.i = var1.locX;
             this.j = var1.getBoundingBox().b;
             this.k = var1.locZ;
-            this.h = 4 + this.b.getRandom().nextInt(7);
+            this.h = 4 + this.entityCreature.getRandom().nextInt(7);
             if (var2 > 1024.0D) {
                 this.h += 10;
             } else if (var2 > 256.0D) {
                 this.h += 5;
             }
 
-            if (!this.b.getNavigation().a(var1, this.d)) {
+            if (!this.entityCreature.getNavigation().a(var1, this.walkingSpeed)) {
                 this.h += 15;
             }
         }
@@ -105,18 +109,26 @@ public class PathFinderGoalRpgMeleeAttack extends PathfinderGoal
         if (var2 <= var4 && this.c <= 0) {
             if(var1 != null){
                 Player player = Bukkit.getPlayer(var1.getUniqueID());
-                handleHit(player);
+                Entity entity = (Entity) this.entityCreature;
+                onHit(entity,player);
             }
         }
 
     }
 
-    public void handleHit(Player player){
-        System.out.println("You hit a mob!");
+    public void onHit(Entity entity, Player player){
+        RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueID());
+        RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
+        System.out.println("Cow Attack From the PathFinder");
+        player.playSound(player.getLocation(), Sound.ENTITY_COW_HURT, 1,1);
+        rpgPlayer.meleeDamage(4);
+        rpgPlayer.knockbackByEntity(0.7,rpgEntity.getLocation());
+        rpgEntity.knockbackByEntity(0.3, 0.3,player.getLocation());
     }
 
+
     protected double a(EntityLiving var1) {
-        return (double)(this.b.width * 2.0F * this.b.width * 2.0F + var1.width);
+        return (double)(this.entityCreature.width * 2.0F * this.entityCreature.width * 2.0F + var1.width);
     }
 }
 

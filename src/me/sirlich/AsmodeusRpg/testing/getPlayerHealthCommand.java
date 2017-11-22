@@ -1,6 +1,6 @@
 package me.sirlich.AsmodeusRpg.testing;
 
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import me.sirlich.AsmodeusRpg.utilities.ChatUtils;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,7 @@ public class getPlayerHealthCommand extends AsmodeusCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            ChatUtils.chatInfo(player, "" + PlayerList.getRpgPlayer(player).getHealth());
+            ChatUtils.chatInfo(player, "" + RpgPlayerList.getRpgPlayer(player).getHealth());
         }
         return true;
     }

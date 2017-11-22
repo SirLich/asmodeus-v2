@@ -44,6 +44,11 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Item-NBT-API.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.4.2</version>
+        </dependency>
 
     </dependencies>
 
@@ -83,6 +88,12 @@
                 </executions>
                 <configuration>
                     <finalName>Asmodeus-shaded</finalName>
+                    <artifactSet>
+                        <includes>
+                            <include>org.mongodb</include>
+                            <include>org.mongodb.morphia</include>
+                        </includes>
+                    </artifactSet>
                 </configuration>
             </plugin>
         </plugins>

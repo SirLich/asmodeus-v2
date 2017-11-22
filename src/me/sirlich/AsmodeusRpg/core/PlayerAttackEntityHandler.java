@@ -18,19 +18,19 @@ public class PlayerAttackEntityHandler implements Listener
             Player player = (Player) event.getDamager();
             ItemStack i = player.getInventory().getItemInMainHand();
             RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
-            RpgEntity rpgEntity = RpgEntityList.getRpgEntity(event.getEntity().getUniqueId());
+            me.sirlich.AsmodeusRpg.core.RpgEntity rpgEntity = me.sirlich.AsmodeusRpg.core.RpgEntityList.getRpgEntity(event.getEntity().getUniqueId());
             LivingEntity livingEntity = (LivingEntity) event.getEntity();
             livingEntity.damage(0);
             if (wep != null) {
                 System.out.println("Hit a mob!");
                 double damage = wep.getPrimaryDamage().getRandomInt();
-                rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(0.4,0.3,player.getLocation());
                 rpgEntity.meleeDamageEntity(damage);
+                rpgEntity.setAggressive(true);
             } else {
-                rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(0.2,0.2,player.getLocation());
                 rpgEntity.meleeDamageEntity(10);
+                rpgEntity.setAggressive(true);
             }
         }
     }

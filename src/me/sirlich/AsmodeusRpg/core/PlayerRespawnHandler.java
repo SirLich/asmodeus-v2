@@ -12,7 +12,7 @@ public class PlayerRespawnHandler implements Listener
     @EventHandler
     public void playerRespawnEvent(PlayerRespawnEvent event){
         event.getPlayer().teleport(RESPAWN_LOCATION);
-        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(event.getPlayer());
+        RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(event.getPlayer());
         rpgPlayer.setToFullHealth();
     }
 }

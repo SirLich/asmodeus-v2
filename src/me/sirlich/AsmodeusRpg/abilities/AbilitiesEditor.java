@@ -1,7 +1,7 @@
 package me.sirlich.AsmodeusRpg.abilities;
 
 import de.tr7zw.itemnbtapi.NBTItem;
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import me.sirlich.AsmodeusRpg.utilities.DebugUtilities;
 import org.bukkit.Bukkit;
@@ -22,6 +22,14 @@ import java.util.ArrayList;
 
 public class AbilitiesEditor implements Listener
 {
+    /*
+    The ".... predicates" I am talking about are used for textures.
+    As we develop a resource pack, we will replace these predicates (which are fairly random at the moment) with
+    the damage ID's of the weapons in the resource pack.
+
+    The same goes for inventory names. I am working hard to keep things customizable, and this is part of that process.
+     */
+
     //Button predicates
     private final int BACK_BUTTON_PREDICATE = 8;
 
@@ -143,7 +151,7 @@ public class AbilitiesEditor implements Listener
     private void setMobilityAbility(Player player, Ability ability)
     {
         DebugUtilities.debug("Set " + player.getName() + "'s mobility ability to " + ability.getName());
-        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+        RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
         rpgPlayer.setMobilityAbility(ability);
         rpgPlayer.setCanUseMobilityAbility(true);
         rpgPlayer.setMobilityAbilityLevel(1);
@@ -155,7 +163,7 @@ public class AbilitiesEditor implements Listener
     private void setCarnageAbility(Player player, Ability ability)
     {
         DebugUtilities.debug("Set " + player.getName() + "'s carnage ability to " + ability.getName());
-        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(player);
+        RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
         rpgPlayer.setCarnageAbility(ability);
         rpgPlayer.setCanUseCarnageAbility(true);
         rpgPlayer.setCarnageAbilityLevel(1);

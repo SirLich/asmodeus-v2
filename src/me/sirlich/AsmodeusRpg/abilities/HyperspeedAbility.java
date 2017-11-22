@@ -1,7 +1,7 @@
 package me.sirlich.AsmodeusRpg.abilities;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class HyperspeedAbility extends Ability
     @Override
     public void run()
     {
-        RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(getPlayer());
+        RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(getPlayer());
         rpgPlayer.editSpeedModifier(0.5f);
         new BukkitRunnable()
         {

@@ -2,6 +2,7 @@ package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.abilities.Ability;
+import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
@@ -43,8 +44,18 @@ public class RpgPlayer
 
     public void knockbackByEntity(double knockback, Location entityLoc){
         Player player = this.getPlayer();
-        player.setVelocity(entityLoc.getDirection().multiply(knockback).setY(0.2));
+        if(player.isOnGround()){
+            player.setVelocity(entityLoc.getDirection().multiply(knockback).setY(AsmodeusRpg.getInstance().getConfig().getDouble("defaultKnockup")));
+        }
     }
+
+    public void knockbackByEntity(double knockback, double knockUp, Location entityLoc){
+        Player player = this.getPlayer();
+        if(player.isOnGround()){
+            player.setVelocity(entityLoc.getDirection().multiply(knockback).setY(knockUp));
+        }
+    }
+
     private double knockbackResistance;
 
     public double getHealthRegenPerTick()
@@ -101,6 +112,7 @@ public class RpgPlayer
      */
     public void rawDamage(double dmg)
     {
+        getPlayer().damage(0);
         getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, getPlayer().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
         editHealth(-dmg);
     }
@@ -159,7 +171,7 @@ public class RpgPlayer
      */
     public void refreshDisplayedHealth()
     {
-        if((20 * (health / maxHealth) != 0)){
+        if((20 * (health / maxHealth) > 0)){
             this.getPlayer().setHealth(20 * (health / maxHealth));
         } else{
             kill();
@@ -207,24 +219,6 @@ public class RpgPlayer
     public void kill(){
         getPlayer().teleport(RESPAWN_LOCATION);
         getPlayer().setHealth(0);
-        /*
-        setHealth(maxHealth);
-        getPlayer().teleport(DEATH_LOCATION);
-        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, DEATH_ANIMATION_DURATION,Integer.MAX_VALUE));
-        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, DEATH_ANIMATION_DURATION, Integer.MAX_VALUE));
-        getPlayer().playSound(getPlayer().getLocation(),Sound.ENTITY_ENDERMEN_SCREAM,1,1);
-        getPlayer().playSound(getPlayer().getLocation(),Sound.ENTITY_BAT_DEATH,1,1);
-        getPlayer().playSound(getPlayer().getLocation(),Sound.ENTITY_GHAST_SCREAM, 1, 1);
-        new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                getPlayer().teleport(RESPAWN_LOCATION);
-            }
-
-        }.runTaskLater(AsmodeusRpg.getInstance(), DEATH_ANIMATION_DURATION);
-        */
     }
 
 
@@ -254,7 +248,7 @@ public class RpgPlayer
 
     public Player getPlayer()
     {
-        return PlayerList.getPlayer(this);
+        return RpgPlayerList.getPlayer(this);
     }
 
     public boolean isCanUseMobilityAbility()

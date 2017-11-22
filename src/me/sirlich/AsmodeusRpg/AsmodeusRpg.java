@@ -94,7 +94,6 @@ public class AsmodeusRpg extends JavaPlugin
         RpgPassiveRegen.startTicker();
 
         register(new GetItem());
-        register(new TestMobSpawn());
         register(new testDamageCommand());
         register(new getPlayerHealthCommand());
         register(new PrintGameValues());
@@ -107,10 +106,7 @@ public class AsmodeusRpg extends JavaPlugin
         NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
         NMSUtils.registerEntity("blacksmith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
         NMSUtils.registerEntity("aggressive_cow", NMSUtils.Type.COW, RpgCow.class, false);
-        NMSUtils.registerEntity("leaping_zombie", NMSUtils.Type.HUSK, LeapingZombie.class, false);
-        NMSUtils.registerEntity("test_mob", NMSUtils.Type.SKELETON, TestMob.class, false);
         NMSUtils.registerEntity("rpg_polar_bear", NMSUtils.Type.POLARBEAR, RpgPolarBear.class,false);
-        NMSUtils.registerEntity("rpg_polar_bear_rider", NMSUtils.Type.ZOMBIE_VILLAGER, RpgPolarBearRider.class,false);
 
         listener(new BlacksmithHandler());
         listener(new CivilianHandler());
