@@ -16,6 +16,10 @@ public class RpgSummon extends AsmodeusCommand
         if(args != null){
             if(sender instanceof  Player){
                 Player player = (Player) sender;
+                if(args[0].equalsIgnoreCase("lich")){
+                    net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeLich("Lichu");
+                    MobCreator.spawn(entity, player.getLocation());
+                }
                 if(args[0].equalsIgnoreCase("cow")){
                     net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeCow(20,3,"Bobby!",14);
                     MobCreator.spawn(entity, player.getLocation());

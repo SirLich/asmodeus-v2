@@ -313,7 +313,7 @@ public class NMSUtils
          * trees. Cliffs, peaks, valleys, waterfalls, overhangs, floating islands, caverns, and many other structures
          * exist, offering outstanding views. This is one of the few biomes where llamas spawn naturally. Snowfall also
          * occurs above certain heights, thus creating "snow caps" on the top of the mountains. Falling is a significant
-         * risk, as there are many steep ledges large enough to cause severe fall damage or even death. Extreme hills
+         * risk, as there are many steep ledges large enough to cause severe fall damage or even deathReaction. Extreme hills
          * are the only biomes where emerald ores and silverfish can be found naturally.
          */
         EXTREME_HILLS(3),

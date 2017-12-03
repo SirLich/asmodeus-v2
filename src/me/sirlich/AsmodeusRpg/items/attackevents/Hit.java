@@ -1,6 +1,6 @@
 package me.sirlich.AsmodeusRpg.items.attackevents;
 
-import me.sirlich.AsmodeusRpg.core.PlayerList;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgEntity;
 import me.sirlich.AsmodeusRpg.core.RpgEntityList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
@@ -9,6 +9,7 @@ import me.sirlich.AsmodeusRpg.items.ItemHandler;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.utilities.Range;
 import me.sirlich.AsmodeusRpg.utilities.Vector3D;
+import net.minecraft.server.v1_12_R1.PlayerList;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -61,10 +62,10 @@ public class Hit extends AttackEvent {
         }
 
 
-        // Hit the closest player
+        // DamageReaction the closest player
         if (hit != null) {
             if (hit instanceof Player) {
-                RpgPlayer rpgPlayer = PlayerList.getRpgPlayer((Player) hit);
+                RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer((Player) hit);
                 rpgPlayer.meleeDamage(damage.getRandomInt());
                 rpgPlayer.knockbackByEntity(knockback,knockup,p.getLocation());
                 System.out.println(hit.getName());
@@ -72,11 +73,11 @@ public class Hit extends AttackEvent {
                 RpgEntity rpgEntity = RpgEntityList.getRpgEntity(hit);
                 //rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(knockback,knockup,p.getLocation());
-                rpgEntity.meleeDamageEntity(damage.getRandomInt());
+                rpgEntity.meleeDamageEntity(damage.getRandomInt(), (Player) hit);
                 System.out.println(rpgEntity.getName());
             }
 
-            //hit.setVelocity(observer.getLocation().getDirection().setY(0).normalize().multiply(0));
+            //DamageReaction.setVelocity(observer.getLocation().getDirection().setY(0).normalize().multiply(0));
         }
 
     }

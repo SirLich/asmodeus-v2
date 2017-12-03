@@ -1,5 +1,7 @@
 package me.sirlich.AsmodeusRpg.core;
 
+import me.sirlich.AsmodeusRpg.mobs.damageReaction.DamageReaction;
+import me.sirlich.AsmodeusRpg.mobs.deathReaction.DeathReaction;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -7,6 +9,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
 import java.util.UUID;
@@ -21,6 +24,30 @@ public class RpgEntity
     private String name;
     private double meleeDamage;
     private double meleeKnockback;
+    private DeathReaction deathReaction;
+
+    public DamageReaction getDamageReaction()
+    {
+        return damageReaction;
+    }
+
+    public void setDamageReaction(DamageReaction damageReaction)
+    {
+        this.damageReaction = damageReaction;
+    }
+
+    private DamageReaction damageReaction;
+
+    public DeathReaction getDeathReaction()
+    {
+        return deathReaction;
+    }
+
+    public void setDeathReaction(DeathReaction deathReaction)
+    {
+        this.deathReaction = deathReaction;
+    }
+
 
     public RpgEntity(){
         maxHealth = 100;
@@ -155,32 +182,51 @@ public class RpgEntity
         }
     }
 
-    public void editHealth(double i){
+    public void editHealth(double i, Player player){
         health += i;
         ((LivingEntity) getEntity()).damage(0);
         if(health <= 0){
+
+            /*
+            This part handles the mobs DeathReaction Reaction.
+             */
+            if(player != null){
+                getDeathReaction().onDeath(player);
+            } else{
+                getDeathReaction().onDeath();
+            }
             kill();
         } else if(health > maxHealth){
             health = maxHealth;
         }
     }
-    public void rawDamageEntity(double damage)
+
+    public void rawDamageEntity(double damage, Player player)
     {
-        editHealth(-damage);
+        editHealth(-damage, player);
+
+        /*
+        This handles the mods reaction to getting damaged.
+         */
+        if(player != null){
+            getDamageReaction().onDamage(player);
+        } else{
+            getDamageReaction().onDamage();
+        }
     }
 
-    public void meleeDamageEntity(double dmg){
-        rawDamageEntity(dmg);
+    public void meleeDamageEntity(double dmg, Player player){
+        rawDamageEntity(dmg, player);
         getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, getEntity().getLocation().add(0, 1, 0), 100, 0.2, 0.2, 0.2, new MaterialData(Material.REDSTONE_BLOCK));
         getEntity().getWorld().playSound(getEntity().getLocation(), Sound.BLOCK_STONE_BREAK, 2.0f, 1.4f);
     }
 
-    public void magicDamageEntity(double dmg){
-        rawDamageEntity(dmg);
+    public void magicDamageEntity(double dmg, Player player){
+        rawDamageEntity(dmg, player);
     }
 
-    public void rangedDamageEntity(double dmg){
-        rawDamageEntity(dmg);
+    public void rangedDamageEntity(double dmg, Player player){
+        rawDamageEntity(dmg, player);
     }
 
     public void knockbackByEntity(double knockback, double knockup, Location entityLoc){

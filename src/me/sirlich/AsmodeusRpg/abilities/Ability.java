@@ -71,5 +71,4 @@ public class Ability
     {
         System.out.println(name + " was run by player " + player);
     }
-
 }

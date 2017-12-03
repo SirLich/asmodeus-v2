@@ -9,14 +9,8 @@ import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.*;
 import me.sirlich.AsmodeusRpg.items.AttackEventHandler;
 import me.sirlich.AsmodeusRpg.items.ItemHandler;
-import me.sirlich.AsmodeusRpg.items.attackevents.Heal;
-import me.sirlich.AsmodeusRpg.items.attackevents.Hit;
-import me.sirlich.AsmodeusRpg.mobs.handlers.RpgCowHandler;
-import me.sirlich.AsmodeusRpg.mobs.handlers.RpgPolarBearHandler;
 import me.sirlich.AsmodeusRpg.mobs.monsters.*;
 import me.sirlich.AsmodeusRpg.mobs.npcs.*;
-import me.sirlich.AsmodeusRpg.items.RPGWeapon;
-import me.sirlich.AsmodeusRpg.items.Texture;
 import me.sirlich.AsmodeusRpg.regions.Region;
 import me.sirlich.AsmodeusRpg.regions.RegionUtils;
 import me.sirlich.AsmodeusRpg.testing.*;
@@ -111,6 +105,7 @@ public class AsmodeusRpg extends JavaPlugin
         NMSUtils.registerEntity("blacksmith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
         NMSUtils.registerEntity("aggressive_cow", NMSUtils.Type.COW, RpgCow.class, false);
         NMSUtils.registerEntity("rpg_polar_bear", NMSUtils.Type.POLARBEAR, RpgPolarBear.class,false);
+        NMSUtils.registerEntity("rpg_lich",NMSUtils.Type.SKELETON, RpgLich.class,false);
 
         listener(new BlacksmithHandler());
         listener(new CivilianHandler());
@@ -120,14 +115,13 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new PlayerLeaveHandler());
         listener(new AbilitiesEditor());
         listener(new CancelHunger());
-        listener(new RPGDamage());
-        listener(new RpgCowHandler());
-        listener(new RpgPolarBearHandler());
+        //listener(new RPGDamage());
+        listener(new PlayerAttackEntityHandler());
         listener(new PlayerRespawnHandler());
         listener(new PlayerAttackEntityHandler());
         listener(new CancelMobDrops());
-        listener(new RpgPolarBearHandler());
         listener(new CancelMobSunDamage());
+        listener(new DebugStick());
 
         initStationaryMobs();
 
@@ -136,7 +130,7 @@ public class AsmodeusRpg extends JavaPlugin
 
         /*RPGWeapon primaryTest = new RPGWeapon("primary");
         primaryTest
-                .primaryEvent(new Hit().setDamage(1, 5).setRange(10.0).setStamina(0).setKnockback(2).setKnockup(1).finish())
+                .primaryEvent(new DamageReaction().setDamage(1, 5).setRange(10.0).setStamina(0).setKnockback(2).setKnockup(1).finish())
                 .texture(Texture.PRIMARY)
                 .rarity(0)
                 .level(10)
@@ -156,7 +150,7 @@ public class AsmodeusRpg extends JavaPlugin
 
         RPGWeapon doubleTest = new RPGWeapon("dual");
         doubleTest
-                .primaryEvent(new Hit().setDamage(5, 8).setRange(15).setStamina(0).setKnockback(1).setKnockup(2).finish())
+                .primaryEvent(new DamageReaction().setDamage(5, 8).setRange(15).setStamina(0).setKnockback(1).setKnockup(2).finish())
                 .secondaryEvent(new Heal().setRecovery(40).setCooldown(4).finish())
                 .texture(Texture.DUAL)
                 .rarity(2)

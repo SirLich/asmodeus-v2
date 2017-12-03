@@ -60,7 +60,7 @@ public class CustomZombie extends EntityZombie implements IRangedEntity
     {
         // Preparing the projectile
         final EntityArrow entityarrow = this.prepareProjectile(f);
-        // Calculating the motion for the arrow to hit
+        // Calculating the motion for the arrow to DamageReaction
         final double motX = target.locX - this.locX;
         final double motY = target.getBoundingBox().b + target.length / 3.0f - entityarrow.locY;
         final double motZ = target.locZ - this.locZ;

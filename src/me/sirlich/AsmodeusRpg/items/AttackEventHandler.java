@@ -44,7 +44,7 @@ public class AttackEventHandler {
     }
 
     public static void loadEvents() {
-        events.put("melee-hit", new Hit());
+        events.put("melee-DamageReaction", new Hit());
         events.put("heal", new Heal());
     }
 

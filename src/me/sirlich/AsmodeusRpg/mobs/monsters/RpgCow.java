@@ -7,7 +7,7 @@ import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftCow;
 
-public class RpgCow extends EntityCow
+public class RpgCow extends EntityZombie
 {
     private double damage;
     private double knockback;
@@ -17,8 +17,7 @@ public class RpgCow extends EntityCow
         super(world);
         this.damage = damage;
         this.knockback = knockback;
-        this.bukkitEntity = new CraftRpgCow(this.world.getServer(), this);
-
+        //this.bukkitEntity = new CraftRpgCow(this.world.getServer(), this);
     }
 
     @Override
@@ -27,7 +26,6 @@ public class RpgCow extends EntityCow
         this.goalSelector.a(1,new PathFinderGoalReduceAggression(this));
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
         this.goalSelector.a(1, new PathfinderGoalTargetNearestPlayer(this));
-        this.goalSelector.a(3,new PathFinderGoalRpgMeleeAttack(this,1.5));
         this.goalSelector.a(5, new PathfinderGoalMoveTowardsRestriction(this, 1.0D));
         this.goalSelector.a(7, new PathfinderGoalRandomStrollLand(this, 1.0D));
         this.goalSelector.a(8, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));

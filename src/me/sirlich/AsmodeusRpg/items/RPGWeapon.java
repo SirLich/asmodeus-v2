@@ -13,53 +13,6 @@ import java.util.ArrayList;
 
 public class RPGWeapon extends RPGItem
 {
-    /*public RPGWeapon(Texture t, String name, String identifier, Rarity r, boolean hasPrimaryAttack, int damage1Min, int damage1Max, double damage1Range,
-                     double stamina1, boolean hasSecondaryAttack, int damage2Min, int damage2Max, double damage2Range, double stamina2,
-                     Material damage2Item, SpecialType damage2Type, Particle damage2Particle) {
-
-        ArrayList<String> lore = new ArrayList<>();
-        lore.add("");
-
-        if (hasPrimaryAttack) {
-            primaryDamage = new Range<Integer>(damage1Min, damage1Max, null);
-            primaryStamina = stamina1;
-            if (damage1Range < 1) {
-                primaryRange = 3.0;
-            } else {
-                primaryRange = damage1Range;
-            }
-            lore.add(ChatColor.translateAlternateColorCodes('&',"&fPrimary Attack"));
-            lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Damage: &e&o" + damage1Min + "-" + damage1Max));
-            if (primaryRange.toString().endsWith(".0")) {
-                lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Range: &e&o" + primaryRange.intValue() + " Blocks"));
-            } else {
-                lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Range: &e&o" + primaryRange + " Blocks"));
-            }
-            if (primaryStamina.toString().endsWith(".0")) {
-                lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Stamina Cost: &e&o" + primaryStamina.intValue()));
-            } else {
-                lore.add(ChatColor.translateAlternateColorCodes('&',"&6&o- Stamina Cost: &e&o" + primaryStamina));
-            }
-            lore.add("");
-            lore.add(r.color + "&o" + r.name + " &r" + r.color + "Rarity &8- " + r.color + "Level 10");
-        }
-        if (hasSecondaryAttack) {
-            specialDamage = new Range<Integer>(damage2Min, damage2Max, null);
-            this.specialType = damage2Type;
-            this.specialItem = damage2Item;
-            this.specialParticle = damage2Particle;
-            specialStamina = stamina2;
-            secondaryRange = damage2Range;
-        }
-        ItemMeta m = item.getItemMeta();
-        m.setLore(lore);
-        m.setDisplayName(ChatColor.translateAlternateColorCodes('&', r.color + name));
-        item.setItemMeta(m);
-        RPGItem.weapons.put(identifier, this);
-
-
-    }*/
-
     private Rarity r;
     private int level;
 
@@ -168,7 +121,7 @@ public class RPGWeapon extends RPGItem
     {
 
         COMMON("&7", 0, "Common"),
-        RARE("&b", 1, "Rare"),
+        RARE("&rpgEntity", 1, "Rare"),
         EPIC("&5", 2, "Epic");
 
         private String color;

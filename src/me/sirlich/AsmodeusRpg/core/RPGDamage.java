@@ -5,6 +5,7 @@ import me.sirlich.AsmodeusRpg.items.RPGItem;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.items.attackevents.Hit;
 import me.sirlich.AsmodeusRpg.utilities.Vector3D;
+import net.minecraft.server.v1_12_R1.PlayerList;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -92,7 +93,7 @@ public class RPGDamage implements Listener
             e.setCancelled(true);
             attackSuccess = true;
             if (e.getEntity() instanceof Player) {
-                RpgPlayer rpgPlayer = PlayerList.getRpgPlayer((Player) e.getEntity());
+                RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer((Player) e.getEntity());
                 rpgPlayer.meleeDamage(damage);
                 rpgPlayer.knockbackByEntity(knockback, knockup, p.getLocation());
                 System.out.println(e.getEntity().getName());
@@ -100,7 +101,7 @@ public class RPGDamage implements Listener
                 RpgEntity rpgEntity = RpgEntityList.getRpgEntity(e.getEntity());
                 //rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(knockback,knockup,p.getLocation());
-                rpgEntity.meleeDamageEntity(damage);
+                rpgEntity.meleeDamageEntity(damage,(Player) e.getEntity());
                 System.out.println(rpgEntity.getName());
             }
             /*attackSuccess = true;
@@ -134,7 +135,7 @@ public class RPGDamage implements Listener
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e)
     {
-        RpgPlayer player = PlayerList.getRpgPlayer(e.getPlayer());
+        RpgPlayer player = RpgPlayerList.getRpgPlayer(e.getPlayer());
         player.setHealth(player.getMaxHealth());
     }
 

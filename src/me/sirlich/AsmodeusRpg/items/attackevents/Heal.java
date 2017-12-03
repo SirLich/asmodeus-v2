@@ -1,8 +1,8 @@
 package me.sirlich.AsmodeusRpg.items.attackevents;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.core.PlayerList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
+import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
 import me.sirlich.AsmodeusRpg.items.AttackEvent;
 import me.sirlich.AsmodeusRpg.utilities.ActionBarUtil;
 import org.bukkit.Bukkit;
@@ -43,7 +43,7 @@ public class Heal extends AttackEvent {
     @Override
     public void execute(Player p) {
         if (isUsable) {
-            RpgPlayer rpgPlayer = PlayerList.getRpgPlayer(p);
+            RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(p);
             rpgPlayer.rawHeal(recovery);
             rpgPlayer.getPlayer().getWorld().spawnParticle(Particle.HEART, rpgPlayer.getPlayer().getLocation().add(0, 1, 0), 3, 0.2, 0.2, 0.2);
             startCooldown();

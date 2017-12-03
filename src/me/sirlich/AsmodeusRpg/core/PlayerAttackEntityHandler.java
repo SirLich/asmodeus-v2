@@ -9,6 +9,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
+
+/*
+This class handles all instances of players dealing damage to mobs in classic ways (like hitting them)
+ */
+
 public class PlayerAttackEntityHandler implements Listener
 {
     @EventHandler
@@ -16,22 +21,14 @@ public class PlayerAttackEntityHandler implements Listener
         if(event.getDamager() instanceof Player){
             event.setCancelled(true);
             Player player = (Player) event.getDamager();
-            ItemStack i = player.getInventory().getItemInMainHand();
-            RPGWeapon wep = ItemHandler.getWeaponFromItem(i);
-            me.sirlich.AsmodeusRpg.core.RpgEntity rpgEntity = me.sirlich.AsmodeusRpg.core.RpgEntityList.getRpgEntity(event.getEntity().getUniqueId());
+            RpgEntity rpgEntity = RpgEntityList.getRpgEntity(event.getEntity().getUniqueId());
             LivingEntity livingEntity = (LivingEntity) event.getEntity();
-            livingEntity.damage(0);
-            if (wep != null) {
-                System.out.println("Hit a mob!");
-                double damage = wep.getPrimaryDamage().getRandomInt();
-                rpgEntity.knockbackByEntity(0.4,0.3,player.getLocation());
-                rpgEntity.meleeDamageEntity(damage);
-                rpgEntity.setAggressive(true);
-            } else {
-                rpgEntity.knockbackByEntity(0.2,0.2,player.getLocation());
-                rpgEntity.meleeDamageEntity(10);
-                rpgEntity.setAggressive(true);
-            }
+
+            System.out.println("DamageReaction a mob!");
+            double damage = 3;
+            rpgEntity.knockbackByEntity(0.4,0.3,player.getLocation());
+            rpgEntity.meleeDamageEntity(damage, player);
+            rpgEntity.setAggressive(true);
         }
     }
 }

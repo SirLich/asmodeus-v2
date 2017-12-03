@@ -80,5 +80,9 @@ public class RpgEntityList
     {
         return rpgEntityHashMap.containsKey(entity.getUniqueId());
     }
+    public static boolean doesEntityExist(UUID uuid)
+    {
+        return rpgEntityHashMap.containsKey(uuid);
+    }
 }
 
