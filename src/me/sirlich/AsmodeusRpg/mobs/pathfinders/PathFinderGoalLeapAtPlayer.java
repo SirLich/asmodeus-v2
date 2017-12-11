@@ -1,12 +1,9 @@
 package me.sirlich.AsmodeusRpg.mobs.pathfinders;
 
-import me.sirlich.AsmodeusRpg.core.RpgEntity;
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-import javax.swing.*;
 import java.util.Random;
 
 public class PathFinderGoalLeapAtPlayer extends PathfinderGoal

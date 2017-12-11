@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.core;
+package me.sirlich.AsmodeusRpg.mobs.entityHandling;
 
 import me.sirlich.AsmodeusRpg.utilities.WorldUtil;
 import org.bukkit.Bukkit;

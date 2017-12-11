@@ -1,6 +1,6 @@
 package me.sirlich.AsmodeusRpg.testing;
 
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.command.CommandSender;
 

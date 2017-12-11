@@ -1,13 +1,12 @@
 package me.sirlich.AsmodeusRpg.core;
 
-import me.sirlich.AsmodeusRpg.items.ItemHandler;
-import me.sirlich.AsmodeusRpg.items.RPGWeapon;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
 
 
 /*

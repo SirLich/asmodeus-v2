@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.core;
+package me.sirlich.AsmodeusRpg.mobs.entityHandling;
 
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.command.CommandSender;
@@ -17,7 +17,7 @@ public class RpgSummon extends AsmodeusCommand
             if(sender instanceof  Player){
                 Player player = (Player) sender;
                 if(args[0].equalsIgnoreCase("lich")){
-                    net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeLich("Lichu");
+                    net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeMob(RpgEntityType.RPG_LICH, 1);
                     MobCreator.spawn(entity, player.getLocation());
                 }
                 if(args[0].equalsIgnoreCase("cow")){
@@ -38,18 +38,3 @@ public class RpgSummon extends AsmodeusCommand
         return true;
     }
 }
-/*
-World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
-                    Location loc = player.getLocation();
-                    RpgPolarBear polarBear = new RpgPolarBear(((CraftWorld) world).getHandle());
-                    RpgEntityList.addEntity(polarBear.getUniqueID());
-                    RpgEntity rpgEntity = RpgEntityList.getRpgEntity(polarBear.getUniqueID());
-                    rpgEntity.setName("Polar Bear");
-                    rpgEntity.setAggressive(false);
-                    rpgEntity.setMaxHealth(50);
-                    rpgEntity.setToFullHealth();
-                    polarBear.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
-                    ((CraftWorld) world).addEntity(polarBear, CreatureSpawnEvent.SpawnReason.CUSTOM);
-                    System.out.println("polar_bear successfully added.");
-                    ChatUtils.chatInfo(player, "Spawned in a polar_bear at your location!");
- */

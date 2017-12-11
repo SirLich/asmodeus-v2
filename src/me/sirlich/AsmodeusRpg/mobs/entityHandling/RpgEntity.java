@@ -1,4 +1,4 @@
-package me.sirlich.AsmodeusRpg.core;
+package me.sirlich.AsmodeusRpg.mobs.entityHandling;
 
 import me.sirlich.AsmodeusRpg.mobs.damageReaction.DamageReaction;
 import me.sirlich.AsmodeusRpg.mobs.deathReaction.DeathReaction;
@@ -23,8 +23,93 @@ public class RpgEntity
     private int aggression;
     private String name;
     private double meleeDamage;
+
+    public double getMeleeKnockback()
+    {
+        return meleeKnockback;
+    }
+
+    public void setMeleeKnockback(double meleeKnockback)
+    {
+        this.meleeKnockback = meleeKnockback;
+    }
+
     private double meleeKnockback;
+    private double meleeKnockbackTaken;
+    private double meleeInvinciGiven;
+    private int minionSpawnNum;
+    private int minionSpawnDelay;
+    private int minionSpawnLevel;
+    private RpgEntityType minionSpawnType;
     private DeathReaction deathReaction;
+
+
+    public int getMaxAggression()
+    {
+        return maxAggression;
+    }
+
+    public double getMeleeKnockbackTaken()
+    {
+        return meleeKnockbackTaken;
+    }
+
+    public void setMeleeKnockbackTaken(double meleeKnockbackTaken)
+    {
+        this.meleeKnockbackTaken = meleeKnockbackTaken;
+    }
+
+    public double getMeleeInvinciGiven()
+    {
+        return meleeInvinciGiven;
+    }
+
+    public void setMeleeInvinciGiven(double meleeInvinciGiven)
+    {
+        this.meleeInvinciGiven = meleeInvinciGiven;
+    }
+
+    public int getMinionSpawnNum()
+    {
+        return minionSpawnNum;
+    }
+
+    public void setMinionSpawnNum(int minionSpawnNum)
+    {
+        this.minionSpawnNum = minionSpawnNum;
+    }
+
+    public int getMinionSpawnDelay()
+    {
+        return minionSpawnDelay;
+    }
+
+    public void setMinionSpawnDelay(int minionSpawnDelay)
+    {
+        this.minionSpawnDelay = minionSpawnDelay;
+    }
+
+    public int getMinionSpawnLevel()
+    {
+        return minionSpawnLevel;
+    }
+
+    public void setMinionSpawnLevel(int minionSpawnLevel)
+    {
+        this.minionSpawnLevel = minionSpawnLevel;
+    }
+
+    public RpgEntityType getMinionSpawnType()
+    {
+        return minionSpawnType;
+    }
+
+    public void setMinionSpawnType(RpgEntityType minionSpawnType)
+    {
+        this.minionSpawnType = minionSpawnType;
+    }
+
+
 
     public DamageReaction getDamageReaction()
     {
@@ -85,15 +170,7 @@ public class RpgEntity
         this.meleeDamage = meleeDamage;
     }
 
-    public double getMeleeKnockback()
-    {
-        return meleeKnockback;
-    }
 
-    public void setMeleeKnockback(double meleeKnockback)
-    {
-        this.meleeKnockback = meleeKnockback;
-    }
 
 
 
@@ -138,7 +215,7 @@ public class RpgEntity
         return maxHealth;
     }
 
-    public void setMaxHealth(int maxHealth)
+    public void setMaxHealth(double maxHealth)
     {
         this.maxHealth = maxHealth;
     }

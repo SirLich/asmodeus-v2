@@ -1,14 +1,11 @@
 package me.sirlich.AsmodeusRpg.abilities;
 
-import me.sirlich.AsmodeusRpg.core.RpgEntity;
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
-import org.bukkit.Location;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import org.bukkit.Sound;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.List;
 

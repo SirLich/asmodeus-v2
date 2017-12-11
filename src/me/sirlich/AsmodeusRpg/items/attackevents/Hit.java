@@ -1,20 +1,15 @@
 package me.sirlich.AsmodeusRpg.items.attackevents;
 
 import me.sirlich.AsmodeusRpg.core.RpgPlayerList;
-import me.sirlich.AsmodeusRpg.core.RpgEntity;
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import me.sirlich.AsmodeusRpg.core.RpgPlayer;
 import me.sirlich.AsmodeusRpg.items.AttackEvent;
-import me.sirlich.AsmodeusRpg.items.ItemHandler;
-import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.utilities.Range;
 import me.sirlich.AsmodeusRpg.utilities.Vector3D;
-import net.minecraft.server.v1_12_R1.PlayerList;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.inventory.ItemStack;
 
 public class Hit extends AttackEvent {
 

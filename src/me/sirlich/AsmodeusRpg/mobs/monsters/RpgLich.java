@@ -1,38 +1,33 @@
 package me.sirlich.AsmodeusRpg.mobs.monsters;
 
-import me.sirlich.AsmodeusRpg.mobs.mobUtils;
-import me.sirlich.AsmodeusRpg.mobs.pathfinders.PathFinderGoalReduceAggression;
 import me.sirlich.AsmodeusRpg.mobs.pathfinders.PathFinderGoalRpgMeleeAttack;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftCow;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftSkeleton;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftZombie;
-import org.bukkit.entity.Zombie;
+import org.bukkit.craftbukkit.v1_12_R1.entity.*;
 
-import java.util.List;
-import java.util.Set;
-
-public class RpgLich extends RpgEntity
+public class RpgLich extends EntitySkeleton
 {
 
-
-    public RpgLich(World world, double damage)
+    public RpgLich(World world)
     {
         super(world);
-        this.setMeleeDamage(damage);
         this.bukkitEntity = new CraftRpgLich(this.world.getServer(),this);
     }
 
     @Override
     public void r(){
-        this.goalSelector.a(3,new PathFinderGoalRpgMeleeAttack(this,this.getWorld()));
+        this.goalSelector.a(0, new PathfinderGoalFloat(this));
+        this.goalSelector.a(1, new PathFinderGoalRpgMeleeAttack(this,1));
+        this.goalSelector.a(5, new PathfinderGoalMoveTowardsRestriction(this, 1.0D));
+        this.goalSelector.a(7, new PathfinderGoalRandomStrollLand(this, 1.0D));
+        this.goalSelector.a(8, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
+        this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
+        this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
     }
 
-    private static class CraftRpgLich extends CraftZombie
+    private static class CraftRpgLich extends CraftSkeleton
     {
-        private CraftRpgLich(CraftServer server, RpgEntity parent)
+        private CraftRpgLich(CraftServer server, EntitySkeleton parent)
         {
             super(server, parent);
         }

@@ -9,6 +9,7 @@ import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
 import me.sirlich.AsmodeusRpg.core.*;
 import me.sirlich.AsmodeusRpg.items.AttackEventHandler;
 import me.sirlich.AsmodeusRpg.items.ItemHandler;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgSummon;
 import me.sirlich.AsmodeusRpg.mobs.monsters.*;
 import me.sirlich.AsmodeusRpg.mobs.npcs.*;
 import me.sirlich.AsmodeusRpg.regions.Region;
@@ -116,7 +117,6 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new AbilitiesEditor());
         listener(new CancelHunger());
         //listener(new RPGDamage());
-        listener(new PlayerAttackEntityHandler());
         listener(new PlayerRespawnHandler());
         listener(new PlayerAttackEntityHandler());
         listener(new CancelMobDrops());

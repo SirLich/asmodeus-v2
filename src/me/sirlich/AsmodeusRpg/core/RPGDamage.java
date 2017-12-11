@@ -1,13 +1,11 @@
 package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.items.ItemHandler;
-import me.sirlich.AsmodeusRpg.items.RPGItem;
 import me.sirlich.AsmodeusRpg.items.RPGWeapon;
 import me.sirlich.AsmodeusRpg.items.attackevents.Hit;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import me.sirlich.AsmodeusRpg.utilities.Vector3D;
-import net.minecraft.server.v1_12_R1.PlayerList;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,7 +15,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class RPGDamage implements Listener
 {

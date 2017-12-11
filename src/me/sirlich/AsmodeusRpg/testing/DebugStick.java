@@ -1,13 +1,11 @@
 package me.sirlich.AsmodeusRpg.testing;
 
-import me.sirlich.AsmodeusRpg.core.RpgEntity;
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;

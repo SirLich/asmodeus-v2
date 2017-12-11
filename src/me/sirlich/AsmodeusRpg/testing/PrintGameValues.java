@@ -1,11 +1,9 @@
 package me.sirlich.AsmodeusRpg.testing;
 
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import me.sirlich.AsmodeusRpg.utilities.AsmodeusCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Collection;
 
 public class PrintGameValues extends AsmodeusCommand
 {

@@ -1,7 +1,7 @@
 package me.sirlich.AsmodeusRpg.mobs.pathfinders;
 
-import me.sirlich.AsmodeusRpg.core.RpgEntity;
-import me.sirlich.AsmodeusRpg.core.RpgEntityList;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import net.minecraft.server.v1_12_R1.EntityCreature;
 import net.minecraft.server.v1_12_R1.PathfinderGoal;
 import org.bukkit.entity.Entity;
