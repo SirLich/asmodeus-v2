@@ -23,6 +23,27 @@ public class RpgEntity
     private int aggression;
     private String name;
     private double meleeDamage;
+    private double meleeKnockback;
+    private double meleeKnockbackTaken;
+    private double meleeInvinciGiven;
+    private int minionSpawnNum;
+    private int minionSpawnDelay;
+    private int minionSpawnLevel;
+    private RpgEntityType minionSpawnType;
+    private DeathReaction deathReaction;
+    private double walkSpeed;
+    private DamageReaction damageReaction;
+
+    public double getWalkSpeed()
+    {
+        return walkSpeed;
+    }
+
+    public void setWalkSpeed(double walkSpeed)
+    {
+        this.walkSpeed = walkSpeed;
+    }
+
 
     public double getMeleeKnockback()
     {
@@ -34,14 +55,7 @@ public class RpgEntity
         this.meleeKnockback = meleeKnockback;
     }
 
-    private double meleeKnockback;
-    private double meleeKnockbackTaken;
-    private double meleeInvinciGiven;
-    private int minionSpawnNum;
-    private int minionSpawnDelay;
-    private int minionSpawnLevel;
-    private RpgEntityType minionSpawnType;
-    private DeathReaction deathReaction;
+
 
 
     public int getMaxAggression()
@@ -121,7 +135,6 @@ public class RpgEntity
         this.damageReaction = damageReaction;
     }
 
-    private DamageReaction damageReaction;
 
     public DeathReaction getDeathReaction()
     {
@@ -134,15 +147,25 @@ public class RpgEntity
     }
 
 
+    //Constructor sets some default shit to stop horrible errors on mob spawn if something doesint set right.
     public RpgEntity(){
-        maxHealth = 100;
-        health = 100;
-        isAggressive = false;
-        maxAggression = 500;
-        aggression = 0;
-        name = "RpgCow";
-        meleeDamage = 5;
-        meleeKnockback = 0.3;
+        this.maxHealth = 100;
+        this.health = 100;
+        this.isAggressive = true;
+        this.maxAggression = 500;
+        this.aggression = 500;
+        this.name = "UNDEFINED MOB";
+        this.meleeDamage = 10;
+        this.meleeKnockback = 0.4;
+        this.meleeKnockbackTaken = 0.1;
+        this.meleeInvinciGiven = 1;
+        this.minionSpawnNum = 1;
+        this.minionSpawnDelay = 20;
+        this.minionSpawnLevel = 1;
+        this.minionSpawnType = RpgEntityType.RPG_CRITTER;
+        this.deathReaction = new DeathReaction();
+        this.walkSpeed = 1;
+        this.damageReaction = new DamageReaction();
     }
     public void reduceAggression(){
         if(isAggressive){

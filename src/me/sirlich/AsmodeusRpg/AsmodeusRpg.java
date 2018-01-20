@@ -2,10 +2,7 @@ package me.sirlich.AsmodeusRpg;
 
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesEditor;
 import me.sirlich.AsmodeusRpg.abilities.AbilitiesHandler;
-import me.sirlich.AsmodeusRpg.cancellers.CancelHunger;
-import me.sirlich.AsmodeusRpg.cancellers.CancelMobDrops;
-import me.sirlich.AsmodeusRpg.cancellers.CancelMobSunDamage;
-import me.sirlich.AsmodeusRpg.cancellers.CancelPassiveRegeneration;
+import me.sirlich.AsmodeusRpg.cancellers.*;
 import me.sirlich.AsmodeusRpg.core.*;
 import me.sirlich.AsmodeusRpg.items.AttackEventHandler;
 import me.sirlich.AsmodeusRpg.items.ItemHandler;
@@ -122,6 +119,7 @@ public class AsmodeusRpg extends JavaPlugin
         listener(new CancelMobDrops());
         listener(new CancelMobSunDamage());
         listener(new DebugStick());
+        listener(new CancelFallDamage());
 
         initStationaryMobs();
 

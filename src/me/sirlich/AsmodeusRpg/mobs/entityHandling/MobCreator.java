@@ -60,6 +60,9 @@ public class MobCreator
             //healthRegenPerSecond
             double healthRegen = reader.readSpecificDouble(level);
 
+            //Walkspeed
+            double walkSpeed = reader.readSpecificDouble(level);
+
             //World
             World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
             RpgLich entity = new RpgLich(((CraftWorld) world).getHandle());
@@ -86,6 +89,7 @@ public class MobCreator
             rpgEntity.setMinionSpawnLevel(minionLevel);
             rpgEntity.setMinionSpawnNum(minionNumberSpawned);
             rpgEntity.setMinionSpawnType(RpgEntityType.RPG_CRITTER);
+            rpgEntity.setWalkSpeed(walkSpeed);
             return entity;
 
         } catch (FileNotFoundException e) {

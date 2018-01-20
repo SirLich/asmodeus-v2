@@ -9,8 +9,8 @@ and add the correct PFG pathfinders. Make your own PathFinders if you need.
  - Mobs spawned
  - mobs spawned lvl
  - Mob type spawned
- Mobs without the spawn pathfinder won't need stuff like this. Think hard about what you want GH's to edit, cause its sort of hard to change later.
+ Mobs without the spawn pathfinder won't need stuff like this. Think hard about what you want GM's to edit, cause its sort of hard to change later.
 
 5) Add a make<name> method in MobCreator (might be refactored by the time you see this).
 
-6) Add a line to RpgSummon so you can test various mob levels. 
+6) Add a line to RpgSummon so you can test various mob levels.

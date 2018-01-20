@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public class PathFinderGoalRpgMeleeAttack extends PathfinderGoal
+public class PFGMeleeAttack extends PathfinderGoal
 {
     World world;
     protected EntityCreature entityCreature;
@@ -23,19 +23,20 @@ public class PathFinderGoalRpgMeleeAttack extends PathfinderGoal
     private double k;
     protected final int g = 20;
 
-    public PathFinderGoalRpgMeleeAttack(EntityCreature entityCreature, double walkingSpeed) {
+    public PFGMeleeAttack(EntityCreature entityCreature) {
         this.entityCreature = entityCreature;
         this.world = entityCreature.world;
-        this.walkingSpeed = walkingSpeed;
         this.noIdeaButMakeItTrue = true;
         this.a(3);
     }
 
     public boolean a() {
-        System.out.println("Inside");
+        if(walkingSpeed == 0){
+            System.out.println("Initialized mobs walking speed!");
+            walkingSpeed = RpgEntityList.getRpgEntity(entityCreature.getUniqueID()).getWalkSpeed();
+        }
         EntityLiving goalTarget = this.entityCreature.getGoalTarget();
         if (goalTarget == null) {
-            System.out.println("goalTarget is null");
             return false;
         } else if (!goalTarget.isAlive()) {
             return false;
@@ -121,9 +122,10 @@ public class PathFinderGoalRpgMeleeAttack extends PathfinderGoal
     public void onHit(Entity entity, Player player){
         RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueID());
         RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
-        rpgPlayer.meleeDamage(4);
-        rpgPlayer.knockbackByEntity(0.7,rpgEntity.getLocation());
-        rpgEntity.knockbackByEntity(0.3, 0.3,player.getLocation());
+
+        rpgPlayer.meleeDamage(rpgEntity.getMeleeDamage());
+        rpgPlayer.knockbackByEntity(rpgEntity.getMeleeKnockback(),rpgEntity.getLocation());
+        rpgEntity.knockbackByEntity(rpgEntity.getMeleeKnockbackTaken(), 0.3,player.getLocation());
     }
 
 
