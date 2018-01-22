@@ -8,7 +8,7 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftCow;
 public class RpgCow extends EntityCow
 {
     private double level;
-    public RpgCow(World world, Integer level)
+    public RpgCow(World world)
     {
         super(world);
         this.level = (double) level;

@@ -16,11 +16,14 @@ import java.util.UUID;
 
 public class RpgEntity
 {
+
     private double maxHealth;
     private double health;
     private boolean isAggressive;
     private int maxAggression;
     private int aggression;
+
+
     private String name;
     private double meleeDamage;
     private double meleeKnockback;

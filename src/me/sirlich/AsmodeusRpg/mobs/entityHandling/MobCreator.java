@@ -104,7 +104,7 @@ public class MobCreator
 
     public static Entity makeCow(double maxHealth, double damage, String name, int level){
         World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
-        RpgCow entity = new RpgCow(((CraftWorld) world).getHandle(), damage, 10);
+        RpgCow entity = new RpgCow(((CraftWorld) world).getHandle());
         entity.setCustomName(ChatColor.RED + ""+ level + " " + name);
 
         RpgEntityList.addEntity(entity.getUniqueID());
