@@ -6,7 +6,6 @@ import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
 import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class PFGMeleeAttack extends PathfinderGoal
@@ -14,8 +13,7 @@ public class PFGMeleeAttack extends PathfinderGoal
     World world;
     protected EntityCreature entityCreature;
     protected int c;
-    double walkingSpeed;
-    boolean noIdeaButMakeItTrue;
+    boolean aBoolean = true;
     PathEntity pathEntity;
     private int h;
     private double i;
@@ -23,11 +21,23 @@ public class PFGMeleeAttack extends PathfinderGoal
     private double k;
     protected final int g = 20;
 
+    double walkingSpeed;
+    double damage;
+    double knockbackGiven;
+    double knockbackTaken;
+    double stunDuration; //This is used to set player invincibility for some duration.
+
     public PFGMeleeAttack(EntityCreature entityCreature) {
         this.entityCreature = entityCreature;
         this.world = entityCreature.world;
-        this.noIdeaButMakeItTrue = true;
         this.a(3);
+
+        //Dirty reflection:
+        java.lang.reflect.Method method;
+        try {
+            method = entityCreature.getClass().getMethod("getDamage");
+        } catch (SecurityException e) {}
+        catch (NoSuchMethodException e) { }
     }
 
     public boolean a() {
@@ -59,7 +69,7 @@ public class PFGMeleeAttack extends PathfinderGoal
             return false;
         } else if (!goalTarget.isAlive()) {
             return false;
-        } else if (!this.noIdeaButMakeItTrue) {
+        } else if (!this.aBoolean) {
             return !this.entityCreature.getNavigation().o();
         } else if (!this.entityCreature.f(new BlockPosition(goalTarget))) {
             return false;
@@ -87,7 +97,7 @@ public class PFGMeleeAttack extends PathfinderGoal
         this.entityCreature.getControllerLook().a(var1, 30.0F, 30.0F);
         double var2 = this.entityCreature.d(var1.locX, var1.getBoundingBox().b, var1.locZ);
         --this.h;
-        if ((this.noIdeaButMakeItTrue || this.entityCreature.getEntitySenses().a(var1)) && this.h <= 0 && (this.i == 0.0D && this.j == 0.0D && this.k == 0.0D || var1.d(this.i, this.j, this.k) >= 1.0D || this.entityCreature.getRandom().nextFloat() < 0.05F)) {
+        if ((this.aBoolean || this.entityCreature.getEntitySenses().a(var1)) && this.h <= 0 && (this.i == 0.0D && this.j == 0.0D && this.k == 0.0D || var1.d(this.i, this.j, this.k) >= 1.0D || this.entityCreature.getRandom().nextFloat() < 0.05F)) {
             this.i = var1.locX;
             this.j = var1.getBoundingBox().b;
             this.k = var1.locZ;
