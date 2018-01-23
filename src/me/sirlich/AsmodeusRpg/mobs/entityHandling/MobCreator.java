@@ -17,6 +17,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class MobCreator
 {
@@ -24,6 +25,7 @@ public class MobCreator
     public static Entity makeMob(RpgEntityType monster, int level){
         return(makeLich(7));
     }
+
     public static Entity makeLich(int level){
         try {
             String fileName = "RPG_LICH.txt";
