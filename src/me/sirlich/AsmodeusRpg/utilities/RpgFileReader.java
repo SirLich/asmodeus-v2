@@ -96,21 +96,29 @@ public class RpgFileReader
     }
 
     public String readString(String tag){
+        System.out.println("Reading String");
         String returnThis = "NULL PLEASE FIX";
+        System.out.println("Attempting to find " + tag);
         try {
             String line = reader.readLine();
             while (line != null)
             {
-                if(line.charAt(0) == '['){
+                System.out.println(line);
+                if(line.length() >= 1 && line.charAt(0) == '['){
                     //Is it our line?
                     if(line.contains(tag)){
+                        System.out.println("FOUND DE TAG DAD");
                         //Take the second half
                         String stringList = line.split("]")[1];
+                        System.out.println(stringList);
                         String[] strings = stringList.split(",");
-
+                        System.out.println(strings.toString());
                         //Generate random one instead.
-                        int level = ThreadLocalRandom.current().nextInt(0, strings.length + 1);
+                        int level = ThreadLocalRandom.current().nextInt(0, strings.length);
+                        System.out.println("level: " + level);
                         returnThis = strings[level].trim();
+                        System.out.println(returnThis);
+                        break;
                     }
                 }
                 line = reader.readLine();
@@ -118,6 +126,7 @@ public class RpgFileReader
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("PAY ATTENTION HOME: " + returnThis);
         return returnThis;
     }
 }

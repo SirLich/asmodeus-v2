@@ -23,6 +23,7 @@ public class RpgEntityList
     public static void addEntity(UUID uuid){
         System.out.println("inside");
         RpgEntity rpgEntity = new RpgEntity();
+        System.out.println("inside again");
         rpgEntityHashMap.put(uuid, rpgEntity);
         entityHashMap.put(rpgEntity, uuid);
     }

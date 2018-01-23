@@ -39,22 +39,35 @@ public class MobCreator
             World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
             RpgLich entity = new RpgLich(((CraftWorld) world).getHandle());
             entity.setCustomName(ChatColor.RED + ""+ level + " " + reader.readString(MobAttributes.name.toString()));
+
+            System.out.println("1");
+            System.out.println(entity.getUniqueID());
             RpgEntityList.addEntity(entity.getUniqueID());
+            System.out.println("2");
             RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueID());
 
             //Some non-generic stuff that isn't set using setters atm
             rpgEntity.setAggressive(true);
             rpgEntity.setMaxAggression(500); //500 ticks before the mob is peacfull again
 
+            System.out.println("3");
             //RpgEntity generic setters
             rpgEntity.setName("RpgLich: " + reader.readString(MobAttributes.name.toString()));
+            System.out.println("Entity name after assigment: " + rpgEntity.getName());
+            System.out.println("3.5");
             initGenericMobData(reader,rpgEntity,level);
+
+            System.out.println("4");
 
             //RpgEntity meleeAttackSetter
             initPFGMeleeAttack(reader, rpgEntity,level);
 
+            System.out.println("5");
+
             //RpgEntity spawner setters
             initPFGSpawnChildren(reader,rpgEntity,level);
+
+            System.out.println("6");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

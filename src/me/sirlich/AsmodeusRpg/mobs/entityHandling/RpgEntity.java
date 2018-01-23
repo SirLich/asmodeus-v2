@@ -166,25 +166,26 @@ public class RpgEntity
 
 
     //Constructor sets some default shit to stop horrible errors on mob spawn if something doesint set right.
-    public RpgEntity(){
-        this.maxHealth = 100;
-        this.health = 100;
-        this.isAggressive = true;
-        this.maxAggression = 500;
-        this.aggression = 500;
-        this.name = "UNDEFINED MOB";
-        this.meleeDamage = 10;
-        this.meleeKnockbackGiven = 0.4;
-        this.meleeKnockbackTaken = 0.1;
-        this.meleeInvincibilityGiven = 1;
-        this.spawnAmount = 1;
-        this.spawnDelay = 20;
-        this.spawnLevel = 1;
-        this.spawnType = RpgEntityType.RPG_CRITTER;
-        this.deathReactions.add(new DeathReaction());
-        this.walkSpeed = 1;
-        this.damageReactions.add(new DamageReaction());
-    }
+//    public RpgEntity(){
+//        System.out.println("Creating new RpgEntity");
+//        this.maxHealth = 100;
+//        this.health = 100;
+//        this.isAggressive = true;
+//        this.maxAggression = 500;
+//        this.aggression = 500;
+//        this.name = "UNDEFINED MOB";
+//        this.meleeDamage = 10;
+//        this.meleeKnockbackGiven = 0.4;
+//        this.meleeKnockbackTaken = 0.1;
+//        this.meleeInvincibilityGiven = 1;
+//        this.spawnAmount = 1;
+//        this.spawnDelay = 20;
+//        this.spawnLevel = 1;
+//        this.spawnType = RpgEntityType.RPG_CRITTER;
+//        this.deathReactions.add(new DeathReaction());
+//        this.walkSpeed = 1;
+//        this.damageReactions.add(new DamageReaction());
+//    }
     public void reduceAggression(){
         if(isAggressive){
             this.aggression -= 1;
