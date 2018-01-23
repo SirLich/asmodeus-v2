@@ -13,15 +13,11 @@ public class RpgSummon extends AsmodeusCommand
 
     @Override
     public boolean execute(CommandSender sender, String s, String[] args){
-        if(args != null){
+        if(args != null && Integer.parseInt(args[1]) >= 0 && Integer.parseInt(args[1]) <= 10){
             if(sender instanceof  Player){
                 Player player = (Player) sender;
                 if(args[0].equalsIgnoreCase("lich")){
                     net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeMob(RpgEntityType.RPG_LICH, Integer.parseInt(args[1]));
-                    MobCreator.spawn(entity, player.getLocation());
-                }
-                if(args[0].equalsIgnoreCase("cow")){
-                    net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeCow(20,3,"Bobby!",14);
                     MobCreator.spawn(entity, player.getLocation());
                 }
             } else{
@@ -29,7 +25,7 @@ public class RpgSummon extends AsmodeusCommand
             }
 
         } else {
-            String msg = "Spawn in a mob: cow, polar_bear";
+            String msg = "Something is not formatted correctly";
             if(sender instanceof Player){
                 sender.sendMessage("msg");
             }

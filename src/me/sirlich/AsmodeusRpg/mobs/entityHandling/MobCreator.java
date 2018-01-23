@@ -3,7 +3,6 @@ package me.sirlich.AsmodeusRpg.mobs.entityHandling;
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.mobs.monsters.RpgCow;
 import me.sirlich.AsmodeusRpg.mobs.monsters.RpgLich;
-import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import me.sirlich.AsmodeusRpg.utilities.RpgFileReader;
 import net.minecraft.server.v1_12_R1.Entity;
 import org.bukkit.Bukkit;
@@ -11,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import java.io.BufferedReader;
