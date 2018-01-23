@@ -21,13 +21,15 @@ public class RpgFileReader
             String line = reader.readLine();
             while (line != null)
             {
-                //Is it our line?
-                if(line.contains(tag)){
-                    //Take the second half
-                    String doubleList = line.split("]")[1];
-                    //Generate the numbers
-                    double[] doubles = Stream.of(doubleList.split(",")).mapToDouble (Double::parseDouble).toArray();
-                    returnThis = doubles[level];
+                if(line.charAt(0) == '['){
+                    //Is it our line?
+                    if(line.contains(tag)){
+                        //Take the second half
+                        String doubleList = line.split("]")[1];
+                        //Generate the numbers
+                        double[] doubles = Stream.of(doubleList.split(",")).mapToDouble (Double::parseDouble).toArray();
+                        returnThis = doubles[level];
+                    }
                 }
                 line = reader.readLine();
             }

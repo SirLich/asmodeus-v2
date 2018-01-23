@@ -2,6 +2,7 @@ package me.sirlich.AsmodeusRpg.core;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityType;
+import me.sirlich.AsmodeusRpg.utilities.RpgFileReader;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

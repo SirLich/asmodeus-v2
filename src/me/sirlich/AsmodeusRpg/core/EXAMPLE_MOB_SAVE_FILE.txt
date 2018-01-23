@@ -1,0 +1,21 @@
+Mob: RpgLich
+
+Note: Anything without a left square bracket will be ignored. The tagged lines is all that matters.
+
+Generic Stuff
+[health] 10,12,14,16,180,20,22,24,26,28,30
+[healthRegeneration] 1,2,3,4,5,6,7,8,9,10
+[walkSpeed] 1,1,1,1,1,1,1,1,1,1
+[names] Lich King, Bob Ross, ExampleMob15
+
+Melee Attack Stuff
+[meleeDamage] 1,2,3,4,5,6,7,8,9,10
+[meleeKnockbackGiven] 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2
+[meleeKnockbackTaken] 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2
+[meleeInvincibilityGiven] 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1
+
+Spawner Mob Stuff
+[spawnAmount] 1,2,3,4,5,6,7,8,9,10
+[spawnLevel] 1,2,3,4,5,6,7,8,9,10
+[spawnDelay] 10, 10, 10, 10, 10 ,10 ,10 ,10 ,10 ,10
+[spawnMobType] //Blank Atm
