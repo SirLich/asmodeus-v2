@@ -38,7 +38,7 @@ public class MobCreator
             RpgFileReader reader = new RpgFileReader(br);
             World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
             RpgLich entity = new RpgLich(((CraftWorld) world).getHandle());
-            entity.setCustomName(ChatColor.RED + ""+ level + " " + reader.readString("name"));
+            entity.setCustomName(ChatColor.RED + ""+ level + " " + reader.readString(MobAttributes.name.toString()));
             RpgEntityList.addEntity(entity.getUniqueID());
             RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueID());
 
@@ -48,10 +48,7 @@ public class MobCreator
 
             //RpgEntity generic setters
             rpgEntity.setName("RpgLich: " + reader.readString(MobAttributes.name.toString()));
-            rpgEntity.setHealthRegeneration(reader.readDouble(MobAttributes.healthRegeneration.toString(), level));
-            rpgEntity.setMaxHealth(reader.readDouble(MobAttributes.maxHealth.toString(), level));
-            rpgEntity.setToFullHealth(); //No need to use a reader tag for this
-            rpgEntity.setLevel(level);
+            initGenericMobData(reader,rpgEntity,level);
 
             //RpgEntity meleeAttackSetter
             initPFGMeleeAttack(reader, rpgEntity,level);
@@ -79,7 +76,39 @@ public class MobCreator
         rpgEntity.setSpawnType(RpgEntityType.valueOf(reader.readString(MobAttributes.spawnType.toString())));
     }
 
+    private static void initGenericMobData(RpgFileReader reader, RpgEntity rpgEntity, int level){
+        rpgEntity.setHealthRegeneration(reader.readDouble(MobAttributes.healthRegeneration.toString(), level));
+        rpgEntity.setMaxHealth(reader.readDouble(MobAttributes.maxHealth.toString(), level));
+        rpgEntity.setToFullHealth(); //No need to use a reader tag for this
+        rpgEntity.setLevel(level);
+    }
+
     public static Entity makeCritter(int level){
+        try {
+            //Generic Stuff
+            String fileName = "RPG_CRITTER.txt";
+            BufferedReader br = new BufferedReader(new FileReader(AsmodeusRpg.getInstance().getDataFolder() + "/monsters/" + fileName));
+            RpgFileReader reader = new RpgFileReader(br);
+            World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
+            RpgLich entity = new RpgLich(((CraftWorld) world).getHandle());
+            entity.setCustomName(ChatColor.RED + ""+ level + " " + reader.readString(MobAttributes.name.toString()));
+            RpgEntityList.addEntity(entity.getUniqueID());
+            RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueID());
+
+            //Some non-generic stuff that isn't set using setters atm
+            rpgEntity.setAggressive(true);
+            rpgEntity.setMaxAggression(500); //500 ticks before the mob is peacfull again
+
+            //RpgEntity generic setters
+            rpgEntity.setName("RpgCritter: " + reader.readString(MobAttributes.name.toString()));
+            initGenericMobData(reader,rpgEntity,level);
+
+            //RpgEntity meleeAttackSetter
+            initPFGMeleeAttack(reader, rpgEntity,level);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
