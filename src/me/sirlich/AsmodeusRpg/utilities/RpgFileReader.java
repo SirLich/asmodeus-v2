@@ -38,4 +38,32 @@ public class RpgFileReader
         }
         return returnThis;
     }
+
+    public int readInt(String tag, int level){
+        int returnThis = 0;
+        if(level >= 10){
+            //Early cancelation because the level is wacked out.
+            return returnThis;
+        }
+        try {
+            String line = reader.readLine();
+            while (line != null)
+            {
+                if(line.charAt(0) == '['){
+                    //Is it our line?
+                    if(line.contains(tag)){
+                        //Take the second half
+                        String intList = line.split("]")[1];
+                        //Generate the numbers
+                        int[] ints = Stream.of(intList.split(",")).mapToInt (Integer::parseInt).toArray();
+                        returnThis = ints[level];
+                    }
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return returnThis;
+    }
 }
