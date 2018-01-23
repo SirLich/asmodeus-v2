@@ -134,7 +134,7 @@ public class PFGMeleeAttack extends PathfinderGoal
         RpgPlayer rpgPlayer = RpgPlayerList.getRpgPlayer(player);
 
         rpgPlayer.meleeDamage(rpgEntity.getMeleeDamage());
-        rpgPlayer.knockbackByEntity(rpgEntity.getMeleeKnockback(),rpgEntity.getLocation());
+        rpgPlayer.knockbackByEntity(rpgEntity.getMeleeKnockbackGiven(),rpgEntity.getLocation());
         rpgEntity.knockbackByEntity(rpgEntity.getMeleeKnockbackTaken(), 0.3,player.getLocation());
     }
 

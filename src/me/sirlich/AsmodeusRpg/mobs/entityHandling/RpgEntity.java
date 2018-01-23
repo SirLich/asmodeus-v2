@@ -16,26 +16,34 @@ import java.util.UUID;
 
 public class RpgEntity
 {
-
-    private double maxHealth;
-    private double health;
-    private boolean isAggressive;
-    private int maxAggression;
-    private int aggression;
-
-
+    //Generics
     private String name;
-    private double meleeDamage;
-    private double meleeKnockback;
-    private double meleeKnockbackTaken;
-    private double meleeInvinciGiven;
-    private int minionSpawnNum;
-    private int minionSpawnDelay;
-    private int minionSpawnLevel;
-    private RpgEntityType minionSpawnType;
     private DeathReaction deathReaction;
-    private double walkSpeed;
     private DamageReaction damageReaction;
+    private double walkSpeed;
+
+    //Health
+    private double health;
+    private double maxHealth;
+    private double healthRegeneration;
+
+    //Aggression
+    private boolean isAggressive;
+    private int maxAggression; //Set this when the mob is attacked
+    private int aggression; //Current aggression level. Should reduce 1 per tick.
+
+    //Melee Attack Pathfinder
+    private double meleeDamage;
+    private double meleeKnockbackGiven;
+    private double meleeKnockbackTaken;
+    private double meleeInvincibilityGiven;
+
+    //Spawner Pathfinder
+    private int spawnAmount;
+    private int spawnDelay;
+    private int spawnLevel;
+    private RpgEntityType minionSpawnType;
+
 
     public double getWalkSpeed()
     {
@@ -48,19 +56,27 @@ public class RpgEntity
     }
 
 
-    public double getMeleeKnockback()
+    public double getMeleeKnockbackGiven()
     {
-        return meleeKnockback;
+        return meleeKnockbackGiven;
     }
 
-    public void setMeleeKnockback(double meleeKnockback)
+    public void setMeleeKnockbackGiven(double meleeKnockbackGiven)
     {
-        this.meleeKnockback = meleeKnockback;
+        this.meleeKnockbackGiven = meleeKnockbackGiven;
     }
 
 
 
+    public double getHealthRegeneration()
+    {
+        return healthRegeneration;
+    }
 
+    public void setHealthRegeneration(double healthRegeneration)
+    {
+        this.healthRegeneration = healthRegeneration;
+    }
     public int getMaxAggression()
     {
         return maxAggression;
@@ -76,44 +92,34 @@ public class RpgEntity
         this.meleeKnockbackTaken = meleeKnockbackTaken;
     }
 
-    public double getMeleeInvinciGiven()
+    public int getSpawnAmount()
     {
-        return meleeInvinciGiven;
+        return spawnAmount;
     }
 
-    public void setMeleeInvinciGiven(double meleeInvinciGiven)
+    public void setSpawnAmount(int spawnAmount)
     {
-        this.meleeInvinciGiven = meleeInvinciGiven;
+        this.spawnAmount = spawnAmount;
     }
 
-    public int getMinionSpawnNum()
+    public int getSpawnDelay()
     {
-        return minionSpawnNum;
+        return spawnDelay;
     }
 
-    public void setMinionSpawnNum(int minionSpawnNum)
+    public void setSpawnDelay(int spawnDelay)
     {
-        this.minionSpawnNum = minionSpawnNum;
+        this.spawnDelay = spawnDelay;
     }
 
-    public int getMinionSpawnDelay()
+    public int getSpawnLevel()
     {
-        return minionSpawnDelay;
+        return spawnLevel;
     }
 
-    public void setMinionSpawnDelay(int minionSpawnDelay)
+    public void setSpawnLevel(int spawnLevel)
     {
-        this.minionSpawnDelay = minionSpawnDelay;
-    }
-
-    public int getMinionSpawnLevel()
-    {
-        return minionSpawnLevel;
-    }
-
-    public void setMinionSpawnLevel(int minionSpawnLevel)
-    {
-        this.minionSpawnLevel = minionSpawnLevel;
+        this.spawnLevel = spawnLevel;
     }
 
     public RpgEntityType getMinionSpawnType()
@@ -126,7 +132,15 @@ public class RpgEntity
         this.minionSpawnType = minionSpawnType;
     }
 
+    public double getMeleeInvincibilityGiven()
+    {
+        return meleeInvincibilityGiven;
+    }
 
+    public void setMeleeInvincibilityGiven(double meleeInvincibilityGiven)
+    {
+        this.meleeInvincibilityGiven = meleeInvincibilityGiven;
+    }
 
     public DamageReaction getDamageReaction()
     {
@@ -159,12 +173,12 @@ public class RpgEntity
         this.aggression = 500;
         this.name = "UNDEFINED MOB";
         this.meleeDamage = 10;
-        this.meleeKnockback = 0.4;
+        this.meleeKnockbackGiven = 0.4;
         this.meleeKnockbackTaken = 0.1;
-        this.meleeInvinciGiven = 1;
-        this.minionSpawnNum = 1;
-        this.minionSpawnDelay = 20;
-        this.minionSpawnLevel = 1;
+        this.meleeInvincibilityGiven = 1;
+        this.spawnAmount = 1;
+        this.spawnDelay = 20;
+        this.spawnLevel = 1;
         this.minionSpawnType = RpgEntityType.RPG_CRITTER;
         this.deathReaction = new DeathReaction();
         this.walkSpeed = 1;
