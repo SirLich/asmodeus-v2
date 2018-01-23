@@ -97,13 +97,9 @@ public class AsmodeusRpg extends JavaPlugin
         register(new RecalculateEntityList());
         register(new SetGameValues());
 
-        NMSUtils.registerEntity("ranged_zombie", NMSUtils.Type.ZOMBIE, CustomZombie.class, false);
-        NMSUtils.registerEntity("civilian", NMSUtils.Type.VILLAGER, Civilian.class, false);
-        NMSUtils.registerEntity("shop_keeper", NMSUtils.Type.VILLAGER, ShopKeeper.class, false);
-        NMSUtils.registerEntity("blacksmith", NMSUtils.Type.VILLAGER, Blacksmith.class, false);
-        NMSUtils.registerEntity("aggressive_cow", NMSUtils.Type.COW, RpgCow.class, false);
-        NMSUtils.registerEntity("rpg_polar_bear", NMSUtils.Type.POLARBEAR, RpgPolarBear.class,false);
+
         NMSUtils.registerEntity("rpg_lich",NMSUtils.Type.SKELETON, RpgLich.class,false);
+        NMSUtils.registerEntity("rpg_critter",NMSUtils.Type.SILVERFISH, RpgCritter.class,false);
 
         listener(new BlacksmithHandler());
         listener(new CivilianHandler());
