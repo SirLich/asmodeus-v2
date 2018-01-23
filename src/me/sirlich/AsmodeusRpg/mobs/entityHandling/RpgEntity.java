@@ -12,14 +12,15 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class RpgEntity
 {
     //Generics
     private String name;
-    private DeathReaction deathReaction;
-    private DamageReaction damageReaction;
+    private ArrayList<DeathReaction> deathReactions;
+    private ArrayList<DamageReaction> damageReactions;
     private double walkSpeed;
 
     //Health
@@ -142,25 +143,25 @@ public class RpgEntity
         this.meleeInvincibilityGiven = meleeInvincibilityGiven;
     }
 
-    public DamageReaction getDamageReaction()
+    public ArrayList<DamageReaction> getDamageReactions()
     {
-        return damageReaction;
+        return damageReactions;
     }
 
-    public void setDamageReaction(DamageReaction damageReaction)
+    public void addDamageReaction(DamageReaction damageReactions)
     {
-        this.damageReaction = damageReaction;
+        this.damageReactions.add(damageReactions);
     }
 
 
-    public DeathReaction getDeathReaction()
+    public ArrayList<DeathReaction> getDeathReactions()
     {
-        return deathReaction;
+        return deathReactions;
     }
 
-    public void setDeathReaction(DeathReaction deathReaction)
+    public void addDeathReaction(DeathReaction deathReactions)
     {
-        this.deathReaction = deathReaction;
+        this.deathReactions.add(deathReactions);
     }
 
 
@@ -180,9 +181,9 @@ public class RpgEntity
         this.spawnDelay = 20;
         this.spawnLevel = 1;
         this.minionSpawnType = RpgEntityType.RPG_CRITTER;
-        this.deathReaction = new DeathReaction();
+        this.deathReactions.add(new DeathReaction());
         this.walkSpeed = 1;
-        this.damageReaction = new DamageReaction();
+        this.damageReactions.add(new DamageReaction());
     }
     public void reduceAggression(){
         if(isAggressive){
@@ -308,9 +309,13 @@ public class RpgEntity
             This part handles the mobs DeathReaction Reaction.
              */
             if(player != null){
-                getDeathReaction().onDeath(player);
+                for(DeathReaction deathReaction : this.deathReactions){
+                    deathReaction.onDeath(player);
+                }
             } else{
-                getDeathReaction().onDeath();
+                for(DeathReaction deathReaction : this.deathReactions){
+                    deathReaction.onDeath();
+                }
             }
             kill();
         } else if(health > maxHealth){
@@ -323,12 +328,16 @@ public class RpgEntity
         editHealth(-damage, player);
 
         /*
-        This handles the mods reaction to getting damaged.
+        This handles the mobs reaction to getting damaged.
          */
         if(player != null){
-            getDamageReaction().onDamage(player);
-        } else{
-            getDamageReaction().onDamage();
+            for(DamageReaction damageReaction : damageReactions){
+                damageReaction.onDamage(player);
+            }
+        } else {
+            for (DamageReaction damageReaction : damageReactions) {
+                damageReaction.onDamage();
+            }
         }
     }
 
