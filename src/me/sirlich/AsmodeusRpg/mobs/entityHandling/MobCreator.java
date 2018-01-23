@@ -3,6 +3,7 @@ package me.sirlich.AsmodeusRpg.mobs.entityHandling;
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
 import me.sirlich.AsmodeusRpg.mobs.monsters.RpgCow;
 import me.sirlich.AsmodeusRpg.mobs.monsters.RpgLich;
+import me.sirlich.AsmodeusRpg.utilities.NMSUtils;
 import me.sirlich.AsmodeusRpg.utilities.RpgFileReader;
 import net.minecraft.server.v1_12_R1.Entity;
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import java.io.BufferedReader;
@@ -45,11 +47,23 @@ public class MobCreator
             rpgEntity.setMaxAggression(500); //500 ticks before the mob is peacfull again
 
             //RpgEntity generic setters
-            rpgEntity.setName("RpgLich: " + reader.readString("name"));
-            rpgEntity.setHealthRegeneration(reader.readDouble("healthRegeneration", level));
-            rpgEntity.setMaxHealth(reader.readDouble("maxHealth", level));
+            rpgEntity.setName("RpgLich: " + reader.readString(MobAttributes.name.toString()));
+            rpgEntity.setHealthRegeneration(reader.readDouble(MobAttributes.healthRegeneration.toString(), level));
+            rpgEntity.setMaxHealth(reader.readDouble(MobAttributes.maxHealth.toString(), level));
             rpgEntity.setToFullHealth(); //No need to use a reader tag for this
             rpgEntity.setLevel(level);
+
+            //RpgEntity meleeAttackSetter
+            rpgEntity.setMeleeDamage(reader.readDouble(MobAttributes.meleeDamage.toString(),level));
+            rpgEntity.setMeleeKnockbackTaken(reader.readDouble(MobAttributes.meleeKnockbackTaken.toString(),level));
+            rpgEntity.setMeleeKnockbackGiven(reader.readDouble(MobAttributes.meleeKnockbackGiven.toString(),level));
+            rpgEntity.setMeleeInvincibilityGiven(reader.readDouble(MobAttributes.meleeInvincibilityGiven.toString(),level));
+
+            //RpgEntity spawner setters
+            rpgEntity.setSpawnAmount(reader.readInt(MobAttributes.spawnAmount.toString(),level));
+            rpgEntity.setSpawnDelay(reader.readInt(MobAttributes.spawnDelay.toString(),level));
+            rpgEntity.setSpawnLevel(reader.readInt(MobAttributes.spawnAmount.toString(),level));
+            rpgEntity.setSpawnType(RpgEntityType.valueOf(reader.readString(MobAttributes.spawnType.toString())));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
