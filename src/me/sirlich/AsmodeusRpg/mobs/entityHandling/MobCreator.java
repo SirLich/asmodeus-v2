@@ -1,10 +1,9 @@
 package me.sirlich.AsmodeusRpg.mobs.entityHandling;
 
 import me.sirlich.AsmodeusRpg.AsmodeusRpg;
-import me.sirlich.AsmodeusRpg.mobs.damageReaction.DamageReaction;
-import me.sirlich.AsmodeusRpg.mobs.deathReaction.DeathReaction;
 import me.sirlich.AsmodeusRpg.mobs.monsters.RpgCow;
 import me.sirlich.AsmodeusRpg.mobs.monsters.RpgLich;
+import me.sirlich.AsmodeusRpg.utilities.RpgFileReader;
 import net.minecraft.server.v1_12_R1.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,19 +20,36 @@ public class MobCreator
 {
 
     public static Entity makeMob(RpgEntityType monster, int level){
-        return(makeLich(7));
+        if(monster == RpgEntityType.RPG_LICH){
+            return(makeRpgLich(7));
+        } else{
+            //Kind of a shitty failsafe atm
+            return(makeRpgLich(1));
+        }
     }
 
-    public static Entity makeLich(int level){
+    public static Entity makeRpgLich(int level){
         try {
+            //Generic Stuff
             String fileName = "RPG_LICH.txt";
             BufferedReader br = new BufferedReader(new FileReader(AsmodeusRpg.getInstance().getDataFolder() + "/monsters/" + fileName));
-
-            //World
+            RpgFileReader reader = new RpgFileReader(br);
             World world = Bukkit.getServer().getWorld(AsmodeusRpg.getInstance().getWorld());
             RpgLich entity = new RpgLich(((CraftWorld) world).getHandle());
+            entity.setCustomName(ChatColor.RED + ""+ level + " " + reader.readString("name"));
+            RpgEntityList.addEntity(entity.getUniqueID());
+            RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueID());
 
-            return entity;
+            //Some non-generic stuff that isn't set using setters atm
+            rpgEntity.setAggressive(true);
+            rpgEntity.setMaxAggression(500); //500 ticks before the mob is peacfull again
+
+            //RpgEntity generic setters
+            rpgEntity.setName("RpgLich: " + reader.readString("name"));
+            rpgEntity.setHealthRegeneration(reader.readDouble("healthRegeneration", level));
+            rpgEntity.setMaxHealth(reader.readDouble("maxHealth", level));
+            rpgEntity.setToFullHealth(); //No need to use a reader tag for this
+            rpgEntity.setLevel(level);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

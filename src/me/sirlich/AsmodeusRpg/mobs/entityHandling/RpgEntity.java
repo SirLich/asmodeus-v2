@@ -43,7 +43,7 @@ public class RpgEntity
     private int spawnAmount;
     private int spawnDelay;
     private int spawnLevel;
-    private RpgEntityType minionSpawnType;
+    private RpgEntityType spawnType;
 
 
     public double getWalkSpeed()
@@ -123,14 +123,14 @@ public class RpgEntity
         this.spawnLevel = spawnLevel;
     }
 
-    public RpgEntityType getMinionSpawnType()
+    public RpgEntityType getSpawnType()
     {
-        return minionSpawnType;
+        return spawnType;
     }
 
-    public void setMinionSpawnType(RpgEntityType minionSpawnType)
+    public void setSpawnType(RpgEntityType spawnType)
     {
-        this.minionSpawnType = minionSpawnType;
+        this.spawnType = spawnType;
     }
 
     public double getMeleeInvincibilityGiven()
@@ -180,7 +180,7 @@ public class RpgEntity
         this.spawnAmount = 1;
         this.spawnDelay = 20;
         this.spawnLevel = 1;
-        this.minionSpawnType = RpgEntityType.RPG_CRITTER;
+        this.spawnType = RpgEntityType.RPG_CRITTER;
         this.deathReactions.add(new DeathReaction());
         this.walkSpeed = 1;
         this.damageReactions.add(new DamageReaction());
