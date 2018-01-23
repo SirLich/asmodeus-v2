@@ -21,8 +21,10 @@ public class MobCreator
 
     public static Entity makeMob(RpgEntityType monster, int level){
         if(monster == RpgEntityType.RPG_LICH){
-            return(makeRpgLich(7));
-        } else{
+            return(makeRpgLich(level));
+        } else if(monster == RpgEntityType.RPG_CRITTER){
+            return(makeCritter(level));
+        }else{
             //Kind of a shitty failsafe atm
             return(makeRpgLich(1));
         }
@@ -52,21 +54,29 @@ public class MobCreator
             rpgEntity.setLevel(level);
 
             //RpgEntity meleeAttackSetter
-            rpgEntity.setMeleeDamage(reader.readDouble(MobAttributes.meleeDamage.toString(),level));
-            rpgEntity.setMeleeKnockbackTaken(reader.readDouble(MobAttributes.meleeKnockbackTaken.toString(),level));
-            rpgEntity.setMeleeKnockbackGiven(reader.readDouble(MobAttributes.meleeKnockbackGiven.toString(),level));
-            rpgEntity.setMeleeInvincibilityGiven(reader.readDouble(MobAttributes.meleeInvincibilityGiven.toString(),level));
+            initPFGMeleeAttack(reader, rpgEntity,level);
 
             //RpgEntity spawner setters
-            rpgEntity.setSpawnAmount(reader.readInt(MobAttributes.spawnAmount.toString(),level));
-            rpgEntity.setSpawnDelay(reader.readInt(MobAttributes.spawnDelay.toString(),level));
-            rpgEntity.setSpawnLevel(reader.readInt(MobAttributes.spawnAmount.toString(),level));
-            rpgEntity.setSpawnType(RpgEntityType.valueOf(reader.readString(MobAttributes.spawnType.toString())));
+            initPFGSpawnChildren(reader,rpgEntity,level);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static void initPFGMeleeAttack(RpgFileReader reader, RpgEntity rpgEntity, int level){
+        rpgEntity.setMeleeDamage(reader.readDouble(MobAttributes.meleeDamage.toString(),level));
+        rpgEntity.setMeleeKnockbackTaken(reader.readDouble(MobAttributes.meleeKnockbackTaken.toString(),level));
+        rpgEntity.setMeleeKnockbackGiven(reader.readDouble(MobAttributes.meleeKnockbackGiven.toString(),level));
+        rpgEntity.setMeleeInvincibilityGiven(reader.readDouble(MobAttributes.meleeInvincibilityGiven.toString(),level));
+    }
+
+    private static void initPFGSpawnChildren(RpgFileReader reader, RpgEntity rpgEntity, int level){
+        rpgEntity.setSpawnAmount(reader.readInt(MobAttributes.spawnAmount.toString(),level));
+        rpgEntity.setSpawnDelay(reader.readInt(MobAttributes.spawnDelay.toString(),level));
+        rpgEntity.setSpawnLevel(reader.readInt(MobAttributes.spawnAmount.toString(),level));
+        rpgEntity.setSpawnType(RpgEntityType.valueOf(reader.readString(MobAttributes.spawnType.toString())));
     }
 
     public static Entity makeCritter(int level){
