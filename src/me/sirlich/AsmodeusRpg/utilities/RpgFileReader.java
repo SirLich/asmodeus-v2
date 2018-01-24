@@ -1,132 +1,101 @@
 package me.sirlich.AsmodeusRpg.utilities;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import me.sirlich.AsmodeusRpg.AsmodeusRpg;
+
+import java.io.*;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Stream;
 
 public class RpgFileReader
 {
-    BufferedReader reader;
-    public RpgFileReader(BufferedReader reader){
-        this.reader = reader;
+    private File file;
+    private int level;
+    public RpgFileReader(String fileName, int level){
+        this.file = new File(AsmodeusRpg.getInstance().getDataFolder() + "/monsters/" + fileName);
+        this.level = level;
     }
 
-    public double readDouble(String tag, int level){
+    public double readDouble(String tag){
         double returnThis = 0.0;
-        if(level >= 10){
-            //Early cancelation because the level is wacked out.
-            return returnThis;
-        }
+        System.out.println("Attempting to read... " + tag);
         try {
-            String line = reader.readLine();
-            while (line != null)
-            {
-                if(line.charAt(0) == '['){
-                    //Is it our line?
-                    if(line.contains(tag)){
-                        //Take the second half
-                        String doubleList = line.split("]")[1];
-                        //Generate the numbers
-                        double[] doubles = Stream.of(doubleList.split(",")).mapToDouble (Double::parseDouble).toArray();
-                        returnThis = doubles[level];
-                    }
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if(line.length() >= 1 && line.charAt(0) == '[' && line.contains(tag)) {
+                    String data = line.split("]")[1];
+                    returnThis = Double.parseDouble(data.split(",")[level].trim());
+                    System.out.println("Read: " + returnThis);
+                    break;
                 }
-                line = reader.readLine();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch(FileNotFoundException e) {
+            System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }
         return returnThis;
     }
 
-    public int readInt(String tag, int level){
+    public int readInt(String tag){
         int returnThis = 0;
-        if(level >= 10){
-            //Early cancelation because the level is wacked out.
-            return returnThis;
-        }
+        System.out.println("Attempting to read... " + tag);
         try {
-            String line = reader.readLine();
-            while (line != null)
-            {
-                if(line.charAt(0) == '['){
-                    //Is it our line?
-                    if(line.contains(tag)){
-                        //Take the second half
-                        String intList = line.split("]")[1];
-                        //Generate the numbers
-                        int[] ints = Stream.of(intList.split(",")).mapToInt (Integer::parseInt).toArray();
-                        returnThis = ints[level];
-                    }
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if(line.length() >= 1 && line.charAt(0) == '[' && line.contains(tag)) {
+                    String data = line.split("]")[1];
+                    returnThis = Integer.parseInt(data.split(",")[level].trim());
+                    System.out.println("Read: " + returnThis);
+                    break;
                 }
-                line = reader.readLine();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch(FileNotFoundException e) {
+            System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }
         return returnThis;
     }
 
-    public String readString(String tag, int level){
-        String returnThis = "NULL PLEASE FIX";
-        if(level >= 10){
-            //Early cancelation because the level is wacked out.
-            return returnThis;
-        }
+
+    public String readRandomString(String tag){
+        String returnThis = "NULL! Issue with: +" + tag;
+        System.out.println("Attempting to read... " + tag);
         try {
-            String line = reader.readLine();
-            while (line != null)
-            {
-                if(line.charAt(0) == '['){
-                    //Is it our line?
-                    if(line.contains(tag)){
-                        //Take the second half
-                        String stringList = line.split("]")[1];
-                        String[] strings = stringList.split(",");
-                        returnThis = strings[level].trim();
-                    }
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                System.out.println("Is it: " + line + "?");
+                if(line.length() >= 1 && line.charAt(0) == '[' && line.contains(tag)) {
+                    System.out.println("YES! It is!");
+                    String data = line.split("]")[1];
+                    String[] strings = data.split(",");
+                    returnThis = strings[ThreadLocalRandom.current().nextInt(0, strings.length)];
+                    System.out.println("Read: " + returnThis);
+                    break;
                 }
-                line = reader.readLine();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch(FileNotFoundException e) {
+            System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }
         return returnThis;
     }
 
-    public String readString(String tag){
-        System.out.println("Reading String");
-        String returnThis = "NULL PLEASE FIX";
-        System.out.println("Attempting to find " + tag);
+    public String readIndexedString(String tag){
+        String returnThis = "NULL! Issue with: +" + tag;
+        System.out.println("Attempting to read... " + tag);
         try {
-            String line = reader.readLine();
-            while (line != null)
-            {
-                System.out.println(line);
-                if(line.length() >= 1 && line.charAt(0) == '['){
-                    //Is it our line?
-                    if(line.contains(tag)){
-                        System.out.println("FOUND DE TAG DAD");
-                        //Take the second half
-                        String stringList = line.split("]")[1];
-                        System.out.println(stringList);
-                        String[] strings = stringList.split(",");
-                        System.out.println(strings.toString());
-                        //Generate random one instead.
-                        int level = ThreadLocalRandom.current().nextInt(0, strings.length);
-                        System.out.println("level: " + level);
-                        returnThis = strings[level].trim();
-                        System.out.println(returnThis);
-                        break;
-                    }
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if(line.length() >= 1 && line.charAt(0) == '[' && line.contains(tag)) {
+                    String data = line.split("]")[1];
+                    returnThis = data.split(",")[level];
+                    System.out.println("Read: " + returnThis);
+                    break;
                 }
-                line = reader.readLine();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch(FileNotFoundException e) {
+            System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }
-        System.out.println("PAY ATTENTION HOME: " + returnThis);
         return returnThis;
     }
 }
