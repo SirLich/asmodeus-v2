@@ -77,11 +77,12 @@ public class RpgEntityList
 
         }
     }
-    public static boolean doesEntityExist(Entity entity)
+    public static boolean containEntity(Entity entity)
     {
         return rpgEntityHashMap.containsKey(entity.getUniqueId());
     }
-    public static boolean doesEntityExist(UUID uuid)
+
+    public static boolean containEntity(UUID uuid)
     {
         return rpgEntityHashMap.containsKey(uuid);
     }

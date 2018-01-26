@@ -1,14 +1,10 @@
 package me.sirlich.AsmodeusRpg.mobs.damageReaction;
 
-import org.bukkit.entity.Player;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.DamageType;
 
 public class DamageReaction
 {
-    public void onDamage(Player hitter){
-        System.out.println("A mob was DamageReaction by " + hitter.getName());
-    }
-
-    public void onDamage(){
-        System.out.println("A mob was DamageReaction");
+    public void onDamage(DamageType damageType){
+        System.out.println("A mob was damaged");
     }
 }

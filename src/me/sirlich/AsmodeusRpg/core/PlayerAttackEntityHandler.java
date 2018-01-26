@@ -1,5 +1,6 @@
 package me.sirlich.AsmodeusRpg.core;
 
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.DamageType;
 import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntity;
 import me.sirlich.AsmodeusRpg.mobs.entityHandling.RpgEntityList;
 import org.bukkit.entity.LivingEntity;
@@ -23,11 +24,10 @@ public class PlayerAttackEntityHandler implements Listener
             RpgEntity rpgEntity = RpgEntityList.getRpgEntity(event.getEntity().getUniqueId());
             LivingEntity livingEntity = (LivingEntity) event.getEntity();
 
-            System.out.println("DamageReaction a mob!");
             double damage = 3;
-            rpgEntity.knockbackByEntity(0.4,0.3,player.getLocation());
-            rpgEntity.meleeDamageEntity(damage, player);
             rpgEntity.setAggressive(true);
+            rpgEntity.knockbackByEntity(0.4,0.3,player.getLocation());
+            rpgEntity.meleeDamageEntity(damage, new DamageType(player,"fissts"));
         }
     }
 }

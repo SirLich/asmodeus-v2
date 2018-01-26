@@ -6,6 +6,7 @@ import me.sirlich.AsmodeusRpg.mobs.monsters.RpgCritter;
 import me.sirlich.AsmodeusRpg.mobs.monsters.RpgLich;
 import me.sirlich.AsmodeusRpg.utilities.RpgFileReader;
 import net.minecraft.server.v1_12_R1.Entity;
+import net.minecraft.server.v1_12_R1.EntityTypes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -66,9 +68,11 @@ public class MobCreator
     private static void initializeMobFileData(RpgFileReader reader, RpgEntity rpgEntity){
         System.out.println("Initializing mob data .. ");
         //Generic Stuff
+
+        rpgEntity.setWalkSpeed(reader.readDouble("walkSpeed"));
         rpgEntity.setHealthRegeneration(reader.readDouble("healthRegeneration"));
         rpgEntity.setMaxHealth(reader.readDouble("maxHealth"));
-        rpgEntity.setToFullHealth(); //No need to use a reader tag for this
+        rpgEntity.setHealth(reader.readDouble("health"));
 
         //Melee Attack Pathfinders
         rpgEntity.setMeleeDamage(reader.readDouble("meleeDamage"));
@@ -80,7 +84,17 @@ public class MobCreator
         rpgEntity.setSpawnAmount(reader.readInt("spawnAmount"));
         rpgEntity.setSpawnDelay(reader.readInt("spawnDelay"));
         rpgEntity.setSpawnLevel(reader.readInt("spawnLevel"));
-        rpgEntity.setSpawnType(RpgEntityType.valueOf(reader.readRandomString("spawnType")));
+
+        //Hop pathfinder
+        rpgEntity.setHopHeight(reader.readDouble("hopHeight"));
+        rpgEntity.setHopSeekRange(reader.readDouble("hopSeekRange"));
+        rpgEntity.setHopStrength(reader.readDouble("hopStrength"));
+
+        for (RpgEntityType c : RpgEntityType.values()) {
+            if (c.name().equals(reader.readRandomString("spawnType"))){
+                rpgEntity.setSpawnType(RpgEntityType.valueOf(reader.readRandomString("spawnType")));
+            }
+        }
 
         rpgEntity.setAggressive(true);
         rpgEntity.setMaxAggression(500); //500 ticks before the mob is peacfull again

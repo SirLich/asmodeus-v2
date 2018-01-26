@@ -19,6 +19,11 @@ public class RpgSummon extends AsmodeusCommand
                 if(args[0].equalsIgnoreCase("lich")){
                     net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeMob(RpgEntityType.RPG_LICH, Integer.parseInt(args[1]));
                     MobCreator.spawn(entity, player.getLocation());
+                } else if (args[0].equalsIgnoreCase("critter")){
+                    net.minecraft.server.v1_12_R1.Entity entity = MobCreator.makeMob(RpgEntityType.RPG_CRITTER, Integer.parseInt(args[1]));
+                    MobCreator.spawn(entity, player.getLocation());
+                } else{
+                    System.out.println("Please only create real mobs");
                 }
             } else{
                 System.out.println("Please only call this command in-game");

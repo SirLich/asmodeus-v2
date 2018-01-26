@@ -29,6 +29,7 @@ public class RpgFileReader
                     break;
                 }
             }
+            scanner.close();
         } catch(FileNotFoundException e) {
             System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }
@@ -49,6 +50,7 @@ public class RpgFileReader
                     break;
                 }
             }
+            scanner.close();
         } catch(FileNotFoundException e) {
             System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }
@@ -63,16 +65,15 @@ public class RpgFileReader
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                System.out.println("Is it: " + line + "?");
                 if(line.length() >= 1 && line.charAt(0) == '[' && line.contains(tag)) {
-                    System.out.println("YES! It is!");
                     String data = line.split("]")[1];
                     String[] strings = data.split(",");
-                    returnThis = strings[ThreadLocalRandom.current().nextInt(0, strings.length)];
+                    returnThis = strings[ThreadLocalRandom.current().nextInt(0, strings.length)].trim();
                     System.out.println("Read: " + returnThis);
                     break;
                 }
             }
+            scanner.close();
         } catch(FileNotFoundException e) {
             System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }
@@ -93,6 +94,7 @@ public class RpgFileReader
                     break;
                 }
             }
+            scanner.close();
         } catch(FileNotFoundException e) {
             System.out.println("MAJOR ISSUE IN READRANDOMSTRING");
         }

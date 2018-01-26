@@ -1,14 +1,10 @@
 package me.sirlich.AsmodeusRpg.mobs.deathReaction;
 
-import org.bukkit.entity.Player;
+import me.sirlich.AsmodeusRpg.mobs.entityHandling.DamageType;
 
 public class DeathReaction
 {
-    public void onDeath(Player killer){
-        System.out.println("A mob was killed by " + killer.getName());
-    }
-
-    public void onDeath(){
-        System.out.println("A mob died");
+    public void onDeath(DamageType damageType){
+        System.out.println("A mob was killed");
     }
 }

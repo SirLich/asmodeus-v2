@@ -98,7 +98,7 @@ public class RPGDamage implements Listener
                 RpgEntity rpgEntity = RpgEntityList.getRpgEntity(e.getEntity());
                 //rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(knockback,knockup,p.getLocation());
-                rpgEntity.meleeDamageEntity(damage,(Player) e.getEntity());
+                //rpgEntity.meleeDamageEntity(damage,(Player) e.getEntity());
                 System.out.println(rpgEntity.getName());
             }
             /*attackSuccess = true;

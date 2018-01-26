@@ -17,13 +17,28 @@ public class DebugStick implements Listener
         Player player = event.getPlayer();
         if(player.getInventory().getItemInMainHand() != null){
             ItemStack itemStack = player.getInventory().getItemInMainHand();
-            if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("health")){
-                if (event.getRightClicked() instanceof LivingEntity) {
-                    event.setCancelled(true);
-                    Entity entity = event.getRightClicked();
-                    if(RpgEntityList.doesEntityExist(entity.getUniqueId())){
+            if (event.getRightClicked() instanceof LivingEntity) {
+                event.setCancelled(true);
+                Entity entity = event.getRightClicked();
+                if(RpgEntityList.containEntity(entity.getUniqueId())){
+                    if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("health")){
                         RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueId());
                         event.getPlayer().sendMessage(" " + rpgEntity.getHealth());
+                    } else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("maxhealth")){
+                        RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueId());
+                        event.getPlayer().sendMessage(" " + rpgEntity.getHealth());
+                    } else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("level")){
+                        RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueId());
+                        event.getPlayer().sendMessage(" " + rpgEntity.getLevel());
+                    } else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("level")){
+                        RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueId());
+                        event.getPlayer().sendMessage(" " + rpgEntity.getLevel());
+                    } else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("meleedamage")){
+                        RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueId());
+                        event.getPlayer().sendMessage(" " + rpgEntity.getMeleeDamage());
+                    } else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("HealthRegeneration")){
+                        RpgEntity rpgEntity = RpgEntityList.getRpgEntity(entity.getUniqueId());
+                        event.getPlayer().sendMessage(" " + rpgEntity.getHealthRegeneration());
                     }
                 }
             }

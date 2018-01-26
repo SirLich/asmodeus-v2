@@ -68,7 +68,7 @@ public class Hit extends AttackEvent {
                 RpgEntity rpgEntity = RpgEntityList.getRpgEntity(hit);
                 //rpgEntity.damageResponse();
                 rpgEntity.knockbackByEntity(knockback,knockup,p.getLocation());
-                rpgEntity.meleeDamageEntity(damage.getRandomInt(), (Player) hit);
+                //rpgEntity.meleeDamageEntity(damage.getRandomInt(), (Player) hit);
                 System.out.println(rpgEntity.getName());
             }
 

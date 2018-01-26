@@ -96,6 +96,7 @@ public class AsmodeusRpg extends JavaPlugin
         register(new RpgSummon());
         register(new RecalculateEntityList());
         register(new SetGameValues());
+        register(new RenameItem());
 
 
         NMSUtils.registerEntity("rpg_lich",NMSUtils.Type.SKELETON, RpgLich.class,false);
