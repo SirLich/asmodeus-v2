@@ -1,4 +1,4 @@
-# AsmodeusRpg: Version one  
+# AsmodeusRpg: Version two  
 This spigot plugin represents the first iteration of the AsmodeusRpg, a spigot plugin developed for the Asmodeus Minecraft server. 
 
 ## Warning!
